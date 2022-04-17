@@ -1,0 +1,2605 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DevHorizons.DAL</name>
+    </assembly>
+    <members>
+        <member name="T:DevHorizons.DAL.Abstracts.DataProviderFactory">
+            <summary>
+                The Data Provider Factory name for the data connection.
+                Note: Only the "<see cref="N:Microsoft.Data.SqlClient"/>" library for the "<see cref="F:DevHorizons.DAL.Abstracts.DataProviderFactory.SqlClient"/>" Data Provider Factory is added to the library. And you would need to make sure the implemented provider factory is added.
+            </summary>
+            <created>
+               <author>Ahmad Gad (ahmad.gad@DevHorizons.com)</author>
+               <datetime>03/07/2019 07:44 PM</datetime>
+            </created>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.SqlClient">
+            <summary>
+               The <c>SQL Client</c> Data Provider Factory integrated with the official Microsoft "<see cref="N:Microsoft.Data.SqlClient"/>" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.Oledb">
+            <summary>
+               The <c>OLEDB</c> Data Provider Factory integrated with the official Microsoft "System.Data.OleDb" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.Odbc">
+            <summary>
+               The <c>ODBC</c> Data Provider Factory integrated with the official Microsoft "System.Data.Odbc" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.Oracle">
+            <summary>
+               The <c>Oracle Client</c> Data Provider Factory integrated with the official Oracle "Oracle.ManagedDataAccess" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.MySql">
+            <summary>
+               The <c>MySql Client</c> Data Provider Factory integrated with the official Oracle "MySql.Data" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.Sqlite">
+            <summary>
+               The <c>Sqlite</c> Data Provider Factory integrated with the official Microsoft "Microsoft.Data.Sqlite" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.DB2">
+            <summary>
+               The <c>DB2</c> Data Provider Factory integrated with the official IBM "IBM.Data.DB2.Core" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.DataProviderFactory.Teradata">
+            <summary>
+               The <c>Teradata</c> Data Provider Factory integrated with the official Teradata "Teradata.Client.Provider" library.
+            </summary>
+        </member>
+        <member name="T:DevHorizons.DAL.Abstracts.Command">
+            <summary>
+               The <c>DAL</c> Command abstract class which holds all the required members and operations to access the database and <c>T-SQL</c> command executions.
+            <para>This abstract class can be used for the <c>DI</c> (Dependency Injection) design pattern.</para>
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:25 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.Command.disposedValue">
+            <summary>
+               The disposed boolean value to detect redundant calls.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 04:47 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(DevHorizons.DAL.Abstracts.DataProviderFactory,System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
+            </summary>
+            <param name="dataProvider">The data provider.</param>
+            <param name="connectionString">The connection string.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:27 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(DevHorizons.DAL.Abstracts.DataProviderFactory,System.String,System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
+            </summary>
+            <param name="dataProvider">The data provider.</param>
+            <param name="connectionString">The connection string.</param>
+            <param name="database">The database.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Abstracts.Command.RaiseError">
+            <summary>
+               A delegate to handel the error raised by the class.
+            </summary>
+            <param name="error">The raised error.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 11:13 AM</DateTime>
+            </Created>
+        </member>
+        <member name="E:DevHorizons.DAL.Abstracts.Command.ErrorRaised">
+            <summary>
+               Occurs when [error raised].
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 11:13 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Command.Errors">
+            <summary>
+               Gets the raised errors list.
+            </summary>
+            <value>
+               The raised errors.
+            </value>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:39 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Command.Parameters">
+            <summary>
+               Gets the parameters.
+            </summary>
+            <value>
+               The parameters.
+            </value>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>17/06/2019 02:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Command.Con">
+            <summary>
+               Gets or sets the data connection as an instance of "<see cref="T:System.Data.Common.DbConnection" />".
+            </summary>
+            <value>
+               The data connection as an instance of "<see cref="T:System.Data.Common.DbConnection" />".
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>19/02/2020 11:02 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Command.Cmd">
+            <summary>
+               Gets or sets the data command as an instance of "<see cref="T:System.Data.Common.DbCommand" />".
+            </summary>
+            <value>
+               The data command as an instance of "<see cref="T:System.Data.Common.DbCommand" />".
+            </value>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/11/2018 12:12 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.GetCurrentDatabaseName">
+            <summary>
+               Gets the name of the current database.
+            </summary>
+            <returns>The current connected database name.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>05/11/2018 11:07 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ChangeDatabase(System.String)">
+            <summary>
+               Changes the database.
+            </summary>
+            <param name="database">The database.</param>
+            <returns><c>true</c> if the database connection has been changed to the specified one, otherwise, <c>false</c>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ClearErrors">
+            <summary>
+               Clears the errors list.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 09:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.AddParameter(DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Adds the parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".
+            </summary>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>13/11/2018 12:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Adds the parameters.
+            </summary>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/11/2018 12:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])">
+            <summary>
+               Adds the parameters.
+            </summary>
+            <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/11/2018 12:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ClearParameters">
+            <summary>
+               Clears the parameters.
+            </summary>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/11/2018 12:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String)">
+            <summary>
+               Executes the specified stored procedure to return the table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".
+            </summary>
+            <typeparam name="T">The declaration type of the generic return object collection.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Executes the specified stored procedure to return the table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".
+            </summary>
+            <typeparam name="T">The declaration type of the generic return object collection.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+            <summary>
+               Executes the specified stored procedure to return the table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".
+            </summary>
+            <typeparam name="T">The declaration type of the generic return object collection.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Executes the specified stored procedure to return the table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".
+               <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
+               <para>For the best performance results, it's strongly preferred to use the other overloads which expects <see cref="T:System.Collections.Generic.ICollection`1"/> or array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</para>
+            </summary>
+            <typeparam name="T">The declaration type of the generic return object collection.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String)">
+            <summary>
+               Executes the specified stored procedure to return a scalar value only.
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <returns>The scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:35 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Executes the specified stored procedure to return a scalar value only.
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+            <summary>
+               Executes the specified stored procedure to return a scalar value only.
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:37 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Executes the specified stored procedure to return a scalar value only.
+               <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
+               <para>For the best performance results, it's strongly preferred to use the other overloads which expects <see cref="T:System.Collections.Generic.ICollection`1"/> or array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</para>
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>The scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:37 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String)">
+            <summary>
+               Executes the specified stored procedure to return a generic scalar value.
+            </summary>
+            <typeparam name="T">The type of the generic scalar value.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <returns>The scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Executes the specified stored procedure to return a generic scalar value.
+            </summary>
+            <typeparam name="T">The type of the generic scalar value.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The generic scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+            <summary>
+               Executes the specified stored procedure to return a generic scalar value.
+            </summary>
+            <typeparam name="T">The type of the generic scalar value.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The generic scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Executes the specified stored procedure to return a generic scalar value.
+               <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
+               <para>For the best performance results, it's strongly preferred to use the other overloads which expects <see cref="T:System.Collections.Generic.ICollection`1"/> or array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</para>
+            </summary>
+            <typeparam name="T">The type of the generic scalar value.</typeparam>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>The generic scalar value.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:46 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String)">
+            <summary>
+               Executes the specified stored procedure to return the successful state as boolean result.
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:35 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Executes the specified stored procedure to return the successful state as boolean result.
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:50 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+            <summary>
+               Executes the specified stored procedure to return the successful state as boolean result.
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:50 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Executes the specified stored procedure to return the successful state as boolean result.
+               <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
+               <para>For the best performance results, it's strongly preferred to use the other overloads which expects <see cref="T:System.Collections.Generic.ICollection`1"/> or array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</para>
+            </summary>
+            <param name="proc">The stored procedure name.</param>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 10:47 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.Dispose">
+            <summary>
+               Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:13 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.GetFactoryDbConnection(DevHorizons.DAL.Abstracts.DataProviderFactory)">
+            <summary>
+               Gets the factory database connection.
+               <para>This method can be be overridden by the derived class to return an implementation object of the "<see cref="T:System.Data.Common.DbConnection"/>" that match the target provider factory.</para>
+            </summary>
+            <param name="provider">The provider.</param>
+            <returns>An instance of a class that implements "<see cref="T:System.Data.Common.DbConnection"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:15 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDbParameter(DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Gets the database parameter as an instance of a class that implements "<see cref="T:System.Data.Common.DbParameter"/>".
+               <para>This method can be be overridden by the derived class to return an implementation object of the "<see cref="T:System.Data.Common.DbParameter"/>" that match the target provider factory.</para>
+            </summary>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".</param>
+            <returns>An instance of a class that implements "<see cref="T:System.Data.Common.DbParameter"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:07 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Maps data type for the implemented provider factory. This method should be overridden by the derived class to map the data type that match the target provider factory.
+            </summary>
+            <param name="dbParameter">The database parameter as an instance of "<see cref="T:System.Data.Common.DbParameter"/>" or any class that implements it.</param>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:08 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
+            </summary>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.Dispose(System.Boolean)">
+            <summary>
+               Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:13 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.InitializeConnection(System.String)">
+            <summary>
+               Initializes the connection.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>05/11/2018 11:47 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDataFromDataReader``1">
+            <summary>
+               Gets the data from data reader which will be called by the "<see cref="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String)"/>" overloads.
+            </summary>
+            <typeparam name="T">The declaration type of the generic return object collection.</typeparam>
+            <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:20 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateParameters(System.Boolean)">
+            <summary>
+               Updates the encapsulated parameters (array of "<see cref="T:System.Data.Common.DbParameter"/>") inside the <c>ADO.Net</c> "<see cref="T:System.Data.Common.DbCommand"/>" after a successful execution of the specified stored procedure.
+            </summary>
+            <param name="errorRaised">The result of the execution as error free or not. If set to <c>true</c>, the method will be terminated without raising exception.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:25 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDbParameters(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Gets the database parameters as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:System.Data.Common.DbParameter"/>.
+            </summary>
+            <param name="parametersList">The parameters as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <returns>The database parameters as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:System.Data.Common.DbParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:12 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.CanExecute">
+            <summary>
+               Verifying the current data connection state to determines whether it can execute the specified stored procedure or not.
+            </summary>
+            <returns>
+              <c>true</c> if this instance can execute; otherwise, <c>false</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:29 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ResetParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+            <summary>
+               Resets/clears both <c>DAL</c> parameters and the <c>ADO.Net command</c> parameters.
+            </summary>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.HandleError(DevHorizons.DAL.Interfaces.IErrorDetails)">
+            <summary>
+               Handles the error.
+            </summary>
+            <param name="error">The error details.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 11:12 AM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Abstracts.Parameter">
+            <summary>
+               A class which holds the required database's parameter members required to be injected with the stored procedure.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.Parameter.name">
+            <summary>
+            The parameter's name.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:10 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Abstracts.Parameter.value">
+            <summary>
+               The parameter's assigned value.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:11 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Name">
+            <summary>
+               Gets or sets the parameter's name.
+            </summary>
+            <value>
+               The parameter's name.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:02 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Value">
+            <summary>
+               Gets or sets the parameter's value.
+            </summary>
+            <value>
+               The parameter's value.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:02 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Direction">
+            <summary>
+               Gets or sets the direction of the parameter as "Input", "Output" or "Return".
+               <para>The Default Value: <see cref="F:DevHorizons.DAL.Interfaces.Direction.Input"/>.</para>
+            </summary>
+            <value>
+            The direction.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:12 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Size">
+            <summary>
+               Gets or sets the maximum size, in bytes, of the data within the column.
+               <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
+            </summary>
+            <value>
+               The maximum size, in bytes, of the data within the column. The default value is inferred from the parameter value.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:23 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Precision">
+            <summary>
+              Gets or sets the maximum number of digits used to represent the "<see cref="P:System.Data.Common.DbParameter.Value"/>" property.
+            </summary>
+            <value>
+              The maximum number of digits used to represent the "<see cref="P:System.Data.Common.DbParameter.Value"/>" property.
+              The default value is 0. This indicates that the data provider sets the precision for the "<see cref="P:System.Data.Common.DbParameter.Value"/>".
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:26 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Scale">
+            <summary>
+               Gets or sets the number of decimal places to which "<see cref="P:System.Data.Common.DbParameter.Value"/>" is resolved.
+            </summary>
+            <value>
+               The number of decimal places to which "<see cref="P:System.Data.Common.DbParameter.Value"/>" is resolved. The default is 0.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Parameter.PropertyChanged(System.String)">
+            <summary>
+               The method which will be executed when a certain properties change.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:13 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Parameter.SetParameterAutoType">
+            <summary>
+               Sets the type of the parameter automatically.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Attributes.DataColumnAttribute">
+            <summary>
+               The attribute can be added to the properties which is encapsulated in the designed data model classes to be implemented and populated by the <c>DAL</c> library.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:47 PM</DateTime>
+            </Created>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataColumnAttribute.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataColumnAttribute"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataColumnAttribute.#ctor(System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataColumnAttribute"/> class.
+            </summary>
+            <param name="name">The source database table's column name.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataColumnAttribute.#ctor(System.String,System.Boolean)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataColumnAttribute"/> class.
+            </summary>
+            <param name="name">The source database table's column name.</param>
+            <param name="notMapped">if set to <c>true</c> the property will not be mapped with returned table.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataColumnAttribute.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataColumnAttribute"/> class.
+            </summary>
+            <param name="name">The source database table's column name.</param>
+            <param name="notMapped">if set to <c>true</c> the property will not be mapped with returned table.</param>
+            <param name="canBeNull">if set to <c>true</c> the mapped column can be expected to return with null-able value and in this case, the <c>DAL</c> library will ignore it to be populated with the default value automatically by the <c>CLR</c>.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:50 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataColumnAttribute.Name">
+            <summary>
+               Gets or sets the source database table's column name.
+            </summary>
+            <value>
+            The name.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataColumnAttribute.NotMapped">
+            <summary>
+               Gets or sets a value indicating whether the property will not be mapped with returned table.
+            </summary>
+            <value>
+              <c>true</c> if [not mapped]; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataColumnAttribute.CanBeNull">
+            <summary>
+               Gets or sets a value indicating whether the mapped column can be expected to return with null-able value and in this case, the <c>DAL</c> library will ignore it to be populated with the default value automatically by the <c>CLR</c>.
+            </summary>
+            <value>
+              <c>true</c> if this instance can be null; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataColumnAttribute.Property">
+            <summary>
+               Gets or sets the bound property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>". This property is designed to server the library internally only.
+            </summary>
+            <value>
+               The property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>"..
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Attributes.DataTableAttribute">
+            <summary>
+               The attribute can be added to the designed data model classes to be implemented and populated by the <c>DAL</c> library.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:57 PM</DateTime>
+            </Created>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataTableAttribute.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataTableAttribute"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:59 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataTableAttribute.#ctor(System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataTableAttribute"/> class.
+            </summary>
+            <param name="name">The mapped database table's name.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:59 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.DataTableAttribute.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataTableAttribute"/> class.
+            </summary>
+            <param name="name">The mapped database table's name.</param>
+            <param name="ignoreNullData">if set to <c>true</c>, all the returned null-able data will be ignored, and the mapped properties will be automatically set the default value by the <c>CLR</c>.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataTableAttribute.Name">
+            <summary>
+               Gets or sets the mapped database table's name.
+               <para>This property is optional and would server advanced scenarios in future releases.</para>
+            </summary>
+            <value>
+            The name.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:01 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataTableAttribute.IgnoreNullData">
+            <summary>
+               Gets or sets a value indicating whether all the returned null-able data will be ignored, and the mapped properties will be automatically set the default value by the <c>CLR</c>.
+            </summary>
+            <value>
+              <c>true</c> if [ignore null data]; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:03 AM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute">
+            <summary>
+               An attribute class that defines all the required data provider factory details to implement the data connection factory for the target provider.
+            </summary>
+            <seealso cref="T:System.Attribute" />
+            <seealso cref="T:DevHorizons.DAL.Interfaces.IProviderFactoryDetails" />
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>11/02/2020 12:30 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute.#ctor(System.String,System.String,System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute"/> class.
+            </summary>
+            <param name="name">The provider friendly name. This name should be unique for the provider and express the actual name of the provider factory.</param>
+            <param name="factoryClassName">The actual factory class name e.g. "<see cref="T:Microsoft.Data.SqlClient.SqlClientFactory"/>".</param>
+            <param name="assemblyName">The actual assembly fully qualified name which hosts the provider e.g. <see cref="N:Microsoft.Data.SqlClient"/>.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute.Name">
+            <summary>
+               Gets or sets the provider friendly name. This name should be unique for the provider and express the actual name of the provider factory.
+            </summary>
+            <value>
+               The provider friendly name. This name should be unique for the provider and express the actual name of the provider factory.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:31 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute.FactoryClassName">
+            <summary>
+               Gets or sets the actual factory class name e.g. "<see cref="T:Microsoft.Data.SqlClient.SqlClientFactory"/>".
+            </summary>
+            <value>
+               The actual factory class name e.g. "<see cref="T:Microsoft.Data.SqlClient.SqlClientFactory"/>".
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:32 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute.AssemblyName">
+            <summary>
+               Gets or sets the actual assembly fully qualified name which hosts the provider e.g. <see cref="N:Microsoft.Data.SqlClient"/>.
+            </summary>
+            <value>
+               The actual assembly fully qualified name which hosts the provider e.g. <see cref="N:Microsoft.Data.SqlClient"/>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:33 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.ErrorDetails">
+            <summary>
+               A class defines all the needed members for raised error/exceptions.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:33 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ErrorDetails.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.ErrorDetails"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:34 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Number">
+            <summary>
+               Gets or sets the error number.
+            </summary>
+            <value>
+               The error number.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Message">
+            <summary>
+               Gets or sets the error message.
+            </summary>
+            <value>
+               The error message.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Description">
+            <summary>
+               Gets or sets the error Description.
+            </summary>
+            <value>
+               The error Description.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Source">
+            <summary>
+               Gets or sets the error source. E.g. Specific constructor or method.
+            </summary>
+            <value>
+               The error source.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Exception">
+            <summary>
+               Gets or sets the raised exception.
+            </summary>
+            <value>
+               The raised exception.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:37 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.StackTrace">
+            <summary>
+               Gets or sets the stack trace.
+            </summary>
+            <value>
+               The stack trace.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/11/2018 02:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.SourceMachine">
+            <summary>
+               Gets or sets the source machine/server name.
+            </summary>
+            <value>
+               The stack trace.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/11/2018 02:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.ErrorDateTime">
+            <summary>
+               Gets or sets the UTC/GMT date/time of the raised error.
+            </summary>
+            <value>
+               The stack trace.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/11/2018 02:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.ExtensionMethods">
+            <summary>
+               A public static class which holds all the public extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:41 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToStructuredDbType``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+               Converts a collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
+               <para>This is required only if the host parameter holds a "<see cref="F:DevHorizons.DAL.Sql.DbType.Structured"/>" data type.</para>
+            </summary>
+            <typeparam name="T">The type of the passed class based object.</typeparam>
+            <param name="data">The collection of the based class objects to be converted.</param>
+            <returns>
+               A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:42 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToStructuredDbType``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+               Converts a collection of generic objects (value data type (struct) based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
+               <para>This is required only if the host parameter holds a "<see cref="F:DevHorizons.DAL.Sql.DbType.Structured"/>" data type.</para>
+            </summary>
+            <typeparam name="T">The type of the passed value data type (struct) based object.</typeparam>
+            <param name="data">The collection of the value data type based objects to be converted.</param>
+            <returns>
+               A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:42 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object)">
+            <summary>
+                 Converts to generic data type based on the generic input data type.
+            </summary>
+            <typeparam name="T">The generic input data type.</typeparam>
+            <param name="source">The source object to be converted.</param>
+            <returns>Value based on generic data type from generic input data type.</returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object,``0)">
+            <summary>
+                 Converts to generic data type based on the generic input data type.
+            </summary>
+            <typeparam name="T">The generic input data type.</typeparam>
+            <param name="source">The source object to be converted.</param>
+            <param name="defaultValue">The default return (replacement) value in case if the conversion operation failed.</param>
+            <returns>Value based on generic data type from generic input data type.</returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Interfaces.IErrorDetails">
+            <summary>
+               An interface defines all the needed members for raised error/exceptions.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:33 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.Number">
+            <summary>
+               Gets or sets the error number.
+            </summary>
+            <value>
+               The error number.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.Message">
+            <summary>
+               Gets or sets the error message.
+            </summary>
+            <value>
+               The error message.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.Description">
+            <summary>
+               Gets or sets the error Description.
+            </summary>
+            <value>
+               The error Description.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:36 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.Source">
+            <summary>
+               Gets or sets the error source. E.g. Specific constructor or method.
+            </summary>
+            <value>
+               The error source.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.Exception">
+            <summary>
+               Gets or sets the raised exception.
+            </summary>
+            <value>
+               The raised exception.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:37 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.StackTrace">
+            <summary>
+               Gets or sets the stack trace.
+            </summary>
+            <value>
+               The stack trace.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/11/2018 02:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.SourceMachine">
+            <summary>
+               Gets or sets the source machine/server name.
+            </summary>
+            <value>
+               The stack trace.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/11/2018 02:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IErrorDetails.ErrorDateTime">
+            <summary>
+               Gets or sets the UTC/GMT date/time of the raised error.
+            </summary>
+            <value>
+               The stack trace.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/11/2018 02:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Interfaces.Direction">
+            <summary>
+               The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:11 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Interfaces.Direction.Input">
+            <summary>
+               Input direction. Would be used to pass input value to the Stored Procedure.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:05 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Interfaces.Direction.Output">
+            <summary>
+               Output direction. Would be used to return values from the Stored Procedure.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:05 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Interfaces.Direction.ReturnValue">
+            <summary>
+               The returned value from Stored Procedure. This parameter must be ONLY an INTEGER type!
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:05 AM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Interfaces.IParameter">
+            <summary>
+               An interface which would represent the data Parameter.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Name">
+            <summary>
+               Gets or sets the parameter's name.
+            </summary>
+            <value>
+               The parameter's name.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:02 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Value">
+            <summary>
+               Gets or sets the parameter's value.
+            </summary>
+            <value>
+               The parameter's value.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:02 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Direction">
+            <summary>
+               Gets or sets the direction of the parameter as "Input", "Output" or "Return".
+               <para>The Default Value: <see cref="F:DevHorizons.DAL.Interfaces.Direction.Input"/>.</para>
+            </summary>
+            <value>
+            The direction.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:12 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Size">
+            <summary>
+               Gets or sets the maximum size, in bytes, of the data within the column.
+               <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
+            </summary>
+            <value>
+               The maximum size, in bytes, of the data within the column. The default value is inferred from the parameter value.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:23 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Precision">
+            <summary>
+              Gets or sets the maximum number of digits used to represent the "<see cref="P:Microsoft.Data.SqlClient.SqlParameter.Value"/>" property.
+            </summary>
+            <value>
+              The maximum number of digits used to represent the "<see cref="P:Microsoft.Data.SqlClient.SqlParameter.Value"/>" property.
+              The default value is 0. This indicates that the data provider sets the precision for "<see cref="P:Microsoft.Data.SqlClient.SqlParameter.Value"/>".
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:26 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Scale">
+            <summary>
+               Gets or sets the number of decimal places to which "<see cref="P:Microsoft.Data.SqlClient.SqlParameter.Value"/>" is resolved.
+            </summary>
+            <value>
+               The number of decimal places to which "<see cref="P:Microsoft.Data.SqlClient.SqlParameter.Value"/>" is resolved. The default is 0.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Interfaces.IProviderFactoryDetails">
+            <summary>
+               An interface that defines all the required data provider factory details to implement the data connection factory for the target provider.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:30 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IProviderFactoryDetails.Name">
+            <summary>
+               Gets or sets the provider friendly name. This name should be unique for the provider and express the actual name of the provider factory.
+            </summary>
+            <value>
+               The provider friendly name. This name should be unique for the provider and express the actual name of the provider factory.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:31 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IProviderFactoryDetails.FactoryClassName">
+            <summary>
+               Gets or sets the actual factory class name e.g. "<see cref="T:Microsoft.Data.SqlClient.SqlClientFactory"/>".
+            </summary>
+            <value>
+               The actual factory class name e.g. "<see cref="T:Microsoft.Data.SqlClient.SqlClientFactory"/>".
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:32 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IProviderFactoryDetails.AssemblyName">
+            <summary>
+               Gets or sets the actual assembly fully qualified name which hosts the provider e.g. <see cref="N:Microsoft.Data.SqlClient"/>.
+            </summary>
+            <value>
+               The actual assembly fully qualified name which hosts the provider e.g. <see cref="N:Microsoft.Data.SqlClient"/>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:33 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Internal.Shared">
+            <summary>
+               An internal access class holds all the internal shared/static and extension methods which will serve the whole library.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:33 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetCustomAttribute``2">
+            <summary>
+               Gets the custom attribute.
+            </summary>
+            <typeparam name="TSource">The type of the source.</typeparam>
+            <typeparam name="TAttribute">The type of the attribute.</typeparam>
+            <returns>The custom attribute.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:33 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetDataColumns``1">
+            <summary>
+               Gets the data columns as <see cref="T:System.Collections.Generic.List`1"/> where <c>T</c> is <see cref="T:DevHorizons.DAL.Attributes.DataColumnAttribute"/>.
+            </summary>
+            <typeparam name="T">The type of the passed class which represents the mapped table.</typeparam>
+            <returns>
+               List of the data columns as <see cref="T:System.Collections.Generic.List`1"/> where <c>T</c> is <see cref="T:DevHorizons.DAL.Attributes.DataColumnAttribute"/>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:34 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.IsStructuredType(System.Object)">
+            <summary>
+               Determines whether the specified object is valid structured type to be passed to the data command.
+            </summary>
+            <param name="value">The object to be  validated as a safe structured type to be passed to the data command.</param>
+            <returns>
+              <c>true</c> if [is structured type] [the specified value]; otherwise, <c>false</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:42 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ToStructuredDbType(System.Object)">
+            <summary>
+            Converts to structured data type as an instance of <see cref="T:System.Data.DataTable"/>.
+            </summary>
+            <param name="obj">The object.</param>
+            <returns>The structured data type as an instance of <see cref="T:System.Data.DataTable"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetXMLSerializationText(System.Object)">
+            <summary>
+               Gets the XML serialization text.
+            </summary>
+            <param name="obj">The object to be serialized.</param>
+            <returns>The XML serialization text.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2019 03:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ToStructuredDbType(System.String)">
+            <summary>
+               Gets the deserialized data table as an instance of "<see cref="T:System.Data.DataTable"/>".
+            </summary>
+            <param name="xml">The serialized XML string of a DataTable.</param>
+            <returns>
+               The deserialized data table as an instance of "<see cref="T:System.Data.DataTable"/>".
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>18/04/2019 03:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.IsNullOrEmpty(System.String,System.Boolean)">
+            <summary>
+            Determines whether [is null or empty] [the specified trim white spaces].
+            </summary>
+            <param name="source">The source.</param>
+            <param name="trimWhiteSpaces">if set to <c>true</c> [trim white spaces]. Default value is <c>false</c>.</param>
+            <returns>
+              <c>true</c> if [is null or empty] [the specified trim white spaces]; otherwise, <c>false</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>20/08/2017  05:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetProviderFactoryDetails(DevHorizons.DAL.Abstracts.DataProviderFactory)">
+            <summary>
+               Gets the provider factory details.
+            </summary>
+            <param name="dataProvider">The data provider.</param>
+            <returns>The provider factory details.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:19 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetPropertyValue``1(System.Object,System.String)">
+            <summary>
+                Gets the property value with a specified data type by its name from an existing object/instance dynamically.
+            </summary>
+            <typeparam name="T">The return data type.</typeparam>
+            <param name="source">The source object/instance.</param>
+            <param name="property">The property name.</param>
+            <returns>The property value with a specified data type by its name from an existing object/instance dynamically.</returns>
+            <Created>
+                <Author>Ahmad Adel Gad (ahmad.adel@devhorizons.com)</Author>
+                <DateTime>20/08/2017 03:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetPropertyValue(System.Object,System.String)">
+            <summary>
+               Gets the property value with a specified data type by its name from an existing object/instance dynamically.
+            </summary>
+            <param name="source">The source object/instance.</param>
+            <param name="property">The property name.</param>
+            <returns>
+            The property value with a specified data type by its name from an existing object/instance dynamically.
+            </returns>
+            <Created>
+              <Author>Ahmad Adel Gad (ahmad.adel@devhorizons.com)</Author>
+              <DateTime>20/08/2017 03:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.SetPropertyValue(System.Object,System.String,System.Object)">
+            <summary>
+               Gets the property value with a specified data type by its name from an existing object/instance dynamically.
+            </summary>
+            <param name="source">The source object/instance.</param>
+            <param name="property">The property name.</param>
+            <param name="value">The value to be set.</param>
+            <Created>
+              <Author>Ahmad Adel Gad (ahmad.adel@devhorizons.com)</Author>
+              <DateTime>20/08/2017 03:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.GetDefaultValue(System.Type)">
+            <summary>
+                Gets the default value of a specific type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The default value of a specific type.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>31/08/2013  01:26 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ChangeType``1(System.Object)">
+            <summary>
+                Convers from a data type to another.
+            </summary>
+            <typeparam name="T">The type name.</typeparam>
+            <param name="source">The source to be converted.</param>
+            <returns>The converted object.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/06/2012  04:29 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ChangeType``1(System.Object,``0)">
+            <summary>
+                Convers from a data type to another.
+            </summary>
+            <typeparam name="T">The type name.</typeparam>
+            <param name="source">The source to be converted.</param>
+            <param name="defaultValue">The default return value in case of failure.</param>
+            <returns>The converted object.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/06/2012  04:29 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ChangeType(System.Object,System.Type)">
+            <summary>
+                Changes the type of specific object.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="type">The type.</param>
+            <returns>The converted value of specific object.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>31/08/2013  01:23 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ChangeType(System.Object,System.Type,System.Object)">
+            <summary>
+                Changes the type of specific object.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="type">The type.</param>
+            <param name="defaultValue">The alternate value that should be returned in case of converted value.</param>
+            <returns>The converted value of specific object.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>31/08/2013  01:23 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ConvertFromObjectToArray(System.Object)">
+            <summary>
+                Converts from object to array.
+            </summary>
+            <param name="source">The source object which should not be an array or a list.</param>
+            <returns>An array from an object.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>15/09/2013  11:38s AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ConvertFromObjectToList(System.Object,System.Type)">
+            <summary>
+                Converts from object to list.
+            </summary>
+            <param name="source">The source object which should not be an array or a list.</param>
+            <param name="type">The destination type.</param>
+            <returns>A list from an object.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>15/09/2013  11:38s AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ConvertFromArrayToList(System.Object,System.Type)">
+            <summary>
+                Converts from array to list.
+            </summary>
+            <param name="source">The source array.</param>
+            <param name="type">The type.</param>
+            <returns>A list from an array.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>15/09/2013  11:38s AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ConvertFromListToArray(System.Object)">
+            <summary>
+                Converts from list to array.
+            </summary>
+            <param name="source">The source list.</param>
+            <returns>An array from a list.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>15/09/2013  11:38s AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Internal.Shared.ConvertFromArrayOfBytes(System.Object,System.Type)">
+            <summary>
+                Converts from array of bytes.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="type">The destination type.</param>
+            <returns>From Array of bytes.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>15/09/2013  11:38s AM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.DbType">
+            <summary>
+               Specifies data provider factor data type of a "<see cref="T:System.Data.DbType"/>".
+            </summary>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 02:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Auto">
+            <summary>
+                  Auto detect the data type as possible. Otherwise, it would reset the type to the default one which is "<see cref="F:DevHorizons.DAL.DbType.String"/>".
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>08/11/2018 03:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.AnsiString">
+            <summary>
+                  A variable-length stream of non-Unicode characters ranging between 1 and 8,000
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>08/11/2018 03:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Binary">
+            <summary>
+                  A variable-length stream of binary data ranging between 1 and 8,000 bytes.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Byte">
+            <summary>
+                  An 8-bit unsigned integer ranging in value from 0 to 255.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Boolean">
+            <summary>
+                  A simple type representing Boolean values of true or false.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Currency">
+            <summary>
+                  A currency value ranging from -2 63 (or -922,337,203,685,477.5808) to 2 63 -1 (or +922,337,203,685,477.5807) with an accuracy to a ten-thousandth of a currency unit.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Date">
+            <summary>
+               A type representing a date value.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.DateTime">
+            <summary>
+               A type representing a date and time value.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Decimal">
+            <summary>
+                  A simple type representing values ranging from 1.0 x 10 -28 to approximately 7.9 x 10 28 with 28-29 significant digits.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Double">
+            <summary>
+               A floating point type representing values ranging from approximately 5.0 x 10 -324 to 1.7 x 10 308 with a precision of 15-16 digits.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Guid">
+            <summary>
+               A globally unique identifier (or GUID).
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Int16">
+            <summary>
+               An integral type representing signed 16-bit integers with values between -32768 and 32767.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Int32">
+            <summary>
+               An integral type representing signed 32-bit integers with values between -2147483648 and 2147483647.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Int64">
+            <summary>
+               An integral type representing signed 64-bit integers with values between -9223372036854775808 and 9223372036854775807.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Object">
+            <summary>
+               A general type representing any reference or value type not explicitly represented by another <c>DbType</c> value.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.SByte">
+            <summary>
+               An integral type representing signed 8-bit integers with values between -128 and 127.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Single">
+            <summary>
+               A floating point type representing values ranging from approximately 1.5 x 10 -45 to 3.4 x 10 38 with a precision of 7 digits.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.String">
+            <summary>
+               A type representing Unicode character strings.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Time">
+            <summary>
+               A type representing a SQL Server DateTime value. If you want to use a SQL Server time value, use "<see cref="F:System.Data.SqlDbType.Time"/>".
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.UInt16">
+            <summary>
+               An integral type representing unsigned 16-bit integers with values between 0 and 65535.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.UInt32">
+            <summary>
+               An integral type representing unsigned 32-bit integers with values between 0 and 4294967295.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.UInt64">
+            <summary>
+               An integral type representing unsigned 64-bit integers with values between 0 and 18446744073709551615.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.VarNumeric">
+            <summary>
+               A variable-length numeric value.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.AnsiStringFixedLength">
+            <summary>
+               A fixed-length stream of non-Unicode characters.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.StringFixedLength">
+            <summary>
+               A fixed-length string of Unicode characters.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.Xml">
+            <summary>
+               A parsed representation of an XML document or fragment.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.DateTime2">
+            <summary>
+               Date and time data. Date value range is from January 1,1 AD through December 31, 9999 AD. Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.DbType.DateTimeOffset">
+            <summary>
+               Date and time data with time zone awareness. Date value range is from January 1,1 AD through December 31, 9999 AD.
+            <para>Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds.</para>
+            <para>Time zone value range is -14:00 through +14:00.</para>
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>11/02/2020 12:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Parameter">
+            <summary>
+                  A class which would represent the SQL Parameter.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Parameter.dataType">
+            <summary>
+               The parameter's data type.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:10 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter"/> class.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>07/11/2018 11:01 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter"/> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,System.Object)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,System.Object,System.Enum)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,System.Object,System.Enum,System.Int32)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="size">
+                  The maximum size, in bytes, of the data within the column.
+                  <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
+            </param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,System.Object,System.Enum,System.Int32,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="size">The maximum size, in bytes, of the data within the column.
+            <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para></param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,System.Object,System.Enum,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,System.Object,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.#ctor(System.String,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+                  Initializes a new instance of the <see cref="T:DevHorizons.DAL.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+                 <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                 <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Parameter.DataType">
+            <summary>
+               Gets or sets the data type as "<see cref="T:DevHorizons.DAL.DbType"/>".
+               <para>The Default Value: <see cref="F:DevHorizons.DAL.DbType.Auto"/>.</para>
+            </summary>
+            <value>
+            The type of the data.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 02:13 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.PropertyChanged(System.String)">
+            <summary>
+            Properties the changed.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 01:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Parameter.SetParameterAutoType">
+            <summary>
+                  Sets the type of the parameter automatic.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>08/11/2018 03:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.Command">
+            <summary>
+               A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:05 AM</DateTime>
+            </Created>
+            <seealso cref="T:DevHorizons.DAL.Abstracts.Command" />
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(System.String,System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="database">The name of the connected database.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>06/11/2018 03:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" to map the data type that match the <c>SQL</c> provider factory.
+            </summary>
+            <param name="dbParameter">The database parameter as an instance of "<see cref="T:System.Data.Common.DbParameter" />" or any class that implements it.</param>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter" />".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2020 11:08 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
+            </summary>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.DbType">
+            <summary>
+               Specifies SQL Server-specific data type of a SQL Parameter.
+            </summary>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 02:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Auto">
+            <summary>
+               Auto detect the data type as possible. Otherwise, it would reset the type to the default one which is "<see cref="F:DevHorizons.DAL.Sql.DbType.NText"/>".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.BigInt">
+            <summary>
+               "<see cref="T:System.Int64"/>". A 64-bit signed integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:39 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Binary">
+            <summary>
+               "<see cref="T:System.Array"/>" of type "<see cref="T:System.Byte"/>". A fixed-length stream of binary data ranging between 1 and 8,000 bytes.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:46 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Bit">
+            <summary>
+               "<see cref="T:System.Boolean"/>". An unsigned numeric value that can be 0, 1, or null.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:46 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Char">
+            <summary>
+               "<see cref="T:System.String"/>". A fixed-length stream of non-Unicode characters ranging between 1 and 8,000 characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:47 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.DateTime">
+            <summary>
+               "<see cref="T:System.DateTime"/>". Date and time data ranging in value from January 1, 1753 to December 31, 9999 to an accuracy of 3.33 milliseconds.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Decimal">
+            <summary>
+               "<see cref="T:System.Decimal"/>". A fixed precision and scale numeric value between -10 38 -1 and 10 38 -1.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:50 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Float">
+            <summary>
+               "<see cref="T:System.Double"/>". A floating point number within the range of -1.79E +308 through 1.79E +308.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Image">
+            <summary>
+               "<see cref="T:System.Array"/>" of type "<see cref="T:System.Byte"/>". A variable-length stream of binary data ranging from 0 to 2 31 -1 (or 2,147,483,647) bytes.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Int">
+            <summary>
+               "<see cref="T:System.Int32"/>". A 32-bit signed integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Money">
+            <summary>
+               "<see cref="T:System.Decimal"/>". A currency value ranging from -2 63 (or -9,223,372,036,854,775,808) to 2 63 -1 (or +9,223,372,036,854,775,807) with an accuracy to a ten-thousandth of a currency unit.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.NChar">
+            <summary>
+               "<see cref="T:System.String"/>". A fixed-length stream of Unicode characters ranging between 1 and 4,000 characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.NText">
+            <summary>
+               "<see cref="T:System.String"/>". A variable-length stream of Unicode data with a maximum length of 2 30 - 1 (or 1,073,741,823) characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.NVarChar">
+            <summary>
+                string. A variable-length stream of Unicode characters ranging between
+                1 and 4,000 characters.
+                <para>Implicit conversion fails if the string is greater than
+                4,000 characters. Explicitly set the object when working with strings longer
+                than 4,000 characters.</para>
+                Use "<see cref="F:DevHorizons.DAL.Sql.DbType.NVarChar"/>" when the database column is <c>nvarchar</c>(max).
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Real">
+            <summary>
+               "<see cref="T:System.Single"/>". A floating point number within the range of -3.40E +38 through 3.40E +38.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.UniqueIdentifier">
+            <summary>
+               "<see cref="T:System.Guid"/>". A globally unique identifier (or GUID).
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.SmallDateTime">
+            <summary>
+               "<see cref="T:System.DateTime"/>". Date and time data ranging in value from January 1, 1900 to June 6, 2079 to an accuracy of one minute.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.SmallInt">
+            <summary>
+               "<see cref="T:System.Int16"/>". A 16-bit signed integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.SmallMoney">
+            <summary>
+               "<see cref="T:System.Decimal"/>". A currency value ranging from -214,748.3648 to +214,748.3647 with an accuracy to a ten-thousandth of a currency unit.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:59 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Text">
+            <summary>
+               "<see cref="T:System.String"/>". A variable-length stream of non-Unicode data with a maximum length of 2 31 -1 (or 2,147,483,647) characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:59 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Timestamp">
+            <summary>
+              System.Array of type byte. Automatically generated binary numbers, which are guaranteed to be unique within a database.
+              <para>Timestamp is used typically as a mechanism for version-stamping table rows. The storage size is 8 bytes.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.TinyInt">
+            <summary>
+               "<see cref="T:System.Byte"/>". An 8-bit unsigned integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.VarBinary">
+            <summary>
+               "<see cref="T:System.Array"/>" of type "<see cref="T:System.Byte"/>". A variable-length stream of binary data ranging between 1 and 8,000 bytes.
+                <para>Implicit conversion fails if the byte array is greater than 8,000 bytes.</para>
+                <para>Explicitly set the object when working with byte arrays larger than 8,000 bytes.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.VarChar">
+            <summary>
+               "<see cref="T:System.String"/>". A variable-length stream of non-Unicode characters ranging between 1 and 8,000 characters.
+            <para>Use "<see cref="F:System.Data.SqlDbType.VarChar"/>" when the database column is <c>varchar</c>(max).</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:06 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Variant">
+            <summary>
+               "<see cref="T:System.Object"/>". A special data type that can contain numeric, string, binary, or date data as well as the
+               SQL Server values Empty and Null, which is assumed if no other type is declared.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:07 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Xml">
+            <summary>
+               An XML value. Obtain the XML as a string using the "<see cref="M:Microsoft.Data.SqlClient.SqlDataReader.GetValue(System.Int32)"/>"
+               method or "<see cref="P:System.Data.SqlTypes.SqlXml.Value"/>" property, or as an "<see cref="T:System.Xml.XmlReader"/>"
+               by calling the "<see cref="M:System.Data.SqlTypes.SqlXml.CreateReader"/>" method.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:07 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Udt">
+            <summary>
+               A SQL Server 2005 user-defined type (UDT).
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Structured">
+            <summary>
+               A special data type for specifying structured data contained in table-valued parameters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Date">
+            <summary>
+               Date data ranging in value from January 1,1 AD through December 31, 9999 AD.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.Time">
+            <summary>
+               Time data based on a 24-hour clock. Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds. Corresponds to a SQL Server time value.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.DateTime2">
+            <summary>
+               Date and time data. Date value range is from January 1,1 AD through December 31, 9999 AD. Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.DbType.DateTimeOffset">
+            <summary>
+               Date and time data with time zone awareness. Date value range is from January 1,1 AD through December 31, 9999 AD.
+               <para>Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds. Time zone value range is -14:00 through +14:00.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:12 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.Parameter">
+            <summary>
+               A class which holds the required database's parameter members required to be injected with the stored procedure.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.Parameter.dataType">
+            <summary>
+               The parameter's data type.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:10 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:01 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter"/> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,System.Object)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,System.Object,DevHorizons.DAL.Sql.DbType)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,System.Object,DevHorizons.DAL.Sql.DbType,System.Int32)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="size">
+               The maximum size, in bytes, of the data within the column.
+               <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
+            </param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,System.Object,DevHorizons.DAL.Sql.DbType,System.Int32,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="size">The maximum size, in bytes, of the data within the column.
+            <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para></param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,System.Object,DevHorizons.DAL.Sql.DbType,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,System.Object,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.#ctor(System.String,DevHorizons.DAL.Interfaces.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Parameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.Parameter.DataType">
+            <summary>
+               Gets or sets the data type as "<see cref="T:DevHorizons.DAL.Sql.DbType"/>".
+               <para>The Default Value: <see cref="F:DevHorizons.DAL.Sql.DbType.Auto"/>.</para>
+            </summary>
+            <value>
+            The type of the data.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 02:13 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.PropertyChanged(System.String)">
+            <summary>
+               The method which will be executed when a certain properties change.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:13 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Parameter.SetParameterAutoType">
+            <summary>
+               Sets the type of the parameter automatically.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:56 PM</DateTime>
+            </Created>
+        </member>
+    </members>
+</doc>

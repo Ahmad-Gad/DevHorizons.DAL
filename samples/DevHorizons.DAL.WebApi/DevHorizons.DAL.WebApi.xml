@@ -1,0 +1,502 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DevHorizons.DAL.WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration">
+            <summary>
+               The application configuration implementation in a typed format.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:12 PM</DateTime>
+            </Created>
+            <seealso cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration" />
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.configuration">
+            <summary>
+               Represents a set of key/value application configuration properties.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>26/04/2021 11:49 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/> class.
+            </summary>
+            <param name="configuration">Represents a set of key/value application configuration properties.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 12:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.ApplicationName">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.ApiVersion">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.HostEnvironment">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.DataAccessSettings">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.GetValue``1(System.String,System.String,``0)">
+            <summary>
+               Gets the the value with the specified key and converts it to type <c>T</c>.
+            </summary>
+            <typeparam name="T">The specified returned type.</typeparam>
+            <param name="section">The section/container name where it host the specified key.</param>
+            <param name="key">The key name.</param>
+            <param name="defaultValue">The failover value to return if no value is found.</param>
+            <returns>
+            The the value with the specified key and converts it to type <c>T</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration.GetValue``1(System.String,``0)">
+            <summary>
+               Gets the the value with the specified key and converts it to type <c>T</c>.
+            </summary>
+            <typeparam name="T">The specified returned type.</typeparam>
+            <param name="key">The key name.</param>
+            <param name="defaultValue">The failover value to return if no value is found.</param>
+            <returns>
+            The the value with the specified key and converts it to type <c>T</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.WebApi.Configuration.EnvironmentName">
+            <summary>
+               Defines the host Environment's enumerators/names.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>23/04/2021 12:41 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.EnvironmentName.Local">
+            <summary>
+               The local dev/debug enviornment/machine.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.EnvironmentName.Development">
+            <summary>
+               The Development enviornment.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.EnvironmentName.Test">
+            <summary>
+               The Test enviornment.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.EnvironmentName.Uat">
+            <summary>
+               The User Acceptance Testing (<c>UAT</c>) enviornment.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.EnvironmentName.Preprod">
+            <summary>
+               The preprod enviornment.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.EnvironmentName.Prod">
+            <summary>
+               The Production enviornment.
+            </summary>
+        </member>
+        <member name="T:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods">
+            <summary>
+               Defines all the helper extension methods required for the project.
+            </summary>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.GetApplicationConfiguration(Microsoft.AspNetCore.Builder.WebApplicationBuilder)">
+            <summary>
+               Get the bound/typed application configuration of the type "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>" as an instance of "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>".
+            </summary>
+            <param name="builder">The builder for web applications and services.</param>
+            <remarks>
+               This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>":
+               <para>1. Register the "builder.Configuration" into the DI container for the type "<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>" with singleton life cycle.</para>
+               <para>2. Convert the appsettings file into the strong typed class "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>".</para>
+               <para>3. Grab all the matching system environment variables to override what match from the appsettings.</para>
+               <para>4. Register the "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>" into the DI container for the type "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>" with singleton life cycle.</para>
+            </remarks>
+            <returns>
+               The application configuration of the type "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>" as an instance of "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>".
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.GetApplicationConfiguration``1(Microsoft.AspNetCore.Builder.WebApplicationBuilder)">
+            <summary>
+               Get the bound/typed application configuration of the type "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>".
+            </summary>
+            <param name="builder">The builder for web applications and services.</param>
+            <typeparam name="T">Type of "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>".</typeparam>
+            <remarks>
+               This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>":
+               <para>1. Register the "builder.Configuration" into the DI container for the type "<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>" with singleton life cycle.</para>
+               <para>2. Convert the appsettings file into the strong typed class "<see cref="T:DevHorizons.DAL.WebApi.Configuration.ApplicationConfiguration"/>".</para>
+               <para>3. Grab all the matching system environment variables to override what match from the appsettings.</para>
+               <para>4. Register the strong typed app settings (application configuration) into the DI container for the type "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>" with singleton life cycle.</para>
+            </remarks>
+            <returns>
+               The application configuration of the type "<see cref="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration"/>".
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.GetValue``1(Microsoft.Extensions.Configuration.IConfiguration,System.String,System.String,``0)">
+            <summary>
+               Gets the the value with the specified key and converts it to type <c>T</c>.
+            </summary>
+            <typeparam name="T">The specified returned type.</typeparam>
+            <param name="configuration">The configuration.</param>
+            <param name="section">The section/container name where it host the specified key.</param>
+            <param name="key">The key name.</param>
+            <param name="defaultValue">The failover value to return if no value is found.</param>
+            <returns>
+               The the value with the specified key and converts it to type <c>T</c>.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.UseGeneralRoutePrefix(Microsoft.AspNetCore.Mvc.MvcOptions,Microsoft.AspNetCore.Mvc.Routing.IRouteTemplateProvider)">
+            <summary>
+               Uses the general route prefix.
+            </summary>
+            <param name="options">The MVC options.</param>
+            <param name="routeAttribute">The route attribute.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>28/04/2021 02:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.UseGeneralRoutePrefix(Microsoft.AspNetCore.Mvc.MvcOptions,System.String)">
+            <summary>
+               Uses the general route prefix.
+            </summary>
+            <param name="options">The MVC Options.</param>
+            <param name="prefix">The route prefix string.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.ConfigureSwaggerUI(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+               Configures the swagger UI with the desired settings.
+            </summary>
+            <param name="app">The application builder.</param>
+            <param name="hostEnvironment">The web host enviornment.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.ExtensionMethods.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+               Configures the swagger.
+            </summary>
+            <param name="services">The services.</param>
+            <param name="configuration">The configuration.</param>
+            <param name="hostingEnvironment">The hosting environment.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>15/04/2021 04:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.WebApi.Configuration.HostEnvironment">
+            <summary>
+              The application's host Enviornment details.
+            </summary>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Configuration.HostEnvironment.ContentRootPath">
+            <summary>
+               Gets or sets the absolute path to the directory that contains the application content files.
+            </summary>
+            <value>
+               The content root path.
+            </value>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Configuration.HostEnvironment.EnvironmentName">
+            <summary>
+               Gets or sets the name of the environment. The host automatically sets this property to the value of the of the "environment" key as specified in configuration.
+            </summary>
+            <value>
+               The name of the environment.
+            </value>
+        </member>
+        <member name="T:DevHorizons.DAL.WebApi.Configuration.RouteConvention">
+            <summary>
+               The route convention manager class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>22/04/2021 04:24 PM</DateTime>
+            </Created>
+            <seealso cref="T:Microsoft.AspNetCore.Mvc.ApplicationModels.IApplicationModelConvention" />
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Configuration.RouteConvention.routePrefix">
+            <summary>
+               The route prefix.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>22/04/2021 04:23 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.RouteConvention.#ctor(Microsoft.AspNetCore.Mvc.Routing.IRouteTemplateProvider)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.WebApi.Configuration.RouteConvention"/> class.
+            </summary>
+            <param name="route">The route.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>22/04/2021 04:23 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Configuration.RouteConvention.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.ApplicationModel)">
+            <summary>
+               Called to apply the convention to the <see cref="T:Microsoft.AspNetCore.Mvc.ApplicationModels.ApplicationModel" />.
+            </summary>
+            <param name="application">The <see cref="T:Microsoft.AspNetCore.Mvc.ApplicationModels.ApplicationModel" />.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>22/04/2021 04:24 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.ProductController.AddUser(DevHorizons.DAL.WebApi.Models.Product)">
+            <summary>
+               Add new product to the database.
+            </summary>
+            <param name="product">The product details.</param>
+            <returns>
+               Reference of the post instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Product" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/03/2022 02:22 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.UserController.AddUser(DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand)">
+            <summary>
+               Add new user to the database.
+            </summary>
+            <param name="userCommand">The add user command information as an instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />".</param>
+            <returns>
+               Reference of the post instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2022 09:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.UserController.AddUserList(System.Collections.Generic.List{DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand})">
+            <summary>
+               Add a list/collection of new users to the database.
+            </summary>
+            <param name="userCommandList">The list of the add user command information as a list of "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />".</param>
+            <returns>
+               Reference of the post instance of a list of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2022 09:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.UserController.AddUserList(DevHorizons.DAL.WebApi.Models.Commands.AddBuklUsersCommand)">
+            <summary>
+               Add list/collection of new users to the database as bulk insert in one operation.
+            </summary>
+            <param name="userCommandList">The list of the add user command information as a list of "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />".</param>
+            <returns>
+               Reference of the post instance of a list of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2022 09:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.UserController.VerifyLogin(DevHorizons.DAL.WebApi.Models.Commands.VerifyLoginCommand)">
+            <summary>
+              Verifies login command information.
+            </summary>
+            <param name="verifyLoginCommand">The verify login command information as an instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.AddUserCommand" />".</param>
+            <returns>
+               Reference of the post instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.VerifyLoginCommand" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2022 09:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.UserController.GetAllUsers(DevHorizons.DAL.WebApi.Models.Commands.GetAllUsersCommand)">
+            <summary>
+               Gets a list with all the existing users in the database.
+            </summary>
+            <param name="getAllUsersCommand">The get all users command information as an instance of the "<see cref="M:DevHorizons.DAL.WebApi.Controllers.UserController.GetAllUsers(DevHorizons.DAL.WebApi.Models.Commands.GetAllUsersCommand)" />".</param>
+            <returns>
+               Reference of the post instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.VerifyLoginCommand" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2022 09:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Controllers.UserController.GetUser(DevHorizons.DAL.WebApi.Models.Commands.GetUserCommand)">
+            <summary>
+               Gets a list with all the existing users in the database.
+            </summary>
+            <param name="getAllUsersCommand">The get all users command information as an instance of the "<see cref="M:DevHorizons.DAL.WebApi.Controllers.UserController.GetAllUsers(DevHorizons.DAL.WebApi.Models.Commands.GetAllUsersCommand)" />".</param>
+            <returns>
+               Reference of the post instance of the "<see cref="T:DevHorizons.DAL.WebApi.Models.Commands.VerifyLoginCommand" />" populated with all the returned data from the database.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2022 09:49 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration">
+            <summary>
+               The application configuration abstract in a typed format.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration.ApplicationName">
+            <summary>
+               Gets or sets the name of the application. This property is automatically set by the host to the assembly containing the application entry point.
+            </summary>
+            <value>
+               The name of the application.
+            </value>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration.ApiVersion">
+            <summary>
+               Gets or sets the deploy API version.
+            </summary>
+            <value>
+               The API version.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration.HostEnvironment">
+            <summary>
+               Gets or sets the Application's host Enviornment details.
+            </summary>
+            <value>
+               The host environment.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration.DataAccessSettings">
+            <summary>
+               Gets or sets the all the ("<c>DAL</c>") data access settings required to connect to the data source and to control the engine.
+            </summary>
+            <value>
+            The data access settings
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration.GetValue``1(System.String,System.String,``0)">
+            <summary>
+               Gets the the value with the specified key and converts it to type <c>T</c>.
+            </summary>
+            <typeparam name="T">The specified returned type.</typeparam>
+            <param name="section">The section/container name where it host the specified key.</param>
+            <param name="key">The key name.</param>
+            <param name="defaultValue">The failover value to return if no value is found.</param>
+            <returns>
+            The the value with the specified key and converts it to type <c>T</c>.
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.WebApi.Interfaces.IApplicationConfiguration.GetValue``1(System.String,``0)">
+            <summary>
+               Gets the the value with the specified key and converts it to type <c>T</c>.
+            </summary>
+            <typeparam name="T">The specified returned type.</typeparam>
+            <param name="key">The key name.</param>
+            <param name="defaultValue">The failover value to return if no value is found.</param>
+            <returns>
+               The the value with the specified key and converts it to type <c>T</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.Succeeded">
+            <summary>
+               Authentication succeeded.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.UserNotExist">
+            <summary>
+               The user does not exist.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.WrongPassword">
+            <summary>
+               The user exists but the specified password does not match.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.UserLocked">
+            <summary>
+               Authentication succeeded, but the user is already locked.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.UserDisabled">
+            <summary>
+               Authentication succeeded, but the user is disabled by the system or admins.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.UserLockedAndDisabled">
+            <summary>
+               Authentication succeeded, but the user is disabled by the system or admins.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.WebApi.Models.Commands.LoginStatus.MissingInputs">
+            <summary>
+              For the authentication verification, either the username or email needs to be specified along side with the password.
+              If this condition is not satisfied, the operation will be terminated with this status.
+            </summary>
+        </member>
+    </members>
+</doc>

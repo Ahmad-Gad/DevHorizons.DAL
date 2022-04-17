@@ -1,0 +1,4 @@
+https://stackoverflow.com/questions/23008164/get-output-value-in-ado-net-without-stored-procedure
+
+
+https://stackoverflow.com/questions/7520725/how-do-i-decompose-a-predicate-expression-into-a-query

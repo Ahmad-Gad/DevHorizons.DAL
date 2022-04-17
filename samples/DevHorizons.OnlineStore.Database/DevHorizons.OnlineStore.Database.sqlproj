@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>DevHorizons.OnlineStore</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{492b5128-ff25-48b2-954d-640a46fbc9b9}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>DevHorizons.OnlineStore.Database</RootNamespace>
+    <AssemblyName>DevHorizons.OnlineStore.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
+    <ReadCommittedSnapshot>True</ReadCommittedSnapshot>
+    <AllowSnapshotIsolation>True</AllowSnapshotIsolation>
+    <DacApplicationName>DevHorizons.OnlineStore</DacApplicationName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>DevHorizons</SqlTargetName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Tables\dbo" />
+    <Folder Include="StoredProcedures" />
+    <Folder Include="StoredProcedures\dbo" />
+    <Folder Include="StoredProcedures\dbo\Brand" />
+    <Folder Include="Functions" />
+    <Folder Include="Functions\dbo" />
+    <Folder Include="Functions\dbo\Scalar-Valued" />
+    <Folder Include="Functions\dbo\Scalar-Valued\User" />
+    <Folder Include="Views" />
+    <Folder Include="Views\dbo" />
+    <Folder Include="StoredProcedures\dbo\User" />
+    <Folder Include="Types" />
+    <Folder Include="Schemas" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\dbo\Brand.sql" />
+    <Build Include="Tables\dbo\OrderStatus.sql" />
+    <Build Include="StoredProcedures\dbo\Brand\AddBrand.sql" />
+    <Build Include="StoredProcedures\dbo\Brand\DeleteBrand.sql" />
+    <Build Include="StoredProcedures\dbo\Brand\UpdateBrand.sql" />
+    <Build Include="StoredProcedures\dbo\Brand\GetBrand.sql" />
+    <Build Include="Functions\dbo\Scalar-Valued\User\GetUserNameById.sql" />
+    <Build Include="Views\dbo\BrandEvents.sql" />
+    <Build Include="Functions\dbo\Scalar-Valued\User\GetUserDisplayNameById.sql" />
+    <Build Include="Tables\dbo\DeletedModules.sql" />
+    <Build Include="StoredProcedures\dbo\Brand\testGetAllBrands.sql" />
+    <Build Include="StoredProcedures\dbo\User\AddUser.sql" />
+    <Build Include="StoredProcedures\dbo\User\VerifyLogin.sql" />
+    <Build Include="Functions\dbo\Scalar-Valued\User\GetLoginVerififcationStatus.sql" />
+    <Build Include="StoredProcedures\dbo\User\GetAllUsers.sql" />
+    <Build Include="StoredProcedures\dbo\User\GetUserByUserId.sql" />
+    <Build Include="Types\User.sql" />
+    <Build Include="StoredProcedures\dbo\User\AddBulkUsers.sql" />
+    <Build Include="Schemas\Type.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\dbo\City.sql" />
+    <Build Include="Tables\dbo\Country.sql" />
+    <Build Include="Tables\dbo\Discount.sql" />
+    <Build Include="Tables\dbo\Order.sql" />
+    <Build Include="Tables\dbo\Product.sql" />
+    <Build Include="Tables\dbo\ProductCategory.sql" />
+    <Build Include="Tables\dbo\State.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\dbo\Stock.sql" />
+    <Build Include="Tables\dbo\SystemRole.sql" />
+    <Build Include="Tables\dbo\SystemUser.sql" />
+    <Build Include="Tables\dbo\User.sql" />
+    <Build Include="Tables\dbo\Voucher.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="DevHorizons.OnlineStore.Database.refactorlog" />
+  </ItemGroup>
+</Project>

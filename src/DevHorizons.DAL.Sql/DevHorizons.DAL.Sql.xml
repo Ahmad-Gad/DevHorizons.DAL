@@ -1,0 +1,726 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DevHorizons.DAL.Sql</name>
+    </assembly>
+    <members>
+        <member name="T:DevHorizons.DAL.Sql.Attributes.SqlParameterAttribute">
+            <summary>
+               The attribute can be added to the properties within the command body class which implements the "<see cref="T:DevHorizons.DAL.Shared.CommandBody"/>".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:57 PM</DateTime>
+            </Created>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.Attributes.SqlParameterAttribute.Type">
+            <summary>
+               Gets or sets a the data type.
+            </summary>
+            <value>
+              The data type.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.Command">
+            <summary>
+               A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:05 AM</DateTime>
+            </Created>
+            <seealso cref="T:DevHorizons.DAL.Abstracts.Command" />
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.Command})">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.Command})">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" to map the data type that match the <c>SQL</c> provider factory.
+            </summary>
+            <param name="dbParameter">The database parameter as an instance of "<see cref="T:System.Data.Common.DbParameter" />" or any class that implements it.</param>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter" />".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2020 11:08 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
+            </summary>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
+            <summary>
+               Extracts the list of the parameters from the specified command body as type of of <see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>.
+            </summary>
+            <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.UpdateParameter(DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Update the property with the correct type, value and size based on the parameter direction, assigned values, data type and the sepcial type.
+            </summary>
+            <param name="parameter">The <c>DAL</c> engine parameter.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:13 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.Command.SetParameterAutoType(DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Sets the type of the parameter automatically.
+            </summary>
+            <param name="parameter">The specified parameter.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.ConnectionSettings">
+            <summary>
+               Defines all the SQL Server connection/access related settings.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.ConnectionSettings.PacketSize">
+            <summary>
+               Gets or sets the size (in bytes) of network packets used to communicate with an instance of SQL Server.
+               <para>The Default Value: <c>Null</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.packetsize?view=dotnet-plat-ext-6.0"/></para>
+            </summary>
+            <value>The size (in bytes) of network packets. The default value is 8000.</value>
+            <remarks>
+               PacketSize may be a value in the range of 512 and 32767 bytes. An exception is generated if the value is outside this range.
+               <para>If an application performs bulk copy operations, or sends or receives lots of text or image data, a packet size larger than the default may improve efficiency because it causes fewer network read and write operations.</para>
+               <para>If an application sends and receives small amounts of information, you can set the packet size to 512 bytes (using the Packet Size value in the ConnectionString), which is sufficient for most data transfer operations.</para>
+               <para>For most applications, the default packet size is best.</para>
+               <para>This setting will be merged with the provided connection string and will override the same setting if exist.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.ConnectionSettings.ColumnAlwaysEncryptedSettingEnabled">
+            <summary>
+               Gets or sets a value indicating whether the opened connection will support the "SQL Column Always Encrypted".
+               <para>The Default Value: <c>false</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-database-engine?view=sql-server-ver15"/></para>
+            </summary>
+            <remarks>
+               This setting will be merged with the provided connection string and will override the same setting if exist.
+               <para>Supported with SQL Server 2016 (13.x), and higher.</para>
+               <para>Always Encrypted is available in all editions of Azure SQL Database, starting with SQL Server 2016 (13.x) and all service tiers of SQL Database. (Prior to SQL Server 2016 (13.x) SP1, Always Encrypted was limited to the Enterprise Edition.)</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.ConnectionSettings.EnclaveAttestationUrl">
+            <summary>
+               Gets or sets the URL for attestation the server-side enclaves. This setting will be applicable only if the "SQL Column Always Encrypted" is enabled either manually through the provided connection string or by setting the "<see cref="P:DevHorizons.DAL.Sql.ConnectionSettings.ColumnAlwaysEncryptedSettingEnabled"/>" to "<c>true</c>".
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.data.sqlclient.sqlconnection.connectionstring?view=sqlclient-dotnet-standard-4.1"/></para>   
+               <para><see href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15"/></para>
+            </summary>
+            <remarks>
+                Always Encrypted with secure enclaves is available in SQL Server 2019 (15.x) or higher and in Azure SQL Database.
+               <para>This setting will be merged with the provided connection string and will override the same setting if exist.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.ExtensionMethods">
+            <summary>
+               A public static class which holds all the extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.ExtensionMethods.RegisterSqlDal(Microsoft.Extensions.DependencyInjection.IServiceCollection,DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+            <summary>
+               Register the <c>SQL</c> <c>DAL</c> service into the dependency injection <c>(DI)</c> container with the scoped life cycle.
+            </summary>
+            <param name="services">The contract for a collection of service descriptors.</param>
+            <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>"</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.ExtensionMethods.UpdateConnectionString(DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+            <summary>
+               Update the connection string with the specified advanced options within the specified settings.
+            </summary>
+            <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.DataAccessSettings"/>"</param>
+            <remarks>
+               You may not need to use this method because it is managed/executed automatically when you register the <c>DAL</c> service/engine by the DI containers which is usually done by calling the "<see cref="M:DevHorizons.DAL.Sql.ExtensionMethods.RegisterSqlDal(Microsoft.Extensions.DependencyInjection.IServiceCollection,DevHorizons.DAL.Interfaces.IDataAccessSettings)"/>" method.
+               <para>You may only use it, if you are not using DI containers/services which could be the case of desktop application or some class library which not meant to serve web applications/APIs.</para>
+            </remarks>
+            
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.ExtensionMethods.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
+            <summary>
+               Extracts the list of the parameters from the specified command body as type of of <see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>.
+            </summary>
+            <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlDataTable.GetParmetersFromDataTable(DevHorizons.DAL.CommandAction)">
+            <inheritdoc/>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.SqlDbType">
+            <summary>
+               Specifies SQL Server-specific data type of a SQL Parameter.
+            </summary>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 02:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Auto">
+            <summary>
+               Auto detect the data type as possible. Otherwise, it would reset the type to the default one which is "<see cref="F:DevHorizons.DAL.Sql.SqlDbType.NText"/>".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.BigInt">
+            <summary>
+               "<see cref="T:System.Int64"/>". A 64-bit signed integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:39 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Binary">
+            <summary>
+               "<see cref="T:System.Array"/>" of type "<see cref="T:System.Byte"/>". A fixed-length stream of binary data ranging between 1 and 8,000 bytes.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:46 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Bit">
+            <summary>
+               "<see cref="T:System.Boolean"/>". An unsigned numeric value that can be 0, 1, or null.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:46 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Char">
+            <summary>
+               "<see cref="T:System.String"/>". A fixed-length stream of non-Unicode characters ranging between 1 and 8,000 characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:47 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.DateTime">
+            <summary>
+               "<see cref="T:System.DateTime"/>". Date and time data ranging in value from January 1, 1753 to December 31, 9999 to an accuracy of 3.33 milliseconds.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Decimal">
+            <summary>
+               "<see cref="T:System.Decimal"/>". A fixed precision and scale numeric value between -10 38 -1 and 10 38 -1.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:50 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Float">
+            <summary>
+               "<see cref="T:System.Double"/>". A floating point number within the range of -1.79E +308 through 1.79E +308.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Image">
+            <summary>
+               "<see cref="T:System.Array"/>" of type "<see cref="T:System.Byte"/>". A variable-length stream of binary data ranging from 0 to 2 31 -1 (or 2,147,483,647) bytes.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Int">
+            <summary>
+               "<see cref="T:System.Int32"/>". A 32-bit signed integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Money">
+            <summary>
+               "<see cref="T:System.Decimal"/>". A currency value ranging from -2 63 (or -9,223,372,036,854,775,808) to 2 63 -1 (or +9,223,372,036,854,775,807) with an accuracy to a ten-thousandth of a currency unit.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.NChar">
+            <summary>
+               "<see cref="T:System.String"/>". A fixed-length stream of Unicode characters ranging between 1 and 4,000 characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:54 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.NText">
+            <summary>
+               "<see cref="T:System.String"/>". A variable-length stream of Unicode data with a maximum length of 2 30 - 1 (or 1,073,741,823) characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.NVarChar">
+            <summary>
+                string. A variable-length stream of Unicode characters ranging between
+                1 and 4,000 characters.
+                <para>Implicit conversion fails if the string is greater than
+                4,000 characters. Explicitly set the object when working with strings longer
+                than 4,000 characters.</para>
+                Use "<see cref="F:DevHorizons.DAL.Sql.SqlDbType.NVarChar"/>" when the database column is <c>nvarchar</c>(max).
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:55 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Real">
+            <summary>
+               "<see cref="T:System.Single"/>". A floating point number within the range of -3.40E +38 through 3.40E +38.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.UniqueIdentifier">
+            <summary>
+               "<see cref="T:System.Guid"/>". A globally unique identifier (or GUID).
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:57 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.SmallDateTime">
+            <summary>
+               "<see cref="T:System.DateTime"/>". Date and time data ranging in value from January 1, 1900 to June 6, 2079 to an accuracy of one minute.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.SmallInt">
+            <summary>
+               "<see cref="T:System.Int16"/>". A 16-bit signed integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.SmallMoney">
+            <summary>
+               "<see cref="T:System.Decimal"/>". A currency value ranging from -214,748.3648 to +214,748.3647 with an accuracy to a ten-thousandth of a currency unit.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:59 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Text">
+            <summary>
+               "<see cref="T:System.String"/>". A variable-length stream of non-Unicode data with a maximum length of 2 31 -1 (or 2,147,483,647) characters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 02:59 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Timestamp">
+            <summary>
+              System.Array of type byte. Automatically generated binary numbers, which are guaranteed to be unique within a database.
+              <para>Timestamp is used typically as a mechanism for version-stamping table rows. The storage size is 8 bytes.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.TinyInt">
+            <summary>
+               "<see cref="T:System.Byte"/>". An 8-bit unsigned integer.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.VarBinary">
+            <summary>
+               "<see cref="T:System.Array"/>" of type "<see cref="T:System.Byte"/>". A variable-length stream of binary data ranging between 1 and 8,000 bytes.
+                <para>Implicit conversion fails if the byte array is greater than 8,000 bytes.</para>
+                <para>Explicitly set the object when working with byte arrays larger than 8,000 bytes.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.VarChar">
+            <summary>
+               "<see cref="T:System.String"/>". A variable-length stream of non-Unicode characters ranging between 1 and 8,000 characters.
+            <para>Use "<see cref="F:System.Data.SqlDbType.VarChar"/>" when the database column is <c>varchar</c>(max).</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:06 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Variant">
+            <summary>
+               "<see cref="T:System.Object"/>". A special data type that can contain numeric, string, binary, or date data as well as the
+               SQL Server values Empty and Null, which is assumed if no other type is declared.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:07 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Xml">
+            <summary>
+               An XML value. Obtain the XML as a string using the "<see cref="M:Microsoft.Data.SqlClient.SqlDataReader.GetValue(System.Int32)"/>"
+               method or "<see cref="P:System.Data.SqlTypes.SqlXml.Value"/>" property, or as an "<see cref="T:System.Xml.XmlReader"/>"
+               by calling the "<see cref="M:System.Data.SqlTypes.SqlXml.CreateReader"/>" method.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:07 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Udt">
+            <summary>
+               A SQL Server 2005 user-defined type (UDT).
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Structured">
+            <summary>
+               A special data type for specifying structured data contained in table-valued parameters.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Date">
+            <summary>
+               Date data ranging in value from January 1,1 AD through December 31, 9999 AD.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Time">
+            <summary>
+               Time data based on a 24-hour clock. Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds. Corresponds to a SQL Server time value.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:10 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.DateTime2">
+            <summary>
+               Date and time data. Date value range is from January 1,1 AD through December 31, 9999 AD. Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.DateTimeOffset">
+            <summary>
+               Date and time data with time zone awareness. Date value range is from January 1,1 AD through December 31, 9999 AD.
+               <para>Time value range is 00:00:00 through 23:59:59.9999999 with an accuracy of 100 nanoseconds. Time zone value range is -14:00 through +14:00.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:12 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Json">
+            <summary>
+               <c>Json</c> data type where the mapped property should be serialized/deserialized from/to <c>Json</c> first.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/02/2018 08:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.SqlParameter">
+            <summary>
+               A class which holds the required database's parameter members required to be injected with the stored procedure.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:01 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter"/> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,DevHorizons.DAL.Sql.SqlDbType)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="dataType">The parameter data type.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,DevHorizons.DAL.Sql.SqlDbType,System.Object)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,DevHorizons.DAL.Sql.SqlDbType,System.Object,System.Int32)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="size">
+               The maximum size, in bytes, of the data within the column.
+               <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
+            </param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,DevHorizons.DAL.Sql.SqlDbType,System.Object,System.Int32,DevHorizons.DAL.Shared.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="size">The maximum size, in bytes, of the data within the column.
+            <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para></param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,DevHorizons.DAL.Sql.SqlDbType,System.Object,DevHorizons.DAL.Shared.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="dataType">The parameter data type.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,DevHorizons.DAL.Shared.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,System.Object)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlParameter.#ctor(System.String,System.Object,DevHorizons.DAL.Shared.Direction)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlParameter" /> class.
+            </summary>
+            <param name="name">The parameter name.</param>
+            <param name="value">The parameter value.</param>
+            <param name="direction">The direction of the parameter within the Stored Procedure as "Input", "Output" or "Return".</param>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>08/11/2018 05:28 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.SqlParameter.DataType">
+            <summary>
+               Gets or sets the data type as "<see cref="T:DevHorizons.DAL.Sql.SqlDbType"/>".
+               <para>The Default Value: <see cref="F:DevHorizons.DAL.Sql.SqlDbType.Auto"/>.</para>
+            </summary>
+            <value>
+            The type of the data.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 02:13 PM</DateTime>
+            </Created>
+        </member>
+    </members>
+</doc>

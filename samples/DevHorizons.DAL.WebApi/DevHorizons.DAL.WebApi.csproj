@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>0dac4227-c1ab-4497-93ec-e55cf6799cc8</UserSecretsId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>$(MSBuildProjectName).xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\BrandsController.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="JsonFiles\AddBulkUsers-Structured-SocialMedia.json" />
+		<Content Remove="JsonFiles\AddBulkUsers-Structured.json" />
+		<Content Remove="JsonFiles\AddUser.json" />
+		<Content Remove="JsonFiles\AddUserList.json" />
+		<Content Remove="JsonFiles\MemoryThresholdWarningsList.json" />
+		<Content Remove="JsonFiles\VerifyLogin.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="JsonFiles\AddBulkUsers-Structured.json" />
+		<None Include="JsonFiles\AddUserList.json" />
+		<None Include="JsonFiles\MemoryThresholdWarningsList.json" />
+		<None Include="JsonFiles\VerifyLogin.json" />
+		<None Include="JsonFiles\AddUser.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="JsonFiles\AddBulkUsers-Structured-SocialMedia.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\DevHorizons.DAL.Sql\DevHorizons.DAL.Sql.csproj" />
+	</ItemGroup>
+
+</Project>

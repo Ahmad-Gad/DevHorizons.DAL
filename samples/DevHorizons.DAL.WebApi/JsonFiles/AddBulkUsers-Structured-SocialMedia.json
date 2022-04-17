@@ -1,0 +1,71 @@
+{
+  "users": [
+    {
+      "loginName": "enid.blyton",
+      "email": "enid.blyton@mycompany.com",
+      "firstName": "Enid",
+      "lastName": "Blyton",
+      "displayName": "Enid Blyton",
+      "profile": {
+        "country": "US",
+        "city": "NY",
+        "postCode": "12345",
+        "address": "Dreamland",
+        "mobile": "0123456",
+        "SocialMedia": {
+          "LinkedIn": "linkedin.com/enid.blyton",
+          "FaceBook": "FaceBook.com/enid.blyton"
+        }
+      },
+      "active": true,
+      "adminUserId": 3,
+      "password": "123",
+      "Events": []
+    },
+    {
+      "loginName": "jules.verne",
+      "email": "jules.verne@mycompany.com",
+      "firstName": "Jules",
+      "lastName": "Verne",
+      "displayName": "Jules Verne",
+      "profile": {
+        "country": "US",
+        "city": "NJ",
+        "postCode": "12345",
+        "address": "Dreamland",
+        "mobile": "03213222",
+        "SocialMedia": {
+          "LinkedIn": "linkedin.com/jules.verne",
+          "Twitter": "@jules.verne"
+        }
+      },
+      "active": true,
+      "adminUserId": 3,
+      "password": "123",
+      "Events": []
+    },
+    {
+      "loginName": "edgar.allan.poe",
+      "email": "edgar.allan.poe@mycompany.com",
+      "firstName": "Edgar",
+      "lastName": "Allan Poe",
+      "displayName": "Edgar Allan Poe",
+      "profile": {
+        "country": "US",
+        "city": "NJ",
+        "postCode": "12345",
+        "address": "Dreamland",
+        "mobile": "03213222",
+        "SocialMedia": {
+          "LinkedIn": "linkedin.com/edgar.allan.poe",
+          "FaceBook": "FaceBook.com/edgar.allan.poe",
+          "Twitter": "@edgar.allan.poe"
+        }
+      },
+      "active": true,
+      "adminUserId": 3,
+      "password": "123",
+      "Events": []
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+[
+    {
+        "loginName": "mark.twain",
+        "email": "mark.twain@mycompany.com",
+        "firstName": "Mark",
+        "lastName": "Twain",
+        "displayName": "Mark Twain",
+        "profile": {
+            "country": "US",
+            "city": "NY",
+            "postCode": "12345",
+            "address": "Dreamland",
+            "mobile": "0123456",
+			"SocialMedia": {
+			  "LinkedIn": "linkedin.com/mark.twain",
+			  "FaceBook": "FaceBook.com/mark.twain",
+			  "Twitter": "@mark.twain"
+			}
+        },
+        "active": true,
+        "adminUserId": 3,
+        "password": "123",
+        "events": []
+    },
+    {
+        "loginName": "alfred.hitchcock",
+        "email": "alfred.hitchcock@mycompany.com",
+        "firstName": "Alfred",
+        "lastName": "Hitchcock",
+        "displayName": "Alfred Hitchcock",
+        "profile": {
+            "country": "US",
+            "city": "NJ",
+            "postCode": "12345",
+            "address": "Dreamland",
+            "mobile": "03213222",
+			"SocialMedia": {
+          "LinkedIn": "linkedin.com/alfred.hitchcock",
+          "Twitter": "@alfred.hitchcock"
+        }
+        },
+        "active": true,
+        "adminUserId": 3,
+        "password": "123",
+        "events": []
+    },
+    {
+        "loginName": "mark.twain",
+        "email": "mark.twain@mycompany.com",
+        "firstName": "Mark",
+        "lastName": "Twain",
+        "displayName": "Mark Twain",
+        "profile": {
+            "country": "US",
+            "city": "NY",
+            "postCode": "12345",
+            "address": "Dreamland",
+            "mobile": "0123456",
+			"SocialMedia": {
+          "LinkedIn": "linkedin.com/edgar.allan.poe",
+          "FaceBook": "FaceBook.com/edgar.allan.poe",
+          "Twitter": "@edgar.allan.poe"
+        }
+        },
+        "active": true,
+        "adminUserId": 3,
+        "password": "123",
+        "events": []
+    }
+]

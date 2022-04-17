@@ -1,0 +1,23 @@
+{
+    "loginName": "ahmad.gad",
+    "email": "ahmad.gad@mycompany.com",
+    "firstName": "Ahmad",
+    "lastName": "Gad",
+    "displayName": "Ahmad Gad",
+    "profile": {
+        "country": "Ireland",
+        "city": "Dublin",
+        "postCode": "12345",
+        "address": "Dundrum, Dublin 16",
+        "mobile": "01234569",
+        "SocialMedia": {
+            "LinkedIn": "linkedin.com/ahmad.gad",
+            "FaceBook": "FaceBook.com/ahmad.gad",
+            "Twitter": "@ahmad.gad"
+        }
+    },
+    "active": false,
+    "adminUserId": 3,
+    "password": "123",
+    "events": []
+}

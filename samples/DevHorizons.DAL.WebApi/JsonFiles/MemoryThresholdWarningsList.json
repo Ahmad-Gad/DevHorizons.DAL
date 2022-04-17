@@ -1,0 +1,32 @@
+[
+  {
+    "CacheKey": "DevHorizons.DAL.WebApi.Models.Profile.DataFields",
+    "CacheSize": "1336",
+    "SecondLevelCacheCurrentSize": "4080",
+    "SecondLevelMemoryCacheThreshold": "4096"
+  },
+  {
+    "CacheKey": "DevHorizons.DAL.WebApi.Models.Profile.DataFields",
+    "CacheSize": "1336",
+    "SecondLevelCacheCurrentSize": "4080",
+    "SecondLevelMemoryCacheThreshold": "4096"
+  },
+  {
+    "CacheKey": "DevHorizons.DAL.WebApi.Models.User.DataFields",
+    "CacheSize": "4800",
+    "SecondLevelCacheCurrentSize": "0",
+    "SecondLevelMemoryCacheThreshold": "4096"
+  },
+  {
+    "CacheKey": "DevHorizons.DAL.WebApi.Models.User.DataFields",
+    "CacheSize": "4800",
+    "SecondLevelCacheCurrentSize": "0",
+    "SecondLevelMemoryCacheThreshold": "4096"
+  },
+  {
+    "CacheKey": "DevHorizons.DAL.WebApi.Models.User.DataFields",
+    "CacheSize": "4524",
+    "SecondLevelCacheCurrentSize": "4686",
+    "SecondLevelMemoryCacheThreshold": "4096"
+  }
+]
