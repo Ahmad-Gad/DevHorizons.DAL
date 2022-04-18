@@ -17,15 +17,15 @@ namespace DevHorizons.DAL.Interfaces
 
     using Cache;
 
-/// <summary>
-///    The <c>DAL</c> Command abstract class which holds all the required members and operations to access the database and <c>T-SQL</c> command executions.
-/// <para>This abstract class can be used for the <c>DI</c> (Dependency Injection) design pattern.</para>
-/// </summary>
-/// <seealso cref="System.IDisposable" />
-/// <Created>
-///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-///    <DateTime>10/02/2020 10:25 PM</DateTime>
-/// </Created>
+    /// <summary>
+    ///    The <c>DAL</c> Command abstract class which holds all the required members and operations to access the database and <c>T-SQL</c> command executions.
+    /// <para>This abstract class can be used for the <c>DI</c> (Dependency Injection) design pattern.</para>
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
+    /// <Created>
+    ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+    ///    <DateTime>10/02/2020 10:25 PM</DateTime>
+    /// </Created>
     public interface ICommand : IDisposable
     {
         #region Delegates
@@ -113,7 +113,7 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Gets the allocated memory size (in bytes) for the first level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable if the "<see cref="IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable if the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -123,7 +123,7 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Gets the allocated memory size (in bytes) for the second level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the second level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the second level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -133,7 +133,7 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Gets the total allocated memory size (in bytes) for all the levels of cache combined together.
         /// </summary>
-        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of both the second and the third level cache are set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of both the second and the third level cache are set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -572,7 +572,6 @@ namespace DevHorizons.DAL.Interfaces
         ///    <DateTime>06/03/2022 02:22 PM</DateTime>
         /// </Created>
         bool ExecuteCommand(IDataTable dataTable, CommandAction commandAction);
-
 
         /// <summary>
         ///    Executes the "<c>DAL</c>" command to return the successful state as boolean result after extracting the designated stored procedure name and the required parameters (if exist) from the specified instance "<see cref="ICommandBody"/>" body.

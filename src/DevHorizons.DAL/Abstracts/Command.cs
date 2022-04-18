@@ -208,7 +208,7 @@ namespace DevHorizons.DAL.Abstracts
         {
             get
             {
-                return this.MemoryCache == null || this.Settings.CacheSettings.Disable ? 0 : this.MemoryCache.FirstLevelCacheMemorySize;
+                return this.MemoryCache == null || this.Settings.CacheSettings.Disabled ? 0 : this.MemoryCache.FirstLevelCacheMemorySize;
             }
         }
 
@@ -226,7 +226,7 @@ namespace DevHorizons.DAL.Abstracts
         {
             get
             {
-                return this.MemoryCache == null || this.Settings.CacheSettings.Disable || this.Settings.CacheSettings.DisableSecondLevel ? 0 : this.MemoryCache.FirstLevelCacheMemorySize + this.MemoryCache.SecondLevelCacheMemorySize;
+                return this.MemoryCache == null || this.Settings.CacheSettings.Disabled || this.Settings.CacheSettings.DisableSecondLevel ? 0 : this.MemoryCache.FirstLevelCacheMemorySize + this.MemoryCache.SecondLevelCacheMemorySize;
             }
         }
         #endregion Public Properties
@@ -1048,6 +1048,7 @@ namespace DevHorizons.DAL.Abstracts
         #endregion Execute Scalar
 
         #region Execute Command
+
         /// <inheritdoc/>
         public bool ExecuteCommand(IDataTable dataTable, CommandAction commandAction)
         {
@@ -1063,7 +1064,6 @@ namespace DevHorizons.DAL.Abstracts
             {
                 this.commandExecutionType = CommandExecutionType.ExecuteCommand;
             }
-
 
             try
             {
@@ -1718,7 +1718,7 @@ namespace DevHorizons.DAL.Abstracts
         /// </Created>
         private DbProviderFactory GetDataProviderFactory(DataProviderFactory provider)
         {
-            if (!this.Settings.CacheSettings.Disable && this.MemoryCache?.DataProviderFactory != null)
+            if (!this.Settings.CacheSettings.Disabled && this.MemoryCache?.DataProviderFactory != null)
             {
                 return this.MemoryCache.DataProviderFactory;
             }
@@ -1729,10 +1729,13 @@ namespace DevHorizons.DAL.Abstracts
                 var before = GC.GetTotalMemory(false);
                 var providerDetails = provider.GetProviderFactoryDetails();
                 var providerType = Type.GetType($"{providerDetails.FactoryClassName},{providerDetails.AssemblyName}");
+
+#if NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0 || NET6_0
                 DbProviderFactories.RegisterFactory(providerDetails.Name, providerType);
+#endif
                 var factory = DbProviderFactories.GetFactory(providerDetails.Name);
 
-                if (!this.Settings.CacheSettings.Disable && this.MemoryCache != null)
+                if (!this.Settings.CacheSettings.Disabled && this.MemoryCache != null)
                 {
                     this.MemoryCache.DataProviderFactory = factory;
                     var after = GC.GetTotalMemory(false);
@@ -1986,7 +1989,7 @@ namespace DevHorizons.DAL.Abstracts
             }
             finally
             {
-                System.Threading.Tasks.Task.Run(() => reader?.DisposeAsync().ConfigureAwait(false));
+                reader?.Dispose();
                 this.commandExecutionType = CommandExecutionType.ExecuteQuery;
                 this.HandleError(error);
             }
@@ -2117,6 +2120,7 @@ namespace DevHorizons.DAL.Abstracts
                                 var xmlString = stringWriter.ToString();
                                 var value = xmlString.FromXmlString(parameterAttribute.Property.PropertyType);
                                 parameterAttribute.Property.SetValue(commandBody, value);
+
                                 break;
                             }
 

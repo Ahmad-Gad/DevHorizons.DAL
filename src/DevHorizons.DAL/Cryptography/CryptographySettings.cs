@@ -68,7 +68,7 @@ namespace DevHorizons.DAL.Cryptography
         ///    Gets or sets a value indicating whether the generated reusable cryptography objects can be cached with the application life cycle (Singleton) or not. This is part of the first level cache.
         ///    <para>It is recommended to not disable it for performance wise unless you are pretty sure what you are doing.</para>
         /// </summary>
-        /// <remarks>If the "<see cref="Interfaces.IDataAccessSettings.DisableCache"/>" is set to true, all the cache levels will be disabled including this one and will override this option.</remarks>
+        /// <remarks>If the "<see cref="Cache.CacheSettings.Disabled"/>" is set to true, all the cache levels will be disabled including this one and will override this option.</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>

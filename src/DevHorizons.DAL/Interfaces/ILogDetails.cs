@@ -257,7 +257,7 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Gets or sets the allocated memory size (in bytes) for the first level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable if the "<see cref="IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable if the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -267,7 +267,7 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Gets or sets the allocated memory size (in bytes) for the second level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the second level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the second level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -277,7 +277,7 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Gets or sets the allocated memory size (in bytes) for the third level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the third level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the third level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>

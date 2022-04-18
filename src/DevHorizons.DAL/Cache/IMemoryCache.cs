@@ -53,7 +53,6 @@ namespace DevHorizons.DAL.Cache
         /// <summary>
         ///    Gets or sets the internal list of the extracted attributes of data fields mapping.
         ///    <para>Caching these list for each model would avoid doing this operation each time the engine is attempting to map the query result into the designated models/types which in turn could save performance especially with large models with complix designs.</para>
-        ///    <para>It is strongly recommended to use the built in memory cache instead of the "<see cref="Microsoft.Extensions.Caching.Distributed.IDistributedCache"/>" which is usually controlled by the DI. However, this option may increase the host server memory (RAM) usage significantly depends on the amount of the data models which can be only truncated with the whole app recycle/reset.</para>
         /// </summary>
         /// <remarks>Part of the second level cache.</remarks>
         /// <Created>
@@ -65,7 +64,6 @@ namespace DevHorizons.DAL.Cache
         /// <summary>
         ///    Gets or sets the internal list of the extracted properties from a specific type.
         ///    <para>Caching these list for some types to avoid this reflection operation each time.</para>
-        ///    <para>It is strongly recommended to use the built in memory cache instead of the "<see cref="Microsoft.Extensions.Caching.Distributed.IDistributedCache"/>" which is usually controlled by the DI. However, this option may increase the host server memory (RAM) usage significantly depends on the amount of the data models which can be only truncated with the whole app recycle/reset.</para>
         /// </summary>
         /// <remarks>Part of the second level cache.</remarks>
         /// <Created>
@@ -117,7 +115,7 @@ namespace DevHorizons.DAL.Cache
         /// <summary>
         ///    Gets or sets the allocated memory size (in bytes) for the first level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable if the "<see cref="Interfaces.IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable if the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -127,7 +125,7 @@ namespace DevHorizons.DAL.Cache
         /// <summary>
         ///    Gets or sets the allocated memory size (in bytes) for the second level cached objects.
         /// </summary>
-        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the second level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="Interfaces.IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+        /// <remarks>This is only applicable when the "<see cref="CacheMethod"/>" of the second level cache is set to "<see cref="CacheMethod.Memory"/>" and the "<see cref="CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>

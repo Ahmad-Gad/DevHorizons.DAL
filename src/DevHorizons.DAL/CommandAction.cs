@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="DmlAction.cs" company="DevHorizons">
+//  <copyright file="CommandAction.cs" company="DevHorizons">
 //    Copyright (c) DevHorizons. All rights reserved.
 //  </copyright>
 //  <summary>

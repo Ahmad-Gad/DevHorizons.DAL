@@ -304,7 +304,7 @@ namespace DevHorizons.DAL.Cryptography
             var symmetricAlgorithm = dataAccessSettings?.CryptographySettings?.GetTheInitializedSymmetricAlgorithm(nonDeterministic);
             var encryptor = symmetricAlgorithm.CreateEncryptor(symmetricAlgorithm.Key, symmetricAlgorithm.IV);
 
-            if (memoryCached != null && !dataAccessSettings.CacheSettings.Disable && !dataAccessSettings.CryptographySettings.DisableCaching)
+            if (memoryCached != null && !dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CryptographySettings.DisableCaching)
             {
                 memoryCached.DeterministicEncryptor = encryptor;
                 var after = GC.GetTotalMemory(false);
@@ -337,14 +337,14 @@ namespace DevHorizons.DAL.Cryptography
                 return memoryCached.DeterministicDecryptor;
             }
 
-            var before = GC.GetAllocatedBytesForCurrentThread();
+            var before = GC.GetTotalMemory(false);
             var symmetricAlgorithm = dataAccessSettings?.CryptographySettings?.GetTheInitializedSymmetricAlgorithm(nonDeterministic);
             var decryptor = symmetricAlgorithm.CreateDecryptor(symmetricAlgorithm.Key, symmetricAlgorithm.IV);
 
-            if (memoryCached != null && !dataAccessSettings.CacheSettings.Disable && !dataAccessSettings.CryptographySettings.DisableCaching)
+            if (memoryCached != null && !dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CryptographySettings.DisableCaching)
             {
                 memoryCached.DeterministicDecryptor = decryptor;
-                var after = GC.GetAllocatedBytesForCurrentThread();
+                var after = GC.GetTotalMemory(false);
                 var size = after - before;
                 memoryCached.FirstLevelCacheMemorySize += size;
             }
@@ -370,15 +370,15 @@ namespace DevHorizons.DAL.Cryptography
                 return memoryCached.HashSaltKey;
             }
 
-            var before = GC.GetAllocatedBytesForCurrentThread();
+            var before = GC.GetTotalMemory(false);
             var cryptographySettings = dataAccessSettings.CryptographySettings;
             var crypto = cryptographySettings.HashAlgorithm ?? SHA512.Create();
             var salt = cryptographySettings.Hashing.HashKey.GetHashKey(crypto);
 
-            if (memoryCached != null && !dataAccessSettings.CacheSettings.Disable && !dataAccessSettings.CryptographySettings.DisableCaching)
+            if (memoryCached != null && !dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CryptographySettings.DisableCaching)
             {
                 memoryCached.HashSaltKey = salt;
-                var after = GC.GetAllocatedBytesForCurrentThread();
+                var after = GC.GetTotalMemory(false);
                 var size = after - before;
                 memoryCached.FirstLevelCacheMemorySize += size;
             }

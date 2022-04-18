@@ -74,6 +74,7 @@ namespace DevHorizons.DAL
         /// </Created>
         public double CpuUsagePercent { get; set; }
 
+#if NET48 || NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0 || NET6_0
         /// <summary>
         ///    Gets or sets the total memory allocated to the current thread since the beginning of its lifetime as number of bytes.
         /// </summary>
@@ -86,7 +87,9 @@ namespace DevHorizons.DAL
         ///    <DateTime>12/02/2022 04:58 PM</DateTime>
         /// </Created>
         public long CurrentThreadAllocatedMemory { get; set; } = GC.GetAllocatedBytesForCurrentThread();
+#endif
 
+#if NETCOREAPP3_1 || NET5_0 || NET6_0
         /// <summary>
         ///    Gets or sets the total memory allocated to the current process of the running/host service/application since the beginning of its lifetime as number of bytes.
         /// </summary>
@@ -99,6 +102,7 @@ namespace DevHorizons.DAL
         ///    <DateTime>12/02/2022 04:58 PM</DateTime>
         /// </Created>
         public long CurrentProcessAllocatedMemory { get; set; } = GC.GetTotalAllocatedBytes();
+#endif
 
         /// <summary>
         ///    Gets or sets the total installed/acllocated logical processors (<c>CPUs</c>).
@@ -124,6 +128,7 @@ namespace DevHorizons.DAL
         /// </Created>
         public string CommandLine { get; set; } = Environment.CommandLine;
 
+#if NET6_0
         /// <summary>
         ///    Gets or sets the path of the executable that started the currently executing process.
         /// </summary>
@@ -136,7 +141,9 @@ namespace DevHorizons.DAL
         ///    <DateTime>12/02/2022 04:58 PM</DateTime>
         /// </Created>
         public string ProcessPath { get; set; } = Environment.ProcessPath;
+#endif
 
+#if NET5_0 || NET6_0
         /// <summary>
         ///    Gets or sets the unique identifier for the current process.
         /// </summary>
@@ -148,6 +155,19 @@ namespace DevHorizons.DAL
         ///    <DateTime>12/02/2022 04:58 PM</DateTime>
         /// </Created>
         public int ProcessId { get; set; } = Environment.ProcessId;
+
+        /// <summary>
+        ///    Gets or sets the platform on which an app is running.
+        /// </summary>
+        /// <value>
+        ///    An opaque string that identifies the platform on which the app is running.
+        /// </value>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>12/02/2022 04:58 PM</DateTime>
+        /// </Created>
+        public string Platform { get; set; } = RuntimeInformation.RuntimeIdentifier;
+#endif
 
         /// <summary>
         ///    Gets or sets the current operating system version's details including type, edition, version, platform architecture, etc.
@@ -172,18 +192,6 @@ namespace DevHorizons.DAL
         ///    <DateTime>12/02/2022 04:58 PM</DateTime>
         /// </Created>
         public string OSDescription { get; set; } = RuntimeInformation.OSDescription;
-
-        /// <summary>
-        ///    Gets or sets the platform on which an app is running.
-        /// </summary>
-        /// <value>
-        ///    An opaque string that identifies the platform on which the app is running.
-        /// </value>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>12/02/2022 04:58 PM</DateTime>
-        /// </Created>
-        public string Platform { get; set; } = RuntimeInformation.RuntimeIdentifier;
 
         /// <summary>
         ///    Gets or sets the OS architecture. E.g. <c>X64</c>, <c>X86</c>, <c>ARM64</c>, etc.
@@ -274,6 +282,7 @@ namespace DevHorizons.DAL
         /// </Created>
         public int SystemPageSize { get; set; } = Environment.SystemPageSize;
 
+#if NETCOREAPP3_1 || NET5_0 || NET6_0
         /// <summary>
         ///    Gets or sets the exact date/time when the host machine being started or rebooted.
         /// </summary>
@@ -286,6 +295,7 @@ namespace DevHorizons.DAL
         ///    <DateTime>12/02/2022 04:58 PM</DateTime>
         /// </Created>
         public DateTime LastRebootTime { get; set; } = DateTime.Now.AddSeconds(Environment.TickCount64 / 1000 * -1);
+#endif
 
         /// <summary>
         ///    Gets or sets the exact date/time when the associated process was started.

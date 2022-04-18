@@ -644,19 +644,6 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.CurrentProcessAllocatedMemory">
-            <summary>
-               Gets or sets the total memory allocated to the current process of the running/host service/application since the beginning of its lifetime as number of bytes.
-            </summary>
-            <value>
-               The total bytes of memeory allocated to the current process since the beginning of its lifetime.
-            </value>
-            <remarks>This value is provided by the <c>OOTB</c> "<see cref="T:System.GC"/>" by the host "<c>CLR</c>".</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessorCount">
             <summary>
                Gets or sets the total installed/acllocated logical processors (<c>CPUs</c>).
@@ -681,31 +668,6 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessPath">
-            <summary>
-               Gets or sets the path of the executable that started the currently executing process.
-            </summary>
-            <value>
-               The path of the executable that started the currently executing process.
-               <para>Returns null when the path is not available.</para>
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessId">
-            <summary>
-               Gets or sets the unique identifier for the current process.
-            </summary>
-            <value>
-               An integer number that represents the unique identifier for the current process.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.AdvacedErrorDetails.OSVersion">
             <summary>
                Gets or sets the current operating system version's details including type, edition, version, platform architecture, etc.
@@ -724,18 +686,6 @@
             </summary>
             <value>
                The string that describes the operating system on which the app is running.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.Platform">
-            <summary>
-               Gets or sets the platform on which an app is running.
-            </summary>
-            <value>
-               An opaque string that identifies the platform on which the app is running.
             </value>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -824,19 +774,6 @@
             </summary>
             <value>
                An integer containing The number of bytes in the system memory page.
-            </value>
-            <remarks>This value is provided by the <c>OOTB</c> "<see cref="T:System.Environment"/>" class.</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.LastRebootTime">
-            <summary>
-               Gets or sets the exact date/time when the host machine being started or rebooted.
-            </summary>
-            <value>
-               The exact date/time when the host machine being started or rebooted.
             </value>
             <remarks>This value is provided by the <c>OOTB</c> "<see cref="T:System.Environment"/>" class.</remarks>
             <Created>
@@ -1434,7 +1371,7 @@
                <DateTime>13/02/2022 06:17 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Cache.CacheSettings.Disable">
+        <member name="P:DevHorizons.DAL.Cache.CacheSettings.Disabled">
             <summary>
                Gets or sets a value indicating whether the whole cache module is being disabled including all the level of cache. Not recommended action because it may affect the performance of the engine unless you are quite sure what you are doing.
                <para>The Default Value: <c>false</c>.</para>
@@ -1523,7 +1460,6 @@
             <summary>
                Gets or sets the internal list of the extracted attributes of data fields mapping.
                <para>Caching these list for each model would avoid doing this operation each time the engine is attempting to map the query result into the designated models/types which in turn could save performance especially with large models with complix designs.</para>
-               <para>It is strongly recommended to use the built in memory cache instead of the "<see cref="!:Microsoft.Extensions.Caching.Distributed.IDistributedCache"/>" which is usually controlled by the DI. However, this option may increase the host server memory (RAM) usage significantly depends on the amount of the data models which can be only truncated with the whole app recycle/reset.</para>
             </summary>
             <remarks>Part of the second level cache.</remarks>
             <Created>
@@ -1535,7 +1471,6 @@
             <summary>
                Gets or sets the internal list of the extracted properties from a specific type.
                <para>Caching these list for some types to avoid this reflection operation each time.</para>
-               <para>It is strongly recommended to use the built in memory cache instead of the "<see cref="!:Microsoft.Extensions.Caching.Distributed.IDistributedCache"/>" which is usually controlled by the DI. However, this option may increase the host server memory (RAM) usage significantly depends on the amount of the data models which can be only truncated with the whole app recycle/reset.</para>
             </summary>
             <remarks>Part of the second level cache.</remarks>
             <Created>
@@ -1587,7 +1522,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the first level cached objects.
             </summary>
-            <remarks>This is only applicable if the "<see cref="!:Interfaces.IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable if the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -1597,7 +1532,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the second level cached objects.
             </summary>
-            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="!:Interfaces.IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -1633,7 +1568,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the first level cached objects.
             </summary>
-            <remarks>This is only applicable if the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable if the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -1643,7 +1578,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the second level cached objects.
             </summary>
-            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -1973,7 +1908,7 @@
                Gets or sets a value indicating whether the generated reusable cryptography objects can be cached with the application life cycle (Singleton) or not. This is part of the first level cache.
                <para>It is recommended to not disable it for performance wise unless you are pretty sure what you are doing.</para>
             </summary>
-            <remarks>If the "<see cref="!:Interfaces.IDataAccessSettings.DisableCache"/>" is set to true, all the cache levels will be disabled including this one and will override this option.</remarks>
+            <remarks>If the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to true, all the cache levels will be disabled including this one and will override this option.</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -2631,7 +2566,7 @@
             <summary>
                Gets the allocated memory size (in bytes) for the first level cached objects.
             </summary>
-            <remarks>This is only applicable if the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable if the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -2641,7 +2576,7 @@
             <summary>
                Gets the allocated memory size (in bytes) for the second level cached objects.
             </summary>
-            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -2651,7 +2586,7 @@
             <summary>
                Gets the total allocated memory size (in bytes) for all the levels of cache combined together.
             </summary>
-            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of both the second and the third level cache are set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of both the second and the third level cache are set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -3688,7 +3623,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the first level cached objects.
             </summary>
-            <remarks>This is only applicable if the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable if the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -3698,7 +3633,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the second level cached objects.
             </summary>
-            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -3708,7 +3643,7 @@
             <summary>
                Gets or sets the allocated memory size (in bytes) for the third level cached objects.
             </summary>
-            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the third level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="!:IDataAccessSettings.DisableCache"/>" is set to "<c>false</c>".</remarks>
+            <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the third level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>

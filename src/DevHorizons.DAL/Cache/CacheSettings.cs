@@ -31,7 +31,7 @@ namespace DevHorizons.DAL.Cache
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
         /// </Created>
-        public bool Disable { get; set; }
+        public bool Disabled { get; set; }
 
         /// <summary>
         ///    Gets or sets a value indicating whether the Second Level Cache is being disabled. Not recommended action because it may affect the performance of the engine unless you are quite sure what you are doing.
@@ -82,7 +82,7 @@ namespace DevHorizons.DAL.Cache
         /// </Created>
         internal bool IsSecondLevelCacheAllowed()
         {
-            return !this.Disable && !this.DisableSecondLevel;
+            return !this.Disabled && !this.DisableSecondLevel;
         }
         #endregion Methods
     }

@@ -48,7 +48,7 @@ namespace DevHorizons.DAL.Sql
                 return;
             }
 
-            if (!settings.CacheSettings.Disable)
+            if (!settings.CacheSettings.Disabled)
             {
                 var memoryCache = new MemoryCache();
                 services.AddSingleton<IMemoryCache, MemoryCache>();

@@ -409,7 +409,6 @@ namespace DevHorizons.DAL.Shared
                 return null;
             }
 
-            var before = GC.GetAllocatedBytesForCurrentThread();
             var targetObject = obj;
             if (obj is System.Collections.ICollection)
             {
@@ -439,10 +438,10 @@ namespace DevHorizons.DAL.Shared
         /// </Created>
         public static List<DataFieldAttribute> GetDataFieldList(this Type type, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, CacheCategory cacheCategory)
         {
-            var before = GC.GetAllocatedBytesForCurrentThread();
+            var before = GC.GetTotalMemory(false);
             var dataFieldList = new List<DataFieldAttribute>();
             var cacheKey = $"{type.FullName}.{cacheCategory}";
-            if (!dataAccessSettings.CacheSettings.Disable && !dataAccessSettings.CacheSettings.DisableSecondLevel)
+            if (!dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CacheSettings.DisableSecondLevel)
             {
                 dataFieldList = GetDataFieldsFromCache(cacheKey, memoryCache);
                 if (dataFieldList != null && dataFieldList.Count > 0)
@@ -467,9 +466,9 @@ namespace DevHorizons.DAL.Shared
                 }
             }
 
-            if (memoryCache is not null && !dataAccessSettings.CacheSettings.Disable && !dataAccessSettings.CacheSettings.DisableSecondLevel)
+            if (memoryCache is not null && !dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CacheSettings.DisableSecondLevel)
             {
-                var after = GC.GetAllocatedBytesForCurrentThread();
+                var after = GC.GetTotalMemory(false);
                 var size = after - before;
                 if (memoryCache.ValidateThreshold(dataAccessSettings.CacheSettings, memoryCache.SecondLevelCacheMemorySize, size))
                 {
@@ -829,15 +828,11 @@ namespace DevHorizons.DAL.Shared
                     }
                 }
 
-#pragma warning disable CA1305 // Specify IFormatProvider
                 return Convert.ChangeType(source, conversionType);
-#pragma warning restore CA1305 // Specify IFormatProvider
             }
             catch
             {
-#pragma warning disable CA1305 // Specify IFormatProvider
                 return Convert.ChangeType(defaultValue, TypeCode.Object);
-#pragma warning restore CA1305 // Specify IFormatProvider
             }
         }
         #endregion ChangeType Methods
@@ -876,9 +871,7 @@ namespace DevHorizons.DAL.Shared
         private static object ConvertFromObjectToList(this object source, Type type)
         {
             var list = Activator.CreateInstance(type);
-#pragma warning disable CA1304 // Specify CultureInfo
             list.GetType().InvokeMember("Add", BindingFlags.InvokeMethod, null, list, new object[] { source });
-#pragma warning restore CA1304 // Specify CultureInfo
             source = list;
             return source;
         }
@@ -896,9 +889,7 @@ namespace DevHorizons.DAL.Shared
         private static object ConvertFromArrayToList(this object source, Type type)
         {
             var list = Activator.CreateInstance(type);
-#pragma warning disable CA1304 // Specify CultureInfo
             list.GetType().InvokeMember("AddRange", BindingFlags.InvokeMethod, null, list, new object[] { source });
-#pragma warning restore CA1304 // Specify CultureInfo
             source = list;
             return source;
         }
@@ -915,9 +906,7 @@ namespace DevHorizons.DAL.Shared
         private static object ConvertFromListToArray(this object source)
         {
             var itemType = source.GetType().GetProperty("Item").PropertyType;
-#pragma warning disable CA1305 // Specify IFormatProvider
             var count = Convert.ToInt32(source.GetType().GetProperty("Count").GetValue(source, null));
-#pragma warning restore CA1305 // Specify IFormatProvider
             var items = source.GetType().GetField("_items", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(source);
             var array = Array.CreateInstance(itemType, count);
             Array.Copy(items as Array, array, count);
@@ -1016,7 +1005,7 @@ namespace DevHorizons.DAL.Shared
         /// </Created>
         private static List<DataFieldAttribute> GetDataColumnDetailsList(this object obj, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
         {
-            var before = GC.GetAllocatedBytesForCurrentThread();
+            var before = GC.GetTotalMemory(false);
             var cacheKey = $"{obj.GetType().FullName}.DataColumns";
             if (dataAccessSettings.CacheSettings.IsSecondLevelCacheAllowed())
             {
@@ -1042,7 +1031,7 @@ namespace DevHorizons.DAL.Shared
 
             if (dataAccessSettings.CacheSettings.IsSecondLevelCacheAllowed() && memoryCache != null)
             {
-                var after = GC.GetAllocatedBytesForCurrentThread();
+                var after = GC.GetTotalMemory(false);
 
                 var size = after - before;
                 if (memoryCache.ValidateThreshold(dataAccessSettings.CacheSettings, memoryCache.SecondLevelCacheMemorySize, size))
@@ -1061,7 +1050,6 @@ namespace DevHorizons.DAL.Shared
                         description: GetMemoryThresholdWarningJsonMessage(cacheKey, size, memoryCache, dataAccessSettings));
                     handleError(warrning);
                 }
-
             }
 
             return colDetailsList;
