@@ -644,6 +644,19 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.CurrentProcessAllocatedMemory">
+            <summary>
+               Gets or sets the total memory allocated to the current process of the running/host service/application since the beginning of its lifetime as number of bytes.
+            </summary>
+            <value>
+               The total bytes of memeory allocated to the current process since the beginning of its lifetime.
+            </value>
+            <remarks>This value is provided by the <c>OOTB</c> "<see cref="T:System.GC"/>" by the host "<c>CLR</c>".</remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
         <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessorCount">
             <summary>
                Gets or sets the total installed/acllocated logical processors (<c>CPUs</c>).
@@ -662,6 +675,43 @@
             </summary>
             <value>
                The command line for this process.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessPath">
+            <summary>
+               Gets or sets the path of the executable that started the currently executing process.
+            </summary>
+            <value>
+               The path of the executable that started the currently executing process.
+               <para>Returns null when the path is not available.</para>
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessId">
+            <summary>
+               Gets or sets the unique identifier for the current process.
+            </summary>
+            <value>
+               An integer number that represents the unique identifier for the current process.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.Platform">
+            <summary>
+               Gets or sets the platform on which an app is running.
+            </summary>
+            <value>
+               An opaque string that identifies the platform on which the app is running.
             </value>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -774,6 +824,19 @@
             </summary>
             <value>
                An integer containing The number of bytes in the system memory page.
+            </value>
+            <remarks>This value is provided by the <c>OOTB</c> "<see cref="T:System.Environment"/>" class.</remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.LastRebootTime">
+            <summary>
+               Gets or sets the exact date/time when the host machine being started or rebooted.
+            </summary>
+            <value>
+               The exact date/time when the host machine being started or rebooted.
             </value>
             <remarks>This value is provided by the <c>OOTB</c> "<see cref="T:System.Environment"/>" class.</remarks>
             <Created>
@@ -1579,39 +1642,7 @@
                Gets or sets the allocated memory size (in bytes) for the second level cached objects.
             </summary>
             <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#DataProviderFactory">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#CachedDataFields">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#CachedProperties">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#HashSaltKey">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#DeterministicEncryptor">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#DeterministicDecryptor">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#RandomizedEncryptor">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#RandomizedDecryptor">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#FirstLevelCacheMemorySize">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#SecondLevelCacheMemorySize">
+"P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#SecondLevelCacheMemorySize">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#ValidateThreshold(DevHorizons.DAL.Cache.CacheSettings,System.Int64,System.Int64)">
@@ -5227,6 +5258,39 @@
             <Created>
                   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                   <DateTime>02/02/2022 06:00 PMM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Shared.SpecialType.Structured">
+            <summary>
+               Structured data type which is sent or populated by the stored procedure as "<see cref="T:System.Data.DataTable"/>" and expected by the stored procedure as "Table" type parameter.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>02/02/2022 06:00 PMM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Shared.SpecialType.Binary">
+            <summary>
+               <c>BLOB</c> (Binary Large Ojbect) data type which is sent or populated by the stored procedure as array of bytes.
+            </summary>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>02/02/2022 06:00 PMM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.Shared.SpecialType.Base64">
+            <summary>
+               <c>BLOB</c> (Binary Large Ojbect) data type which is sent or populated by the stored procedure as string in <c>Base64</c> format/encoded.
+            </summary>
+            <remarks>If the original data is binary (array of bytes), it will be automatically encoded into a string as <c>BASE64</c> format/encoding.</remarks>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>02/02/2022 06:00 PMM</DateTime>
+            </Created>
+        </member>
+    </members>
+</doc>
+eTime>
             </Created>
         </member>
         <member name="F:DevHorizons.DAL.Shared.SpecialType.Structured">
