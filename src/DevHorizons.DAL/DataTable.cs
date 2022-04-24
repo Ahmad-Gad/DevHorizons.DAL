@@ -10,14 +10,14 @@
 
     public abstract class DataTable : IDataTable
     {
-        private protected Command cmd;
+        private protected ICommand cmd;
 
         #region Constructors
         public DataTable()
         {
         }
 
-        public DataTable(Command cmd)
+        public DataTable(ICommand cmd)
         {
             this.cmd = cmd;
         }

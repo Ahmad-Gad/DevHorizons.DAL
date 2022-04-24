@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 //  <copyright file="Command.cs" company="DevHorizons">
 //    Copyright (c) DevHorizons. All rights reserved.
 //  </copyright>
@@ -28,20 +28,24 @@ namespace DevHorizons.DAL.Abstracts
 
     using Microsoft.Extensions.Logging;
 
-    using Newtonsoft.Json;
-
     using Shared;
 
     /// <summary>
-    ///    The <c>DAL</c> Command abstract class which holds all the required members and operations to access the database and <c>T-SQL</c> command executions.
+    ///    The <c>DAL</c> Command abstract class which holds all the required members and operations to access the database and <c>SQL</c> command executions.
     /// <para>This abstract class can be used for the <c>DI</c> (Dependency Injection) design pattern.</para>
     /// </summary>
+    /// <typeparam name="TDbParameter">The DB parameter implementation of "<see cref="IDbDataParameter"/>".</typeparam>
+    /// <typeparam name="TDbType">The enumerations DB type implementation as type of "<see cref="Enum"/>".</typeparam>
+    /// <typeparam name="TDalParameter">The DAL parameter implementation of "<see cref="IParameter"/>".</typeparam>
     /// <seealso cref="System.IDisposable" />
     /// <Created>
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>10/02/2020 10:25 PM</DateTime>
     /// </Created>
-    public abstract class Command : ICommand
+    public abstract class Command<TDbParameter, TDbType, TDalParameter> : ICommand
+        where TDbParameter : IDbDataParameter
+        where TDalParameter : IParameter
+        where TDbType : Enum
     {
         #region Private Fields
         #region ReadOnly Fields
@@ -134,7 +138,7 @@ namespace DevHorizons.DAL.Abstracts
         #region Constructors
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="Command{TDbParameter, TDbType, TDalParameter}"/> class.
         ///    <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
         /// </summary>
         /// <param name="dataProviderFactory">The designated data factory which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
@@ -145,13 +149,13 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:27 PM</DateTime>
         /// </Created>
-        public Command(DataProviderFactory dataProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger)
+        public Command(DataProviderFactory dataProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command<TDbParameter, TDbType, TDalParameter>> logger)
         {
             this.dataProviderFactory = dataProviderFactory;
             this.MemoryCache = memoryCache;
             this.Settings = dataAccessSettings;
             this.Logger = logger;
-            var ok = this.InitializeConnection(true);
+            var ok = this.InitializeConnection();
             if (ok)
             {
                 this.ChangeDatabase(dataAccessSettings.ConnectionSettings.DatabaseName);
@@ -284,7 +288,7 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:35 PM</DateTime>
         /// </Created>
-        protected internal ILogger<Command> Logger { get; private set; }
+        protected internal ILogger<Command<TDbParameter, TDbType, TDalParameter>> Logger { get; private set; }
         #endregion Protected Fields
         #endregion Internal Properties
 
@@ -365,7 +369,7 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public bool ChangeConnectionString(string connectionString, bool updateConnectionString = false)
+        public bool ChangeConnectionString(string connectionString)
         {
             if (this.Settings?.ConnectionSettings == null)
             {
@@ -373,7 +377,7 @@ namespace DevHorizons.DAL.Abstracts
             }
 
             this.Settings.ConnectionSettings.ConnectionString = connectionString;
-            return this.ResetHard(updateConnectionString);
+            return this.Reset(true);
         }
 
         /// <inheritdoc/>
@@ -436,13 +440,17 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public bool ResetHard(bool updateConnectionString)
+        public bool Reset(bool hardReset)
         {
-            this.Reset();
+            var normalResetResult = this.Reset();
+            if (hardReset)
+            {
+                this.Cmd?.Dispose();
+                this.Con?.Dispose();
+                return this.InitializeConnection();
+            }
 
-            this.Cmd?.Dispose();
-            this.Con?.Dispose();
-            return this.InitializeConnection(updateConnectionString);
+            return normalResetResult;
         }
 
         /// <inheritdoc/>
@@ -1671,21 +1679,6 @@ namespace DevHorizons.DAL.Abstracts
             }
         }
 
-        /// <summary>
-        ///    Update the connection string with the specified advanced options within the specified settings.
-        /// </summary>
-        /// <remarks>
-        ///    You may not need to use this method because it is managed/executed automatically when you register the <c>DAL</c> service/engine by the DI containers which is usually done by calling the "<see cref="RegisterSqlDal(IServiceCollection, IDataAccessSettings)"/>" method.
-        ///    <para>You may only use it, if you are not using DI containers/services which could be the case of desktop application or some class library which not meant to serve web applications/APIs.</para>
-        /// </remarks>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>01/02/2022 09:45 PM</DateTime>
-        /// </Created>
-        protected virtual void UpdateConnectionString()
-        {
-            this.Settings.ConnectionSettings.UpdateConnectionString();
-        }
         #region IDisposable Support
 
         /// <summary>
@@ -1777,13 +1770,12 @@ namespace DevHorizons.DAL.Abstracts
         /// <summary>
         ///    Initializes the connection.
         /// </summary>
-        /// <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="ConnectionSettings"/>" class.</param>
         /// <returns><c>true</c> if connection has been initialized and the database command is being created successfully; otherwise else, <c>false</c> and no further commands/transactions can be executed.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>05/11/2018 11:47 AM</DateTime>
         /// </Created>
-        private bool InitializeConnection(bool updateConnectionString)
+        private bool InitializeConnection()
         {
             ILogDetails error = null;
 
@@ -1816,11 +1808,6 @@ namespace DevHorizons.DAL.Abstracts
                 if (this.Settings.ConnectionSettings.CommandTimeout.HasValue)
                 {
                     this.Cmd.CommandTimeout = this.Settings.ConnectionSettings.CommandTimeout.Value;
-                }
-
-                if (updateConnectionString)
-                {
-                    this.UpdateConnectionString();
                 }
 
                 this.Con.ConnectionString = this.Settings?.ConnectionSettings?.ConnectionString;

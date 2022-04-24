@@ -26,192 +26,6 @@
                <DateTime>10/02/2020 11:52 PM</DateTime>
             </Created>
         </member>
-        <member name="T:DevHorizons.DAL.Sql.Command">
-            <summary>
-               A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>".
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:05 AM</DateTime>
-            </Created>
-            <seealso cref="T:DevHorizons.DAL.Abstracts.Command" />
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.Command})">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
-            </summary>
-            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
-            <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
-            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:07 AM</DateTime>
-            </Created>
-            <Created>
-              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-              <DateTime>02/11/2018 05:03 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache)">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
-            </summary>
-            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
-            <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:07 AM</DateTime>
-            </Created>
-            <Created>
-              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-              <DateTime>02/11/2018 05:03 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.Command})">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
-            </summary>
-            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
-            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:07 AM</DateTime>
-            </Created>
-            <Created>
-              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-              <DateTime>02/11/2018 05:03 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings)">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.Command"/> class.
-            </summary>
-            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:07 AM</DateTime>
-            </Created>
-            <Created>
-              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-              <DateTime>02/11/2018 05:03 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
-            <summary>
-               Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" to map the data type that match the <c>SQL</c> provider factory.
-            </summary>
-            <param name="dbParameter">The database parameter as an instance of "<see cref="T:System.Data.Common.DbParameter" />" or any class that implements it.</param>
-            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter" />".</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:07 AM</DateTime>
-            </Created>
-            <Created>
-              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-              <DateTime>10/02/2020 11:08 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
-            </summary>
-            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:03 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
-            <summary>
-               Extracts the list of the parameters from the specified command body as type of of <see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>.
-            </summary>
-            <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>01/02/2022 09:45 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.UpdateParameter(DevHorizons.DAL.Interfaces.IParameter)">
-            <summary>
-               Update the property with the correct type, value and size based on the parameter direction, assigned values, data type and the sepcial type.
-            </summary>
-            <param name="parameter">The <c>DAL</c> engine parameter.</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:13 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.Command.SetParameterAutoType(DevHorizons.DAL.Interfaces.IParameter)">
-            <summary>
-               Sets the type of the parameter automatically.
-            </summary>
-            <param name="parameter">The specified parameter.</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:56 PM</DateTime>
-            </Created>
-        </member>
-        <member name="T:DevHorizons.DAL.Sql.ConnectionSettings">
-            <summary>
-               Defines all the SQL Server connection/access related settings.
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Sql.ConnectionSettings.PacketSize">
-            <summary>
-               Gets or sets the size (in bytes) of network packets used to communicate with an instance of SQL Server.
-               <para>The Default Value: <c>Null</c>.</para>
-               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.packetsize?view=dotnet-plat-ext-6.0"/></para>
-            </summary>
-            <value>The size (in bytes) of network packets. The default value is 8000.</value>
-            <remarks>
-               PacketSize may be a value in the range of 512 and 32767 bytes. An exception is generated if the value is outside this range.
-               <para>If an application performs bulk copy operations, or sends or receives lots of text or image data, a packet size larger than the default may improve efficiency because it causes fewer network read and write operations.</para>
-               <para>If an application sends and receives small amounts of information, you can set the packet size to 512 bytes (using the Packet Size value in the ConnectionString), which is sufficient for most data transfer operations.</para>
-               <para>For most applications, the default packet size is best.</para>
-               <para>This setting will be merged with the provided connection string and will override the same setting if exist.</para>
-            </remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Sql.ConnectionSettings.ColumnAlwaysEncryptedSettingEnabled">
-            <summary>
-               Gets or sets a value indicating whether the opened connection will support the "SQL Column Always Encrypted".
-               <para>The Default Value: <c>false</c>.</para>
-               <para><see href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-database-engine?view=sql-server-ver15"/></para>
-            </summary>
-            <remarks>
-               This setting will be merged with the provided connection string and will override the same setting if exist.
-               <para>Supported with SQL Server 2016 (13.x), and higher.</para>
-               <para>Always Encrypted is available in all editions of Azure SQL Database, starting with SQL Server 2016 (13.x) and all service tiers of SQL Database. (Prior to SQL Server 2016 (13.x) SP1, Always Encrypted was limited to the Enterprise Edition.)</para>
-            </remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Sql.ConnectionSettings.EnclaveAttestationUrl">
-            <summary>
-               Gets or sets the URL for attestation the server-side enclaves. This setting will be applicable only if the "SQL Column Always Encrypted" is enabled either manually through the provided connection string or by setting the "<see cref="P:DevHorizons.DAL.Sql.ConnectionSettings.ColumnAlwaysEncryptedSettingEnabled"/>" to "<c>true</c>".
-               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.data.sqlclient.sqlconnection.connectionstring?view=sqlclient-dotnet-standard-4.1"/></para>   
-               <para><see href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15"/></para>
-            </summary>
-            <remarks>
-                Always Encrypted with secure enclaves is available in SQL Server 2019 (15.x) or higher and in Azure SQL Database.
-               <para>This setting will be merged with the provided connection string and will override the same setting if exist.</para>
-            </remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
-            </Created>
-        </member>
         <member name="T:DevHorizons.DAL.Sql.ExtensionMethods">
             <summary>
                A public static class which holds all the extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
@@ -227,21 +41,7 @@
             </summary>
             <param name="services">The contract for a collection of service descriptors.</param>
             <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>"</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>01/02/2022 09:45 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Sql.ExtensionMethods.UpdateConnectionString(DevHorizons.DAL.Interfaces.IDataAccessSettings)">
-            <summary>
-               Update the connection string with the specified advanced options within the specified settings.
-            </summary>
-            <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.DataAccessSettings"/>"</param>
-            <remarks>
-               You may not need to use this method because it is managed/executed automatically when you register the <c>DAL</c> service/engine by the DI containers which is usually done by calling the "<see cref="M:DevHorizons.DAL.Sql.ExtensionMethods.RegisterSqlDal(Microsoft.Extensions.DependencyInjection.IServiceCollection,DevHorizons.DAL.Interfaces.IDataAccessSettings)"/>" method.
-               <para>You may only use it, if you are not using DI containers/services which could be the case of desktop application or some class library which not meant to serve web applications/APIs.</para>
-            </remarks>
-            
+            <returns>The contract for a collection of service descriptors.</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>01/02/2022 09:45 PM</DateTime>
@@ -256,6 +56,222 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.SqlCommand">
+            <summary>
+               A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>".
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:05 AM</DateTime>
+            </Created>
+            <seealso cref="T:DevHorizons.DAL.Abstracts.Command" />
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.SqlCommand})">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlCommand"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlCommand"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.SqlCommand})">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlCommand"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Sql.SqlCommand"/> class.
+            </summary>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>02/11/2018 05:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" to map the data type that match the <c>SQL</c> provider factory.
+            </summary>
+            <param name="dbParameter">The database parameter as an instance of "<see cref="T:System.Data.Common.DbParameter" />" or any class that implements it.</param>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter" />".</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:07 AM</DateTime>
+            </Created>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>10/02/2020 11:08 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
+            </summary>
+            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
+            <summary>
+               Extracts the list of the parameters from the specified command body as type of of <see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>.
+            </summary>
+            <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.UpdateParameter(DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Update the property with the correct type, value and size based on the parameter direction, assigned values, data type and the sepcial type.
+            </summary>
+            <param name="parameter">The <c>DAL</c> engine parameter.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:13 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Sql.SqlCommand.SetParameterAutoType(DevHorizons.DAL.Interfaces.IParameter)">
+            <summary>
+               Sets the type of the parameter automatically.
+            </summary>
+            <param name="parameter">The specified parameter.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/11/2018 03:56 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Sql.SqlConnectionSettings">
+            <summary>
+               Defines all the SQL Server connection/access related settings.
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/connection-string-syntax"/></para>  
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.SqlConnectionSettings.PacketSize">
+            <summary>
+               Gets or sets the size (in bytes) of network packets used to communicate with an instance of SQL Server.
+               <para>The Default Value: <c>Null</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.packetsize?view=dotnet-plat-ext-6.0"/></para>
+            </summary>
+            <value>The size (in bytes) of network packets. The default value is 8000.</value>
+            <remarks>
+               PacketSize may be a value in the range of 512 and 32767 bytes. An exception is generated if the value is outside this range.
+               <para>If an application performs bulk copy operations, or sends or receives lots of text or image data, a packet size larger than the default may improve efficiency because it causes fewer network read and write operations.</para>
+               <para>If an application sends and receives small amounts of information, you can set the packet size to 512 bytes (using the Packet Size value in the ConnectionString), which is sufficient for most data transfer operations.</para>
+               <para>For most applications, the default packet size is best.</para>
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.SqlConnectionSettings.ColumnAlwaysEncryptedSettingEnabled">
+            <summary>
+               Gets or sets a value indicating whether the opened connection will support the "SQL Column Always Encrypted".
+               <para>The Default Value: <c>false</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-database-engine?view=sql-server-ver15"/></para>
+            </summary>
+            <remarks>
+               This setting will be merged with the provided connection string and will override the same setting if exist.
+               <para>Supported with SQL Server 2016 (13.x), and higher.</para>
+               <para>Always Encrypted is available in all editions of Azure SQL Database, starting with SQL Server 2016 (13.x) and all service tiers of SQL Database. (Prior to SQL Server 2016 (13.x) SP1, Always Encrypted was limited to the Enterprise Edition.)</para>
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.SqlConnectionSettings.Encrypted">
+            <summary>
+               Gets or sets a value indicating whether the connection between the client and the server is encrypted.
+               <para><see href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/enable-encrypted-connections-to-the-database-engine?view=sql-server-ver15"/></para>
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/connection-string-syntax"/></para>
+            </summary>
+            <remarks>
+               Starting with SQL Server 2016 (13.x), Secure Sockets Layer (SSL) has been discontinued. Use Transport Layer Security (TLS) instead.
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 07:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.SqlConnectionSettings.TrustServerCertificate">
+            <summary>
+               Gets or sets a value indicating whether the client connection should trust the server certificate regardless the certificate condition by skiping the trust chain validation process.
+            </summary>
+            <remarks>
+               If you use TrustServerCertificate=true (or its equivalent) in the connection string, the connection process skips the trust chain validation. In this case, the application connects even if the certificate can't be verified. Using TrustServerCertificate=false enforces certificate validation and is a best practice.
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 07:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Sql.SqlConnectionSettings.EnclaveAttestationUrl">
+            <summary>
+               Gets or sets the URL for attestation the server-side enclaves. This setting will be applicable only if the "SQL Column Always Encrypted" is enabled either manually through the provided connection string or by setting the "<see cref="P:DevHorizons.DAL.Sql.SqlConnectionSettings.ColumnAlwaysEncryptedSettingEnabled"/>" to "<c>true</c>".
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.data.sqlclient.sqlconnection.connectionstring?view=sqlclient-dotnet-standard-4.1"/></para>   
+               <para><see href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-enclaves?view=sql-server-ver15"/></para>
+            </summary>
+            <remarks>
+                Always Encrypted with secure enclaves is available in SQL Server 2019 (15.x) or higher and in Azure SQL Database.
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
             </Created>
         </member>
         <member name="M:DevHorizons.DAL.Sql.SqlDataTable.GetParmetersFromDataTable(DevHorizons.DAL.CommandAction)">

@@ -2,8 +2,6 @@ namespace DevHorizons.DAL.Test
 {
     using System;
 
-    using Microsoft.Data.SqlClient;
-
     using DAL.Shared;
 
     using Sql;
@@ -13,14 +11,14 @@ namespace DevHorizons.DAL.Test
     public class ParametersTest
     {
         private readonly DataAccessSettings dataAccessSettings;
-        private readonly new Sql.Command dalCmd;
-        private readonly SqlCommand internalCmdObject;
+        private readonly new Sql.SqlCommand dalCmd;
+        private readonly Microsoft.Data.SqlClient.SqlCommand internalCmdObject;
 
         public ParametersTest()
         {
             this.dataAccessSettings = new DataAccessSettings
             {
-                ConnectionSettings = new ConnectionSettings
+                ConnectionSettings = new SqlConnectionSettings
                 {
                     ConnectionString = "DummyConnectionString"
                 }
@@ -28,10 +26,10 @@ namespace DevHorizons.DAL.Test
 
             try
             {
-                this.dalCmd = new Sql.Command(this.dataAccessSettings);
+                this.dalCmd = new Sql.SqlCommand(this.dataAccessSettings);
                 var type = dalCmd.GetType();
                 var internalCmdProp = type.GetProperty("Cmd", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                internalCmdObject = internalCmdProp.GetValue(dalCmd) as SqlCommand;
+                internalCmdObject = internalCmdProp.GetValue(dalCmd) as Microsoft.Data.SqlClient.SqlCommand;
             }
             catch
             {

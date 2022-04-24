@@ -222,7 +222,7 @@
         <member name="M:DevHorizons.DAL.Abstracts.Command.ChangeDatabase(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ChangeConnectionString(System.String)">
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ChangeConnectionString(System.String,System.Boolean)">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.Command.ClearErrors">
@@ -246,7 +246,7 @@
         <member name="M:DevHorizons.DAL.Abstracts.Command.Reset">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.Reset(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.Command.ResetHard(System.Boolean)">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.Command.BeginTransaction">
@@ -440,6 +440,19 @@
                <DateTime>08/11/2018 03:56 PM</DateTime>
             </Created>
         </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateConnectionString">
+            <summary>
+               Update the connection string with the specified advanced options within the specified settings.
+            </summary>
+            <remarks>
+               You may not need to use this method because it is managed/executed automatically when you register the <c>DAL</c> service/engine by the DI containers which is usually done by calling the "<see cref="!:RegisterSqlDal(IServiceCollection, IDataAccessSettings)"/>" method.
+               <para>You may only use it, if you are not using DI containers/services which could be the case of desktop application or some class library which not meant to serve web applications/APIs.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
         <member name="M:DevHorizons.DAL.Abstracts.Command.Dispose(System.Boolean)">
             <summary>
                Releases unmanaged and - optionally - managed resources.
@@ -462,10 +475,11 @@
                <DateTime>10/02/2020 11:15 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.InitializeConnection">
+        <member name="M:DevHorizons.DAL.Abstracts.Command.InitializeConnection(System.Boolean)">
             <summary>
                Initializes the connection.
             </summary>
+            <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="T:DevHorizons.DAL.ConnectionSettings"/>" class.</param>
             <returns><c>true</c> if connection has been initialized and the database command is being created successfully; otherwise else, <c>false</c> and no further commands/transactions can be executed.</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -1289,6 +1303,73 @@
                <DateTime>23/02/2022 06:02 PM</DateTime>
             </Created>
         </member>
+        <member name="T:DevHorizons.DAL.Attributes.NameValuePairAttribute">
+            <summary>
+               The attribute can be added to the properties to hold the mapped name/display name of the property and the default value.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.NameValuePairAttribute.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.NameValuePairAttribute"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Attributes.NameValuePairAttribute.#ctor(System.String)">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.NameValuePairAttribute"/> class.
+            </summary>
+            <param name="name">The mapped the mapped key/name/display name.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.NameValuePairAttribute.Name">
+            <summary>
+               Gets or sets the mapped the mapped key/name/display name.
+            </summary>
+            <value>
+               The mapped the mapped key/name/display name.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.NameValuePairAttribute.TrueValue">
+            <summary>
+               Gets or sets the default true value which would/should be assigned to the mapped property/key for the Boolean type property.
+            </summary>
+            <value>
+               The default true value which would/should be assigned to the mapped property/key.
+            </value>
+            <remarks>Applies only on the "Boolean" type property.</remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.NameValuePairAttribute.FalseValue">
+            <summary>
+               Gets or sets the default false value which would/should be assigned to the mapped property/key for the Boolean type property.
+            </summary>
+            <value>
+               The default false value which would/should be assigned to the mapped property/key.
+            </value>
+            <remarks>Applies only on the "Boolean" type property.</remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+        </member>
         <member name="T:DevHorizons.DAL.Attributes.ParameterAttribute">
             <summary>
                The attribute can be added to the properties within the command body class which implements the "<see cref="T:DevHorizons.DAL.Shared.CommandBody"/>".
@@ -1642,7 +1723,39 @@
                Gets or sets the allocated memory size (in bytes) for the second level cached objects.
             </summary>
             <remarks>This is only applicable when the "<see cref="T:DevHorizons.DAL.Cache.CacheMethod"/>" of the second level cache is set to "<see cref="F:DevHorizons.DAL.Cache.CacheMethod.Memory"/>" and the "<see cref="P:DevHorizons.DAL.Cache.CacheSettings.Disabled"/>" is set to "<c>false</c>".</remarks>
-"P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#SecondLevelCacheMemorySize">
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#DataProviderFactory">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#CachedDataFields">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#CachedProperties">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#HashSaltKey">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#DeterministicEncryptor">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#DeterministicDecryptor">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#RandomizedEncryptor">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#RandomizedDecryptor">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#FirstLevelCacheMemorySize">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#SecondLevelCacheMemorySize">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Cache.MemoryCache.DevHorizons#DAL#Cache#IMemoryCache#ValidateThreshold(DevHorizons.DAL.Cache.CacheSettings,System.Int64,System.Int64)">
@@ -1757,6 +1870,55 @@
         </member>
         <member name="P:DevHorizons.DAL.ConnectionSettings.CommandTimeout">
             <inheritdoc/>
+        </member>
+        <member name="T:DevHorizons.DAL.ConnectionStringBuilder">
+            <summary>
+               Static class holds all the needed extension/static methods to build/update/extract the data source (RDBMS server) connection string.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 10:19 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ConnectionStringBuilder.ExtractConnectionString(System.String)">
+            <summary>
+               The connection string properties/values of data source (RDBMS server) extracted a key value pairs in dictionary.
+            </summary>
+            <param name="connectionString">The connection string of a data source (RDBMS server).</param>
+            <returns>
+               Dictionary represents the properties/values of data source (RDBMS server) extracted a key value pairs in dictionary "<see cref="T:System.Collections.Generic.Dictionary`2"/>" ; where "<c>TKey</c>" is string and "<c>TValue</c>" is string.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 10:19 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ConnectionStringBuilder.ExtractConnectionString(System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+               The connection string of data source (RDBMS server) extracted from a key value pairs in dictionary.
+            </summary>
+            <param name="connectionStringDic">The connection string of a data source (RDBMS server) key value pairs in dictionary "<see cref="T:System.Collections.Generic.Dictionary`2"/>" ; where "<c>TKey</c>" is string and "<c>TValue</c>" is string..</param>
+            <returns>
+                The connection string of data source (RDBMS server).
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 10:19 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ConnectionStringBuilder.UpdateConnectionString(DevHorizons.DAL.IConnectionSettings)">
+            <summary>
+               Update the connection string with the specified advanced options within the specified settings.
+            </summary>
+            <param name="connectionSettings">The connection settings as an instance of "<see cref="T:DevHorizons.DAL.IConnectionSettings"/>".</param>
+            <remarks>
+               You may not need to use this method because it is managed/executed automatically when you register the <c>DAL</c> service/engine by the DI containers which is usually done by calling the "<see cref="!:RegisterSqlDal(IServiceCollection, IDataAccessSettings)"/>" method.
+               <para>You may only use it, if you are not using DI containers/services which could be the case of desktop application or some class library which not meant to serve web applications/APIs.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
         </member>
         <member name="T:DevHorizons.DAL.Cryptography.Cryptography">
             <summary>
@@ -2437,6 +2599,59 @@
                 <DateTime>30/06/2012  06:22 PM</DateTime>
             </Created>
         </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDescription(System.Object)">
+            <summary>
+               Gets the description attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               The description attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDisplayName(System.Object)">
+            <summary>
+               Gets the "display name" attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               The "display name" attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDefaultValue(System.Object)">
+            <summary>
+               Gets the "Default Value" attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               The "display name" attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDefaultValue``1(System.Object)">
+            <summary>
+               Gets the "Default Value" attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <typeparam name="T">The type of the returned value.</typeparam>
+            <returns>
+               The "display name" attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
         <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object,``0)">
             <summary>
                  Converts to generic data type based on the generic input data type.
@@ -2506,6 +2721,19 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetNameValueProperties(System.Object)">
+            <summary>
+               Extracts the properties with the "<see cref="T:DevHorizons.DAL.Attributes.NameValuePairAttribute"/>" in a dictionary as "<see cref="T:System.Collections.Generic.Dictionary`2"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               Dictionary represents the mapped keys/names and values as "<see cref="T:System.Collections.Generic.Dictionary`2"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
             </Created>
         </member>
         <member name="T:DevHorizons.DAL.Interfaces.ICommand">
@@ -2656,12 +2884,13 @@
                <DateTime>02/11/2018 05:51 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ChangeConnectionString(System.String)">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ChangeConnectionString(System.String,System.Boolean)">
             <summary>
                Changes the current connection string.
             </summary>
             <param name="connectionString">The database.</param>
             <returns><c>true</c> if the connection string has been changed to the specified one, otherwise, <c>false</c>.</returns>
+            <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="T:DevHorizons.DAL.ConnectionSettings"/>" class.</param>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>02/11/2018 05:51 PM</DateTime>
@@ -2735,11 +2964,11 @@
               <DateTime>12/02/2022 01:42 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.Reset(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ResetHard(System.Boolean)">
             <summary>
               Reset the whole encapsulated data command settings/properties including the encapsulated data parameters and commands. Furthermore, clears all the raised errors.
             </summary>
-            <param name="hardReset">If <c>true</c>, reset the whole connection by disposing the existing one and creating a fresh connection. Use only when absolute necessary because it may consume up to a whole second in some sever scenarios.</param>
+            <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="T:DevHorizons.DAL.ConnectionSettings"/>" class.</param>
             <remarks>If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.</remarks>
             <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <Created>
@@ -4867,6 +5096,22 @@
                <DateTime>11/02/2020 10:34 AM</DateTime>
             </Created>
         </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.Compare``2(System.Collections.Generic.IDictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1})">
+            <summary>
+               Compare the Key/Value Pairs between two dictionaries and return <c>true</c> if matches.
+            </summary>
+            <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+            <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+            <param name="sourceDictionary">The source dictionary.</param>
+            <param name="comparerDictionary">The other dictionary to compare with the source.</param>
+            <returns>
+               <c>true</c> if the two dictionaries have the same identical Key/Value Pairs with case sensitive data for both keys and values; otherwise, <c>false</c>.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:34 AM</DateTime>
+            </Created>
+        </member>
         <member name="M:DevHorizons.DAL.Shared.Shared.GetProviderFactoryDetails(DevHorizons.DAL.DataProviderFactory)">
             <summary>
                Gets the provider factory details.
@@ -5258,39 +5503,6 @@
             <Created>
                   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                   <DateTime>02/02/2022 06:00 PMM</DateTime>
-            </Created>
-        </member>
-        <member name="F:DevHorizons.DAL.Shared.SpecialType.Structured">
-            <summary>
-               Structured data type which is sent or populated by the stored procedure as "<see cref="T:System.Data.DataTable"/>" and expected by the stored procedure as "Table" type parameter.
-            </summary>
-            <Created>
-                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                  <DateTime>02/02/2022 06:00 PMM</DateTime>
-            </Created>
-        </member>
-        <member name="F:DevHorizons.DAL.Shared.SpecialType.Binary">
-            <summary>
-               <c>BLOB</c> (Binary Large Ojbect) data type which is sent or populated by the stored procedure as array of bytes.
-            </summary>
-            <Created>
-                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                  <DateTime>02/02/2022 06:00 PMM</DateTime>
-            </Created>
-        </member>
-        <member name="F:DevHorizons.DAL.Shared.SpecialType.Base64">
-            <summary>
-               <c>BLOB</c> (Binary Large Ojbect) data type which is sent or populated by the stored procedure as string in <c>Base64</c> format/encoded.
-            </summary>
-            <remarks>If the original data is binary (array of bytes), it will be automatically encoded into a string as <c>BASE64</c> format/encoding.</remarks>
-            <Created>
-                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                  <DateTime>02/02/2022 06:00 PMM</DateTime>
-            </Created>
-        </member>
-    </members>
-</doc>
-eTime>
             </Created>
         </member>
         <member name="F:DevHorizons.DAL.Shared.SpecialType.Structured">

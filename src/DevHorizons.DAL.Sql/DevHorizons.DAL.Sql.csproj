@@ -3,13 +3,46 @@
 	<PropertyGroup>
 		<TargetFrameworks>net472;net48;netcoreapp3.1;netstandard2.1;net5.0;net6.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>DevHorizons</Authors>
+		<Copyright>DevHorizons</Copyright>
+		<PackageProjectUrl>https://github.com/Ahmad-Gad/DevHorizons.DAL</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Ahmad-Gad/DevHorizons.DAL</RepositoryUrl>
+		<PackageReadmeFile>Readme.md</PackageReadmeFile>
+		<PackageVersion>1.0.0.1-alpha</PackageVersion>
+		<RepositoryType>git</RepositoryType>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<FileVersion>1.0.0</FileVersion>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackageTags>sql;t-sql;PL/pgSQL;PL/SQL;mysql;orm;simi orm;simi-orm;micro orm;micro-orm;pro-orm;pro orm;data encryption;db encryption;data securing;db securing;custom-orm;custom orm;dal;dao;data access;database;ADO.Net;dal engine;dal service;dal manager;dal management;dao engine;dao service;dao manager;dao management;data factory;dbfactory;db engine;data engine;</PackageTags>
+		<Description>
+			Simi ORM (Object Relational Mapping) Library – All the inputs and outputs can be strong typed objects. No need for additional data transformation/auto mapper libraries/operation.
+			Two levels of caching to cache most of the applicable reflection generated objects using the DI Singleton lifecycle. Plus, full control and monitor on the memory cache size.
+			Full support for all the SQL data types either through parameters or the returned data.
+			Full integration with the Stored Procedures with the support of the return parameters (OOTB), output parameters, and structured/table parameters.
+			Full support for the transaction operations (TCL) with the desired isolation level specified (optional).
+			Supports data hashing and data symmetric encryption/decryption on the client side for the inbound/outbound data automatically (OOTB) without any extra code.
+			Ultimate errors and exceptions handling and logging OOTB.
+			Ultimate control over the library through detailed settings to control the cache, the encryption/hash algorithms/hashes, the logging, the error/exception advanced details and more.
+			The “DevHorizons.DAL.Sql” is the only valid/testes/stable implementation of “DevHorizons.DAL” so far which leverage all the power of the SQL Server and supports all the data types until SQL Server 2019. This is the library/package would need to add to your .NET Standard/core project either Desktop Application, Class Library, Web Application or WebAPI.
+		</Description>
+	</PropertyGroup>
+	
+	<PropertyGroup>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+		<!--<Nullable>enable</Nullable>-->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DocumentationFile>$(MSBuildProjectName).xml</DocumentationFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\Readme.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />

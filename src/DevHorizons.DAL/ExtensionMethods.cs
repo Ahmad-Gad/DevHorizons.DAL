@@ -14,11 +14,13 @@ namespace DevHorizons.DAL
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Data;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Xml;
-
+    using Attributes;
     using Newtonsoft.Json;
     using Shared;
 
@@ -123,6 +125,84 @@ namespace DevHorizons.DAL
         public static T To<T>(this object source)
         {
             return source.ChangeType<T>();
+        }
+
+        /// <summary>
+        ///    Gets the description attribute value.
+        /// </summary>
+        /// <param name="source">The source object.</param>
+        /// <returns>
+        ///    The description attribute value.
+        /// </returns>
+        /// <Created>
+        ///     <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///     <DateTime>30/06/2012  06:22 PM</DateTime>
+        /// </Created>
+        public static string GetDescription(this object source)
+        {
+            var type = source.GetType();
+            var descriptionAttribute = type.GetCustomAttribute<DescriptionAttribute>();
+            return descriptionAttribute?.Description;
+        }
+
+        /// <summary>
+        ///    Gets the "display name" attribute value.
+        /// </summary>
+        /// <param name="source">The source object.</param>
+        /// <returns>
+        ///    The "display name" attribute value.
+        /// </returns>
+        /// <Created>
+        ///     <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///     <DateTime>30/06/2012  06:22 PM</DateTime>
+        /// </Created>
+        public static string GetDisplayName(this object source)
+        {
+            var type = source.GetType();
+            var descriptionAttribute = type.GetCustomAttribute<DisplayNameAttribute>();
+            return descriptionAttribute?.DisplayName;
+        }
+
+        /// <summary>
+        ///    Gets the "Default Value" attribute value.
+        /// </summary>
+        /// <param name="source">The source object.</param>
+        /// <returns>
+        ///    The "display name" attribute value.
+        /// </returns>
+        /// <Created>
+        ///     <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///     <DateTime>30/06/2012  06:22 PM</DateTime>
+        /// </Created>
+        public static object GetDefaultValue(this object source)
+        {
+            var type = source.GetType();
+            var descriptionAttribute = type.GetCustomAttribute<DefaultValueAttribute>();
+            return descriptionAttribute?.Value;
+        }
+
+        /// <summary>
+        ///    Gets the "Default Value" attribute value.
+        /// </summary>
+        /// <param name="source">The source object.</param>
+        /// <typeparam name="T">The type of the returned value.</typeparam>
+        /// <returns>
+        ///    The "display name" attribute value.
+        /// </returns>
+        /// <Created>
+        ///     <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///     <DateTime>30/06/2012  06:22 PM</DateTime>
+        /// </Created>
+        public static T GetDefaultValue<T>(this object source)
+        {
+            var type = source.GetType();
+            var descriptionAttribute = type.GetCustomAttribute<DefaultValueAttribute>();
+            if (descriptionAttribute != null)
+            {
+                return default;
+            }
+
+            return descriptionAttribute.Value.To<T>(default);
         }
 
         /// <summary>
@@ -241,6 +321,49 @@ namespace DevHorizons.DAL
         {
             var result = JsonConvert.DeserializeObject<T>(jsonString);
             return result;
+        }
+
+        /// <summary>
+        ///    Extracts the properties with the "<see cref="NameValuePairAttribute"/>" in a dictionary as "<see cref="Dictionary{TKey, TValue}"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
+        /// </summary>
+        /// <param name="source">The source object.</param>
+        /// <returns>
+        ///    Dictionary represents the mapped keys/names and values as "<see cref="Dictionary{TKey, TValue}"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>23/04/2022 09:48 PM</DateTime>
+        /// </Created>
+        public static Dictionary<string, object> GetNameValueProperties(this object source)
+        {
+            var type = source.GetType();
+            var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            if (props.Length == 0)
+            {
+                return null;
+            }
+
+            var attributesDic = new Dictionary<string, object>();
+            foreach (var prop in props)
+            {
+                var attribute = prop.GetCustomAttribute<NameValuePairAttribute>(true);
+                if (attribute != null)
+                {
+                    var value = prop.GetValue(source);
+                    if (value != null)
+                    {
+                        var newValue = value;
+                        if (prop.PropertyType == typeof(bool?))
+                        {
+                            newValue = (bool)value ? attribute.TrueValue : attribute.FalseValue;
+                        }
+
+                        attributesDic.Add(attribute.Name, newValue ?? value);
+                    }
+                }
+            }
+
+            return attributesDic;
         }
         #endregion Public Methods
     }

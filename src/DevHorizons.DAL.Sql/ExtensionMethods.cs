@@ -37,15 +37,16 @@ namespace DevHorizons.DAL.Sql
         /// </summary>
         /// <param name="services">The contract for a collection of service descriptors.</param>
         /// <param name="settings">The data access settings of the type "<see cref="IDataAccessSettings"/>"</param>
+        /// <returns>The contract for a collection of service descriptors.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>01/02/2022 09:45 PM</DateTime>
         /// </Created>
-        public static void RegisterSqlDal(this IServiceCollection services, IDataAccessSettings settings)
+        public static IServiceCollection RegisterSqlDal(this IServiceCollection services, IDataAccessSettings settings)
         {
             if (services == null || settings == null)
             {
-                return;
+                return services;
             }
 
             if (!settings.CacheSettings.Disabled)
@@ -53,82 +54,13 @@ namespace DevHorizons.DAL.Sql
                 var memoryCache = new MemoryCache();
                 services.AddSingleton<IMemoryCache, MemoryCache>();
             }
-            settings.UpdateConnectionString();
+
             services.AddSingleton((s) => { return settings; });
-            services.AddScoped<ICommand, Command>();
+            services.AddScoped<ICommand, SqlCommand>();
+
+            return services;
         }
 
-        /// <summary>
-        ///    Update the connection string with the specified advanced options within the specified settings.
-        /// </summary>
-        /// <param name="settings">The data access settings of the type "<see cref="DataAccessSettings"/>"</param>
-        /// <remarks>
-        ///    You may not need to use this method because it is managed/executed automatically when you register the <c>DAL</c> service/engine by the DI containers which is usually done by calling the "<see cref="RegisterSqlDal(IServiceCollection, IDataAccessSettings)"/>" method.
-        ///    <para>You may only use it, if you are not using DI containers/services which could be the case of desktop application or some class library which not meant to serve web applications/APIs.</para>
-        /// </remarks>
-        /// 
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>01/02/2022 09:45 PM</DateTime>
-        /// </Created>
-        public static void UpdateConnectionString(this IDataAccessSettings settings)
-        {
-            if (settings == null || settings.ConnectionSettings == null || string.IsNullOrWhiteSpace(settings.ConnectionSettings.ConnectionString))
-            {
-                return;
-            }
-
-            if (settings.ConnectionSettings is not ConnectionSettings connectionSettings)
-            {
-                return;
-            }
-
-            if (connectionSettings.ColumnAlwaysEncryptedSettingEnabled || connectionSettings.PacketSize.HasValue || !string.IsNullOrWhiteSpace(connectionSettings.EnclaveAttestationUrl))
-            {
-                var conStringProps = settings.ConnectionSettings.ConnectionString.Trim(';').Split(';');
-                var newConnectionString = new System.Text.StringBuilder();
-                var setColumnAlwaysEncryptionSettingEnabled = connectionSettings.ColumnAlwaysEncryptedSettingEnabled;
-                int? setConnectionPacketSize = connectionSettings.PacketSize;
-                var setEnclaveAttestationUrl = !string.IsNullOrWhiteSpace(connectionSettings.EnclaveAttestationUrl);
-                foreach (var prop in conStringProps)
-                {
-                    var propKey = prop.Split('=')[0].Trim();
-                    if (setColumnAlwaysEncryptionSettingEnabled && propKey.Equals("Column Encryption Setting", StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-                    else if (setConnectionPacketSize.HasValue && propKey.Equals("Packet Size", StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-                    else if (setEnclaveAttestationUrl && propKey.Equals("Enclave Attestation Url", StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        newConnectionString.Append($"{prop};");
-                    }
-                };
-
-                if (setColumnAlwaysEncryptionSettingEnabled)
-                {
-                    newConnectionString.Append("Column Encryption Setting=enabled;");
-                }
-
-                if (setConnectionPacketSize.HasValue)
-                {
-                    newConnectionString.Append($"Packet Size={setConnectionPacketSize.Value};");
-                }
-
-                if (setEnclaveAttestationUrl)
-                {
-                    newConnectionString.Append($"Enclave Attestation Url={connectionSettings.EnclaveAttestationUrl.Trim()};");
-                }
-
-                connectionSettings.ConnectionString = newConnectionString.ToString();
-            }
-        }
         #endregion Public Methods
 
         #region Internal Methods

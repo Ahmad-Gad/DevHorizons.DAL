@@ -182,11 +182,12 @@ namespace DevHorizons.DAL.Interfaces
         /// </summary>
         /// <param name="connectionString">The database.</param>
         /// <returns><c>true</c> if the connection string has been changed to the specified one, otherwise, <c>false</c>.</returns>
+        /// <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="ConnectionSettings"/>" class.</param>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>02/11/2018 05:51 PM</DateTime>
         /// </Created>
-        bool ChangeConnectionString(string connectionString);
+        bool ChangeConnectionString(string connectionString, bool updateConnectionString = false);
 
         /// <summary>
         ///    Clears the errors list.
@@ -259,14 +260,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///   Reset the whole encapsulated data command settings/properties including the encapsulated data parameters and commands. Furthermore, clears all the raised errors.
         /// </summary>
-        /// <param name="hardReset">If <c>true</c>, reset the whole connection by disposing the existing one and creating a fresh connection. Use only when absolute necessary because it may consume up to a whole second in some sever scenarios.</param>
+        /// <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="ConnectionSettings"/>" class.</param>
         /// <remarks>If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.</remarks>
         /// <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>12/02/2022 01:42 PM</DateTime>
         /// </Created>
-        bool Reset(bool hardReset);
+        bool ResetHard(bool updateConnectionString);
 
         /// <summary>
         ///    Starts a database transaction with the default isolation level set by the target database server.

@@ -5,6 +5,10 @@
 //  <summary>
 //    Defines the required SQL Parameter members.
 //  </summary>
+// <created>
+//      <author>Ahmad Gad (ahmad.gad@DevHorizons.com)</author>
+//      <datetime>07/11/2018 11:00 AM</datetime>
+// </created>
 // --------------------------------------------------------------------------------------------------------------------
 namespace DevHorizons.DAL.Shared
 {

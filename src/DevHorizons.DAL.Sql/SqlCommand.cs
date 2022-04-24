@@ -16,7 +16,6 @@ namespace DevHorizons.DAL.Sql
     using System.Data;
     using System.Data.Common;
     using Interfaces;
-    using Microsoft.Data.SqlClient;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Cache;
@@ -30,12 +29,12 @@ namespace DevHorizons.DAL.Sql
     ///    <DateTime>11/02/2020 12:05 AM</DateTime>
     /// </Created>
     /// <seealso cref="Abstracts.Command" />
-    public class Command : Abstracts.Command
+    public sealed class SqlCommand : Abstracts.Command
     {
         #region Constructors
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
         /// </summary>
         /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
         /// <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
@@ -48,12 +47,12 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public Command(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger) : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, logger)
+        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<SqlCommand> logger) : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, logger)
         {
         }
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
         /// </summary>
         /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
         /// <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
@@ -65,12 +64,12 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public Command(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache) : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, null)
+        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache) : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, null)
         {
         }
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
         /// </summary>
         /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
         /// <param name="logger">The logger object of the type "<see cref="ILogger"/>" which could be registered by the Dependency Injection.</param>
@@ -82,12 +81,12 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public Command(IDataAccessSettings dataAccessSettings, ILogger<Command> logger) : base(DataProviderFactory.Sql, dataAccessSettings, null, logger)
+        public SqlCommand(IDataAccessSettings dataAccessSettings, ILogger<SqlCommand> logger) : base(DataProviderFactory.Sql, dataAccessSettings, null, logger)
         {
         }
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
         /// </summary>
         /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
         /// <Created>
@@ -98,7 +97,7 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public Command(IDataAccessSettings dataAccessSettings) : base(DataProviderFactory.Sql, dataAccessSettings, null, null)
+        public SqlCommand(IDataAccessSettings dataAccessSettings) : base(DataProviderFactory.Sql, dataAccessSettings, null, null)
         {
         }
         #endregion Constructors

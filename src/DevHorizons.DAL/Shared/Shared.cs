@@ -514,6 +514,30 @@ namespace DevHorizons.DAL.Shared
             }
         }
 
+        /// <summary>
+        ///    Compare the Key/Value Pairs between two dictionaries and return <c>true</c> if matches.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
+        /// <param name="sourceDictionary">The source dictionary.</param>
+        /// <param name="comparerDictionary">The other dictionary to compare with the source.</param>
+        /// <returns>
+        ///    <c>true</c> if the two dictionaries have the same identical Key/Value Pairs with case sensitive data for both keys and values; otherwise, <c>false</c>.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>11/02/2020 10:34 AM</DateTime>
+        /// </Created>
+        public static bool Compare<TKey, TValue>(this IDictionary<TKey, TValue> sourceDictionary, IDictionary<TKey, TValue> comparerDictionary)
+        {
+            if (sourceDictionary == null || comparerDictionary == null)
+            {
+                return false;
+            }
+
+            var result = sourceDictionary.Count == comparerDictionary.Count && !sourceDictionary.Except(comparerDictionary).Any();
+            return result;
+        }
         #endregion Public Methods
 
         #region Internal Methods
