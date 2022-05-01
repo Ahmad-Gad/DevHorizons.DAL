@@ -156,5 +156,15 @@
             this.sqlCmd.ChangeConnectionString(newConnectionString, true);
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
+
+        [Fact]
+        public void DisableConnectionStringPooling()
+        {
+            var newConnectionString = "User Id =ahmad.gad;Password = 123; Data Source=.;Initial Catalog=System;";
+            this.sqlConnectionSettings.ConnectionPooling = false;
+            var expectedConnectionString = "User Id=ahmad.gad;Password=123;Data Source=.;Initial Catalog=System;Pooling=False;";
+            this.sqlCmd.ChangeConnectionString(newConnectionString, true);
+            Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
+        }
     }
 }

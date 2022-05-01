@@ -53,7 +53,16 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:35 PM</DateTime>
         /// </Created>
-        private readonly DataProviderFactory dataProviderFactory;
+        private readonly DataProviderFactory dataProviderFactory = DataProviderFactory.None;
+
+        /// <summary>
+        ///    The designated data factory instance of ("<see cref="DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.
+        /// </summary>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>30/04/2022 06:27 PM</DateTime>
+        /// </Created>
+        private readonly DbProviderFactory dbProviderFactory;
         #endregion ReadOnly Fields
 
         /// <summary>
@@ -157,6 +166,57 @@ namespace DevHorizons.DAL.Abstracts
                 this.ChangeDatabase(dataAccessSettings.ConnectionSettings.DatabaseName);
             }
         }
+
+        /// <summary>
+        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
+        /// </summary>
+        /// <param name="dbProviderFactory">The designated data factory instance of ("<see cref="DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
+        /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
+        /// <param name="memoryCache">The memory cache object passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+        /// <param name="logger">The logger object of the type "<see cref="ILogger"/>" which could be registered by the Dependency Injection.</param>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>30/04/2022 06:27 PM</DateTime>
+        /// </Created>
+        public Command(DbProviderFactory dbProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger)
+        {
+            this.dbProviderFactory = dbProviderFactory;
+            this.MemoryCache = memoryCache;
+            this.Settings = dataAccessSettings;
+            this.Logger = logger;
+            var ok = this.InitializeConnection(true);
+            if (ok)
+            {
+                this.ChangeDatabase(dataAccessSettings.ConnectionSettings.DatabaseName);
+            }
+        }
+
+        /// <summary>
+        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
+        /// </summary>
+        /// <param name="dbConnection">The designated data connection instance of the type ("<see cref="DbConnection"/>").</param>
+        /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
+        /// <param name="memoryCache">The memory cache object passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+        /// <param name="logger">The logger object of the type "<see cref="ILogger"/>" which could be registered by the Dependency Injection.</param>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>30/04/2022 06:27 PM</DateTime>
+        /// </Created>
+        public Command(DbConnection dbConnection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger)
+        {
+            this.Connection = dbConnection;
+            this.MemoryCache = memoryCache;
+            this.Settings = dataAccessSettings;
+            this.Logger = logger;
+            var ok = this.InitializeConnection(true);
+            if (ok)
+            {
+                this.ChangeDatabase(dataAccessSettings.ConnectionSettings.DatabaseName);
+            }
+        }
+
         #endregion Constructors
 
         #region Delegates
@@ -243,7 +303,7 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>19/02/2020 11:02 PM</DateTime>
         /// </Created>
-        internal DbConnection Con { get; set; }
+        internal DbConnection Connection { get; set; }
 
         /// <summary>
         ///    Gets or sets the data command as an instance of "<see cref="DbCommand" />".
@@ -307,19 +367,19 @@ namespace DevHorizons.DAL.Abstracts
         /// <inheritdoc/>
         public bool CanExecute()
         {
-            return !this.terminateFurtherExecutions && this.Cmd != null && this.Con?.State == ConnectionState.Open;
+            return !this.terminateFurtherExecutions  && this.Connection is not null && this.Cmd is not null && this.Connection.State == ConnectionState.Open;
         }
 
         /// <inheritdoc/>
         public string GetCurrentDatabaseName()
         {
-            return this.Con?.Database;
+            return this.Connection?.Database;
         }
 
         /// <inheritdoc/>
         public bool ChangeDatabase(string database)
         {
-            if (this.Con == null || database.IsNullOrEmpty(true))
+            if (this.Connection == null || database.IsNullOrEmpty(true))
             {
                 return false;
             }
@@ -335,7 +395,7 @@ namespace DevHorizons.DAL.Abstracts
 
             try
             {
-                this.Con.ChangeDatabase(database);
+                this.Connection.ChangeDatabase(database);
                 return true;
             }
             catch (DbException ex)
@@ -344,7 +404,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ChangeDatabase(string database)",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to change the connection of the database from '{currentDatabase}' to '{database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to change the connection of the database from '{currentDatabase}' to '{database}' in the database server 'this.Connection)?.DataSource' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -354,7 +414,7 @@ namespace DevHorizons.DAL.Abstracts
                    ex: ex,
                    source: "DAL.Command.ChangeDatabase(string database)",
                    errorNumber: -205,
-                   description: $"Excepation has been raised while attempting to change the connection of the database from '{currentDatabase}' to '{database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                   description: $"Excepation has been raised while attempting to change the connection of the database from '{currentDatabase}' to '{database}' in the database server 'this.Connection)?.DataSource' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -420,7 +480,7 @@ namespace DevHorizons.DAL.Abstracts
         public bool Reset()
         {
             this.Tran?.Dispose();
-            if (this.Cmd == null || this.Con?.State != ConnectionState.Open)
+            if (this.Cmd == null || this.Connection?.State != ConnectionState.Open)
             {
                 return false;
             }
@@ -441,7 +501,7 @@ namespace DevHorizons.DAL.Abstracts
             this.Reset();
 
             this.Cmd?.Dispose();
-            this.Con?.Dispose();
+            this.Connection?.Dispose();
             return this.InitializeConnection(updateConnectionString);
         }
 
@@ -458,7 +518,7 @@ namespace DevHorizons.DAL.Abstracts
             try
             {
                 this.Reset();
-                this.Tran = this.Con.BeginTransaction();
+                this.Tran = this.Connection.BeginTransaction();
                 this.Cmd.Transaction = this.Tran;
                 return true;
             }
@@ -468,7 +528,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.BeginTransaction()",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -478,7 +538,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.BeginTransaction()",
                     errorNumber: -500,
-                    description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -504,7 +564,7 @@ namespace DevHorizons.DAL.Abstracts
 
             try
             {
-                this.Tran = this.Con.BeginTransaction((IsolationLevel)isolationLevel);
+                this.Tran = this.Connection.BeginTransaction((IsolationLevel)isolationLevel);
                 this.Cmd.Transaction = this.Tran;
                 return true;
             }
@@ -514,7 +574,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.BeginTransaction(DAL.IsolationLevel isolationLevel)",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Con?.DataSource}' with the isolation level '{isolationLevel}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Connection?.DataSource}' with the isolation level '{isolationLevel}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -524,7 +584,7 @@ namespace DevHorizons.DAL.Abstracts
                      ex: ex,
                      source: "DAL.Command.BeginTransaction(DAL.IsolationLevel isolationLevel)",
                      errorNumber: -502,
-                     description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Con?.DataSource}' with the isolation level '{isolationLevel}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                     description: $"DB Exception has been raised while attempting to start a database transaction in the database server '{this.Connection?.DataSource}' with the isolation level '{isolationLevel}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -555,7 +615,7 @@ namespace DevHorizons.DAL.Abstracts
                     source: "DAL.Command.CommitTransaction(bool forceCommit, bool autoRollback)",
                     stackTrace: Environment.StackTrace,
                     errorNumber: -501,
-                    message: $"Failed to commit a transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!",
+                    message: $"Failed to commit a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
                     description: $"The 'DAL' service/connection may not yet initialized!");
 
                 return false;
@@ -568,7 +628,7 @@ namespace DevHorizons.DAL.Abstracts
                     source: "DAL.Command.CommitTransaction(bool forceCommit, bool autoRollback)",
                     stackTrace: Environment.StackTrace,
                     errorNumber: -502,
-                    message: $"Failed to commit a transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!",
+                    message: $"Failed to commit a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
                     description: $"The 'DAL' command doesn't have a started transaction yet. Please make sure you call the '{this.GetType().Name}.{nameof(this.BeginTransaction)}()' first!");
 
                 return false;
@@ -585,7 +645,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.CommitTransaction(bool forceCommit, bool autoRollback)",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to commit a database transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to commit a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -595,7 +655,7 @@ namespace DevHorizons.DAL.Abstracts
                    ex: ex,
                    source: "DAL.Command.CommitTransaction(bool forceCommit, bool autoRollback)",
                    errorNumber: -503,
-                   description: $"DB Exception has been raised while attempting to commit a database transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                   description: $"DB Exception has been raised while attempting to commit a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -648,7 +708,7 @@ namespace DevHorizons.DAL.Abstracts
                     source: "DAL.Command.RollbackTransaction()",
                     stackTrace: Environment.StackTrace,
                     errorNumber: -501,
-                    message: $"Failed to rollback a transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!",
+                    message: $"Failed to rollback a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
                     description: $"The 'DAL' service/connection may not yet initialized!");
 
                 return false;
@@ -661,7 +721,7 @@ namespace DevHorizons.DAL.Abstracts
                     source: "DAL.Command.RollbackTransaction()",
                     stackTrace: Environment.StackTrace,
                     errorNumber: -502,
-                    message: $"Failed to rollback a transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!",
+                    message: $"Failed to rollback a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
                     description: $"The 'DAL' command doesn't have a started transaction yet. Please make sure you call the '{this.GetType().Name}.{nameof(this.BeginTransaction)}()' first!");
 
                 return false;
@@ -678,7 +738,7 @@ namespace DevHorizons.DAL.Abstracts
                          ex: ex,
                          source: "DAL.Command.RollbackTransaction()",
                          errorNumber: ex.ErrorCode,
-                         description: $"DB Exception has been raised while attempting to rollback a database transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                         description: $"DB Exception has been raised while attempting to rollback a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -688,7 +748,7 @@ namespace DevHorizons.DAL.Abstracts
                          ex: ex,
                          source: "DAL.Command.RollbackTransaction()",
                          errorNumber: -504,
-                         description: $"DB Exception has been raised while attempting to rollback a database transaction in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Con.State}'!");
+                         description: $"DB Exception has been raised while attempting to rollback a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
 
                 return false;
             }
@@ -873,7 +933,7 @@ namespace DevHorizons.DAL.Abstracts
                    ex: ex,
                    source: "DAL.Command.ExecuteScalar(ICommandBody commandBody)",
                    errorNumber: ex.ErrorCode,
-                   description: $"DB Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                   description: $"DB Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
 
                 return null;
             }
@@ -883,7 +943,7 @@ namespace DevHorizons.DAL.Abstracts
                    ex: ex,
                    source: "DAL.Command.ExecuteScalar(ICommandBody commandBody)",
                    errorNumber: -301,
-                   description: $"An Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                   description: $"An Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
 
                 return null;
             }
@@ -926,7 +986,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ExecuteScalar(string proc)",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to fetch a scalar value by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to fetch a scalar value by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             catch (Exception ex)
             {
@@ -934,7 +994,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ExecuteScalar(string proc)",
                     errorNumber: -301,
-                    description: $"An Exception has been raised while attempting to fetch a scalar value by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"An Exception has been raised while attempting to fetch a scalar value by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             finally
             {
@@ -1079,7 +1139,7 @@ namespace DevHorizons.DAL.Abstracts
                    ex: ex,
                    source: "DAL.Command.ExecuteCommand(IDataTable dataTable, CommandAction commandAction)",
                    errorNumber: ex.ErrorCode,
-                   description: $"DB Exception has been raised while attempting to execute the '{commandAction}' command '{this.Cmd.CommandText}' on the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                   description: $"DB Exception has been raised while attempting to execute the '{commandAction}' command '{this.Cmd.CommandText}' on the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             catch (Exception ex)
             {
@@ -1087,7 +1147,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ExecuteCommand(IDataTable dataTable, CommandAction commandAction)",
                     errorNumber: -304,
-                    description: $"An Exception has been raised while attempting to execute the '{commandAction}' command '{this.Cmd.CommandText}' on the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"An Exception has been raised while attempting to execute the '{commandAction}' command '{this.Cmd.CommandText}' on the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             finally
             {
@@ -1153,7 +1213,7 @@ namespace DevHorizons.DAL.Abstracts
                    ex: ex,
                    source: "DAL.Command.ExecuteCommand(ICommandBody commandBody)",
                    errorNumber: ex.ErrorCode,
-                   description: $"DB Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                   description: $"DB Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             catch (Exception ex)
             {
@@ -1161,7 +1221,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ExecuteCommand(ICommandBody commandBody)",
                     errorNumber: -302,
-                    description: $"An Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"An Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             finally
             {
@@ -1273,7 +1333,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ExecuteCommand(string proc)",
                     errorNumber: -ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             catch (Exception ex)
             {
@@ -1281,7 +1341,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.ExecuteCommand(string proc)",
                     errorNumber: -302,
-                    description: $"An Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"An Exception has been raised while attempting to execute the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
             }
             finally
             {
@@ -1707,7 +1767,7 @@ namespace DevHorizons.DAL.Abstracts
             {
                 this.Tran?.Dispose();
                 this.Cmd?.Dispose();
-                this.Con?.Dispose();
+                this.Connection?.Dispose();
             }
 
             this.disposedValue = true;
@@ -1787,23 +1847,73 @@ namespace DevHorizons.DAL.Abstracts
         {
             ILogDetails error = null;
 
-            if (string.IsNullOrWhiteSpace(this.Settings?.ConnectionSettings?.ConnectionString))
+            if (this.dataProviderFactory == DataProviderFactory.None && this.dbProviderFactory is null && this.Connection is null)
             {
                 error = this.Settings.CreateErrorDetails(
-                    source: "DAL.Command.InitializeConnection()",
-                    errorNumber: -100,
-                    stackTrace: Environment.StackTrace,
-                    message: "Failed to initialize the connection with the data source.",
-                    description: $"The connection string is either null or empty!");
+                   source: "DAL.Command.InitializeConnection()",
+                   errorNumber: -100,
+                   stackTrace: Environment.StackTrace,
+                   message: "Failed to initialize the connection with the data source.",
+                   description: $"The engine needs either DataProviderFactory or an instance of either DbProviderFactory or IDbConnection to initialize the connection.");
 
                 this.terminateFurtherExecutions = true;
                 this.HandleError(error);
                 return false;
             }
 
-            this.Con = this.GetFactoryDbConnection(this.dataProviderFactory);
+            if (this.Connection == null)
+            {
+                if (this.Settings?.ConnectionSettings?.DbConnection is null && string.IsNullOrWhiteSpace(this.Settings?.ConnectionSettings?.ConnectionString))
+                {
+                    error = this.Settings.CreateErrorDetails(
+                        source: "DAL.Command.InitializeConnection()",
+                        errorNumber: -101,
+                        stackTrace: Environment.StackTrace,
+                        message: "Failed to initialize the connection with the data source.",
+                        description: $"The engine needs either an instance of the 'DbConnection' [DataAccessSettings.ConnectionSettings.DbConnection] or a valid connection string [DataAccessSettings.ConnectionSettings.ConnectionString].");
 
-            if (this.Con == null)
+                    this.terminateFurtherExecutions = true;
+                    this.HandleError(error);
+                    return false;
+                }
+
+                if (this.Settings.ConnectionSettings.DbConnection is not null)
+                {
+                    this.Connection = this.Settings.ConnectionSettings.DbConnection;
+                }
+                else if (this.dbProviderFactory != null)
+                {
+                    this.Connection = this.dbProviderFactory.CreateConnection();
+                    this.Settings.ConnectionSettings.DbConnection = this.Connection;
+                }
+                else if (this.dataProviderFactory != DataProviderFactory.None)
+                {
+                    this.Connection = this.GetFactoryDbConnection(this.dataProviderFactory);
+                    this.Settings.ConnectionSettings.DbConnection = this.Connection;
+                }
+
+                if (this.Connection != null)
+                {
+                    try
+                    {
+                        this.Connection.ConnectionString = this.Settings.ConnectionSettings.ConnectionString;
+                    }
+                    catch (Exception ex)
+                    {
+                        error = this.Settings.CreateErrorDetails(
+                          ex: ex,
+                          errorNumber: -102,
+                          description: $"Failed to initialize the connection with the data source. The connection string might be in mismatch format regarding the provided data factory and the client connection.",
+                          source: "DAL.Command.InitializeConnection()");
+
+                        this.terminateFurtherExecutions = true;
+                        this.HandleError(error);
+                        return false;
+                    }
+                }
+            }
+
+            if (this.Connection == null)
             {
                 this.terminateFurtherExecutions = true;
                 return false;
@@ -1811,7 +1921,7 @@ namespace DevHorizons.DAL.Abstracts
 
             try
             {
-                this.Cmd = this.Con.CreateCommand();
+                this.Cmd = this.Connection.CreateCommand();
                 this.Cmd.CommandType = CommandType.StoredProcedure;
                 if (this.Settings.ConnectionSettings.CommandTimeout.HasValue)
                 {
@@ -1823,9 +1933,12 @@ namespace DevHorizons.DAL.Abstracts
                     this.UpdateConnectionString();
                 }
 
-                this.Con.ConnectionString = this.Settings?.ConnectionSettings?.ConnectionString;
-                this.Con.Open();
-                var ok = this.Con.State == ConnectionState.Open;
+                if (this.Connection.State != ConnectionState.Open)
+                {
+                    this.Connection.Open();
+                }
+
+                var ok = this.Connection.State == ConnectionState.Open;
                 if (!ok)
                 {
                     this.terminateFurtherExecutions = true;
@@ -1839,7 +1952,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.InitializeConnection()",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to open the SQL connection with the database server '{this.Con?.DataSource}' and the database '{this.Con?.Database}' from the host host machine '{Environment.MachineName}'!");
+                    description: $"DB Exception has been raised while attempting to open the database connection with the database server 'this.Connection)?.DataSource' and the database '{this.Connection?.Database}' from the host host machine '{Environment.MachineName}'!");
 
                 this.terminateFurtherExecutions = true;
                 return false;
@@ -1850,7 +1963,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "DAL.Command.InitializeConnection()",
                     errorNumber: -202,
-                    description: $"An Exception has been raised while attempting to open the SQL connection with the database server '{this.Con?.DataSource}' and the database '{this.Con?.Database}' from the host host machine '{Environment.MachineName}'!");
+                    description: $"An Exception has been raised while attempting to open the SQL connection with the database server 'this.Connection)?.DataSource' and the database '{this.Connection?.Database}' from the host host machine '{Environment.MachineName}'!");
 
                 this.terminateFurtherExecutions = true;
                 return false;
@@ -1923,14 +2036,14 @@ namespace DevHorizons.DAL.Abstracts
                                             var outputError = cryptoResult.OutputError;
                                             outputError.LogLevel = LogLevel.Warning;
                                             outputError.Source = "DAL.Command.GetDataFromDataReader()";
-                                            outputError.Description = $"Failed to decrypt the data for the data column '{reader[df.Name]}' which should be mapped with the property '{reader[df.Property.Name]}' with the flag 'MayBeEncrypted'.";
+                                            outputError.Description = $"Failed to decrypt the data for the data column '{df.Name}' which should be mapped with the property '{df.Property.Name}' with the flag 'MayBeEncrypted'.";
                                             this.HandleError(outputError);
                                         }
                                         else
                                         {
                                             var outputError = cryptoResult.OutputError;
                                             outputError.Source = "DAL.Command.GetDataFromDataReader()";
-                                            outputError.Description = $"Failed to decrypt the data for the data column '{reader[df.Name]}' which should be mapped with the property '{reader[df.Property.Name]}'.";
+                                            outputError.Description = $"Failed to decrypt the data for the data column '{df.Name}' which should be mapped with the property '{df.Property.Name}'.";
                                             this.HandleError(outputError);
                                             return null;
                                         }
@@ -1990,7 +2103,7 @@ namespace DevHorizons.DAL.Abstracts
                     ex: ex,
                     source: "GetDataFromDataReader<T>()",
                     errorNumber: ex.ErrorCode,
-                    description: $"DB Exception has been raised while attempting to fetch the data from the data reader by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                    description: $"DB Exception has been raised while attempting to fetch the data from the data reader by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
 
                 return null;
             }
@@ -2000,7 +2113,7 @@ namespace DevHorizons.DAL.Abstracts
                      ex: ex,
                      source: "GetDataFromDataReader<T>()",
                      errorNumber: -303,
-                     description: $"An Exception has been raised while attempting to fetch the data from the data reader by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Con?.Database}' in the database server '{this.Con?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Con.State}'!");
+                     description: $"An Exception has been raised while attempting to fetch the data from the data reader by the sored procedure '{this.Cmd.CommandText}' from the database '{this.Connection?.Database}' in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the connection is '{this.Connection.State}'!");
 
                 return null;
             }
@@ -2220,9 +2333,9 @@ namespace DevHorizons.DAL.Abstracts
         private void UpdateErrorDetails(ILogDetails error)
         {
             error.DatabaseName = this.GetCurrentDatabaseName();
-            error.ConnectionState = this.Con?.State;
-            error.DataSourceName = this.Con?.DataSource;
-            error.DataSourceVersion = this.Con?.State == ConnectionState.Open ? this.Con?.ServerVersion : null;
+            error.ConnectionState = this.Connection?.State;
+            error.DataSourceName = this.Connection?.DataSource;
+            error.DataSourceVersion = this.Connection?.State == ConnectionState.Open ? this.Connection?.ServerVersion : null;
             error.HasParameters = this.Parameters != null && this.Parameters.Count > 0;
             error.CommandText = this.Cmd?.CommandText;
             error.FirstLevelCacheMemorySize = this.FirstLevelCacheMemorySize;

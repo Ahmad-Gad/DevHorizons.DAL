@@ -24,6 +24,15 @@
                <DateTime>10/02/2020 11:35 PM</DateTime>
             </Created>
         </member>
+        <member name="F:DevHorizons.DAL.Abstracts.Command.dbProviderFactory">
+            <summary>
+               The designated data factory instance of ("<see cref="T:DevHorizons.DAL.DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 06:27 PM</DateTime>
+            </Created>
+        </member>
         <member name="F:DevHorizons.DAL.Abstracts.Command.terminateFurtherExecutions">
             <summary>
                If <c>true</c> ino further database commands/transactions will be executed until the "<see cref="M:DevHorizons.DAL.Abstracts.Command.ClearErrors"/>" is being called to reset.
@@ -109,6 +118,34 @@
                <DateTime>10/02/2020 10:27 PM</DateTime>
             </Created>
         </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(System.Data.Common.DbProviderFactory,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.Command})">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
+            </summary>
+            <param name="dbProviderFactory">The designated data factory instance of ("<see cref="T:DevHorizons.DAL.DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="memoryCache">The memory cache object passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 06:27 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(System.Data.Common.DbConnection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.Command})">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
+            </summary>
+            <param name="dbConnection">The designated data connection instance of the type ("<see cref="T:System.Data.Common.DbConnection"/>").</param>
+            <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
+            <param name="memoryCache">The memory cache object passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+            <param name="logger">The logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.</param>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 06:27 PM</DateTime>
+            </Created>
+        </member>
         <member name="T:DevHorizons.DAL.Abstracts.Command.RaiseError">
             <summary>
                A delegate to handel the error raised by the class.
@@ -153,7 +190,7 @@
         <member name="P:DevHorizons.DAL.Abstracts.Command.TotalCacheMemorySize">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Con">
+        <member name="P:DevHorizons.DAL.Abstracts.Command.Connection">
             <summary>
                Gets or sets the data connection as an instance of "<see cref="T:System.Data.Common.DbConnection" />".
             </summary>
@@ -689,19 +726,6 @@
             </summary>
             <value>
                The command line for this process.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessPath">
-            <summary>
-               Gets or sets the path of the executable that started the currently executing process.
-            </summary>
-            <value>
-               The path of the executable that started the currently executing process.
-               <para>Returns null when the path is not available.</para>
             </value>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -1865,10 +1889,22 @@
         <member name="P:DevHorizons.DAL.ConnectionSettings.ConnectionString">
             <inheritdoc/>
         </member>
+        <member name="P:DevHorizons.DAL.ConnectionSettings.DbConnection">
+            <inheritdoc/>
+        </member>
         <member name="P:DevHorizons.DAL.ConnectionSettings.DatabaseName">
             <inheritdoc/>
         </member>
         <member name="P:DevHorizons.DAL.ConnectionSettings.CommandTimeout">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ConnectionSettings.ConnectionLifetime">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ConnectionSettings.ConnectionTimeout">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ConnectionSettings.ConnectionPooling">
             <inheritdoc/>
         </member>
         <member name="T:DevHorizons.DAL.ConnectionStringBuilder">
@@ -4306,6 +4342,19 @@
                <DateTime>26/12/2021 05:00 PM</DateTime>
             </Created>
         </member>
+        <member name="P:DevHorizons.DAL.IConnectionSettings.DbConnection">
+            <summary>
+               Gets or sets the data source connection instance of the type "<see cref="P:DevHorizons.DAL.IConnectionSettings.DbConnection"/>".
+            </summary>
+            <remarks>
+               It doesn't matter if the connection is opened or closed. If closed, the engine will open it.
+               <para>If the "<see cref="P:DevHorizons.DAL.IConnectionSettings.ConnectionString"/>" property is specified, it will override the encapsulated connection string.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 08:19 PM</DateTime>
+            </Created>
+        </member>
         <member name="P:DevHorizons.DAL.IConnectionSettings.DatabaseName">
             <summary>
                Gets or sets the name of the targeted/connected database.
@@ -4331,6 +4380,57 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.IConnectionSettings.ConnectionLifetime">
+            <summary>
+               Gets or sets the specified seconds for how long an underlying connection can exist before the driver closes the underlying connection instead of returning it to the connection pool upon connection object close. Idle pooled connections are closed and removed from the pool once they reach the defined Connection Lifetime.
+               <para>The Default Value: <c>Null</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.connectionstring?view=dotnet-plat-ext-6.0"/></para>
+            </summary>
+            <value>The connection lifetime in seconds.</value>
+            <remarks>
+               If not specified, it will use the default value which is (0). A value of zero (0) causes pooled connections to have the maximum connection timeout.
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 09:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.IConnectionSettings.ConnectionTimeout">
+            <summary>
+               Gets or sets the length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.
+               <para>The Default Value: <c>Null</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.connectiontimeout?view=dotnet-plat-ext-6.0"/></para>
+            </summary>
+            <value>The connection timeout in seconds.</value>
+            <remarks>
+               Valid values are greater than or equal to 0 and less than or equal to 2147483647.
+               <para>If not specified, it will use the default value which is (15) seconds.</para>
+               <para>A value of zero (0) will set the connection timeout to the maximum.</para>
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 09:51 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.IConnectionSettings.ConnectionPooling">
+            <summary>
+               Gets or sets whether the connection pooling is allowed or not.
+               <para>The Default Value: <c>Null</c>.</para>
+               <para><see href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql-server-connection-pooling"/></para>
+            </summary>
+            <value>The <c>true</c>, the connection pooling is allowed, otherwise; <c>false</c>.</value>
+            <remarks>
+               <para>If not specified, it will use the default value which is (true). By default the connection pooling is enabled for the same identical connection string parameters/values.</para>
+               <para>You may only need to set it to <c>false</c> to disable it.</para>
+               <para>This setting will be merged with the provided connection string and will override the same setting if exists.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>30/04/2022 09:51 PM</DateTime>
             </Created>
         </member>
         <member name="T:DevHorizons.DAL.IsolationLevel">

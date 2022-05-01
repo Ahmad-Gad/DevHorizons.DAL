@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevHorizons.DAL.WebApi", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevHorizons.DAL.Test", "test\DevHorizons.DAL.Test\DevHorizons.DAL.Test.csproj", "{C77C0626-EBEE-46D4-9AD5-852EBA2B677B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevHorizons.DAL.Wpf", "samples\DevHorizons.DAL.Wpf\DevHorizons.DAL.Wpf.csproj", "{389D1345-264A-472A-BEF6-D01DF64D1FF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{C77C0626-EBEE-46D4-9AD5-852EBA2B677B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C77C0626-EBEE-46D4-9AD5-852EBA2B677B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C77C0626-EBEE-46D4-9AD5-852EBA2B677B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{389D1345-264A-472A-BEF6-D01DF64D1FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{389D1345-264A-472A-BEF6-D01DF64D1FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{389D1345-264A-472A-BEF6-D01DF64D1FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{389D1345-264A-472A-BEF6-D01DF64D1FF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{492B5128-FF25-48B2-954D-640A46FBC9B9} = {7FDD4EE2-7DCC-489A-8B68-EE7A15026A2A}
 		{552B19A5-0427-44FD-84AE-85F50F5EF50A} = {7FDD4EE2-7DCC-489A-8B68-EE7A15026A2A}
 		{C77C0626-EBEE-46D4-9AD5-852EBA2B677B} = {B7C56D2F-0F01-43F4-BF45-0B3849E612C3}
+		{389D1345-264A-472A-BEF6-D01DF64D1FF4} = {7FDD4EE2-7DCC-489A-8B68-EE7A15026A2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E2364F8-0B37-45C3-83EB-0DEC28F62670}

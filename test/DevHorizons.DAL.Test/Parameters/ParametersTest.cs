@@ -1,9 +1,9 @@
 namespace DevHorizons.DAL.Test
 {
     using System;
-
+    using System.Data.Common;
     using DAL.Shared;
-
+    using Microsoft.Data.SqlClient;
     using Sql;
 
     using Xunit;
@@ -20,7 +20,8 @@ namespace DevHorizons.DAL.Test
             {
                 ConnectionSettings = new SqlConnectionSettings
                 {
-                    ConnectionString = "DummyConnectionString"
+                    ConnectionString = "Integrated Security=SSPI; Data Source=.;Initial Catalog=OnlineStore;TrustServerCertificate=True;"
+                    //ConnectionString = "Dummy"
                 }
             };
 
@@ -31,7 +32,15 @@ namespace DevHorizons.DAL.Test
                 var internalCmdProp = type.GetProperty("Cmd", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
                 internalCmdObject = internalCmdProp.GetValue(dalCmd) as Microsoft.Data.SqlClient.SqlCommand;
             }
-            catch
+            catch (SqlException ex)
+            {
+                throw;
+            }
+            catch (DbException ex)
+            {
+                throw;
+            }
+            catch (Exception ex)
             {
                 throw;
             }

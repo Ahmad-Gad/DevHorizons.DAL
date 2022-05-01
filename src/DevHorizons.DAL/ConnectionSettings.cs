@@ -12,6 +12,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace DevHorizons.DAL
 {
+    using System.Data.Common;
+    using Attributes;
+
     /// <summary>
     ///    Defines all the data source connection/access related settings.
     /// </summary>
@@ -25,9 +28,24 @@ namespace DevHorizons.DAL
         public string ConnectionString { get; set; }
 
         /// <inheritdoc/>
+        public DbConnection DbConnection { get; set; }
+
+        /// <inheritdoc/>
         public string DatabaseName { get; set; }
 
         /// <inheritdoc/>
         public int? CommandTimeout { get; set; }
+
+        /// <inheritdoc/>
+        [NameValuePair("Connection Lifetime")]
+        public int? ConnectionLifetime { get; set; }
+
+        /// <inheritdoc/>
+        [NameValuePair("Connection Timeout")]
+        public int? ConnectionTimeout { get; set; }
+
+        /// <inheritdoc/>
+        [NameValuePair("Pooling")]
+        public bool? ConnectionPooling { get; set; }
     }
 }

@@ -14,12 +14,14 @@ namespace DevHorizons.DAL.Sql
 {
     using System.Collections.Generic;
     using System.Data;
+    using Microsoft.Data.SqlClient;
     using System.Data.Common;
     using Interfaces;
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Cache;
     using Shared;
+
 
     /// <summary>
     ///    A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="Abstracts.Command"/>".
@@ -32,6 +34,28 @@ namespace DevHorizons.DAL.Sql
     public sealed class SqlCommand : Abstracts.Command
     {
         #region Constructors
+        /*
+#if NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0 || NET6_0
+        /// <summary>
+        ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
+        /// </summary>
+        /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
+        /// <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
+        /// <param name="logger">The logger object of the type "<see cref="ILogger"/>" which could be registered by the Dependency Injection.</param>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>11/02/2020 12:07 AM</DateTime>
+        /// </Created>
+        /// <Created>
+        ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///   <DateTime>02/11/2018 05:03 PM</DateTime>
+        /// </Created>
+        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<SqlCommand> logger)
+                : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, logger)
+        {
+        }
+#endif
+        */
 
         /// <summary>
         ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
@@ -47,7 +71,8 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<SqlCommand> logger) : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, logger)
+        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<SqlCommand> logger)
+                : base(SqlClientFactory.Instance, dataAccessSettings, memoryCache, logger)
         {
         }
 
@@ -64,7 +89,8 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache) : base(DataProviderFactory.Sql, dataAccessSettings, memoryCache, null)
+        public SqlCommand(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache)
+            : this(dataAccessSettings, memoryCache, null)
         {
         }
 
@@ -81,7 +107,8 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public SqlCommand(IDataAccessSettings dataAccessSettings, ILogger<SqlCommand> logger) : base(DataProviderFactory.Sql, dataAccessSettings, null, logger)
+        public SqlCommand(IDataAccessSettings dataAccessSettings, ILogger<SqlCommand> logger)
+            : this(dataAccessSettings, null, logger)
         {
         }
 
@@ -97,7 +124,8 @@ namespace DevHorizons.DAL.Sql
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>02/11/2018 05:03 PM</DateTime>
         /// </Created>
-        public SqlCommand(IDataAccessSettings dataAccessSettings) : base(DataProviderFactory.Sql, dataAccessSettings, null, null)
+        public SqlCommand(IDataAccessSettings dataAccessSettings)
+            : this(dataAccessSettings, null, null)
         {
         }
         #endregion Constructors
