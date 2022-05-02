@@ -209,6 +209,7 @@ namespace DevHorizons.DAL.Abstracts
             this.Connection = dbConnection;
             this.MemoryCache = memoryCache;
             this.Settings = dataAccessSettings;
+            this.Settings.ConnectionSettings.DbConnection = dbConnection;
             this.Logger = logger;
             var ok = this.InitializeConnection(true);
             if (ok)

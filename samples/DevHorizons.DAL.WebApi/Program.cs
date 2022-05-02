@@ -1,5 +1,6 @@
 using DevHorizons.DAL.Interfaces;
 using DevHorizons.DAL.Sql;
+using DevHorizons.DAL.DependencyInjection;
 using DevHorizons.DAL.WebApi.Configuration;
 using DevHorizons.DAL.WebApi.Services;
 
@@ -8,20 +9,12 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-var applicationConfiguration = builder.GetApplicationConfiguration();
-
-// Register Redis Cache
-//builder.Services.AddStackExchangeRedisCache(options =>
-//{
-//    //options.ConfigurationOptions.EndPoints
-//    options.ConfigurationOptions.Password = "";
-//});
 //----------------------------------------------------------------------------
-// Register the DAL Service
-// ------------------------
-
-builder.Services.RegisterSqlDal(applicationConfiguration.DataAccessSettings);
-
+// Register the DAL Service:
+// -------------------------
+var applicationConfiguration = builder.Services.GetDalAppConfig<ApplicationConfiguration>(builder.Configuration);
+//builder.Services.RegisterSqlDal(applicationConfiguration.DataAccessSettings);
+builder.Services.RegisterDevHorizonsDal<SqlCommand>(applicationConfiguration.DataAccessSettings);
 //-------------------------------------------------------------------------------------
 // Register the Business Logic Layers (Services):
 // ----------------------------------------------

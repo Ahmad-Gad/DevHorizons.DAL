@@ -39,77 +39,82 @@ namespace DevHorizons.DAL.WebApi.Configuration
     {
         #region Application Configuration
 
-        /// <summary>
-        ///    Get the bound/typed application configuration of the type "<see cref="IApplicationConfiguration"/>" as an instance of "<see cref="ApplicationConfiguration"/>".
-        /// </summary>
-        /// <param name="builder">The builder for web applications and services.</param>
-        /// <remarks>
-        ///    This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="ApplicationConfiguration"/>":
-        ///    <para>1. Register the "builder.Configuration" into the DI container for the type "<see cref="IConfiguration"/>" with singleton life cycle.</para>
-        ///    <para>2. Convert the appsettings file into the strong typed class "<see cref="ApplicationConfiguration"/>".</para>
-        ///    <para>3. Grab all the matching system environment variables to override what match from the appsettings.</para>
-        ///    <para>4. Register the "<see cref="ApplicationConfiguration"/>" into the DI container for the type "<see cref="IApplicationConfiguration"/>" with singleton life cycle.</para>
-        /// </remarks>
-        /// <returns>
-        ///    The application configuration of the type "<see cref="IApplicationConfiguration"/>" as an instance of "<see cref="ApplicationConfiguration"/>".
-        /// </returns>
-        /// <Created>
-        ///   <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
-        ///   <DateTime>27/04/2021 01:04 PM</DateTime>
-        /// </Created>
-        public static IApplicationConfiguration GetApplicationConfiguration(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+        ///// <summary>
+        /////    Get the bound/typed application configuration of the type "<see cref="IApplicationConfiguration"/>" as an instance of "<see cref="ApplicationConfiguration"/>".
+        ///// </summary>
+        ///// <param name="builder">The builder for web applications and services.</param>
+        ///// <remarks>
+        /////    This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="ApplicationConfiguration"/>":
+        /////    <para>1. Register the "builder.Configuration" into the DI container for the type "<see cref="IConfiguration"/>" with singleton life cycle.</para>
+        /////    <para>2. Convert the appsettings file into the strong typed class "<see cref="ApplicationConfiguration"/>".</para>
+        /////    <para>3. Grab all the matching system environment variables to override what match from the appsettings.</para>
+        /////    <para>4. Register the "<see cref="ApplicationConfiguration"/>" into the DI container for the type "<see cref="IApplicationConfiguration"/>" with singleton life cycle.</para>
+        ///// </remarks>
+        ///// <returns>
+        /////    The application configuration of the type "<see cref="IApplicationConfiguration"/>" as an instance of "<see cref="ApplicationConfiguration"/>".
+        ///// </returns>
+        ///// <Created>
+        /////   <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+        /////   <DateTime>27/04/2021 01:04 PM</DateTime>
+        ///// </Created>
+        //public static IApplicationConfiguration GetApplicationConfiguration(this WebApplicationBuilder builder)
+        //{
+        //    builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
-            var applicationConfiguration = new ApplicationConfiguration(builder.Configuration)
-            {
-                HostEnvironment = new HostEnvironment
-                {
-                    EnvironmentName = Enum.Parse<EnvironmentName>(builder.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT")),
-                    ContentRootPath = builder.Configuration.GetValue<string>(WebHostDefaults.ContentRootKey)
-                }
-            };
+        //    var applicationConfiguration = new ApplicationConfiguration(builder.Configuration)
+        //    {
+        //        HostEnvironment = new HostEnvironment
+        //        {
+        //            EnvironmentName = Enum.Parse<EnvironmentName>(builder.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT")),
+        //            ContentRootPath = builder.Configuration.GetValue<string>(WebHostDefaults.ContentRootKey)
+        //        }
+        //    };
 
-            builder.Configuration.Bind(applicationConfiguration);
-            builder.Services.AddSingleton<IApplicationConfiguration>(applicationConfiguration);
-            return applicationConfiguration;
-        }
+        //    builder.Configuration.Bind(applicationConfiguration);
+        //    builder.Services.AddSingleton<IApplicationConfiguration>(applicationConfiguration);
+        //    return applicationConfiguration;
+        //}
 
-        /// <summary>
-        ///    Get the bound/typed application configuration of the type "<see cref="IApplicationConfiguration"/>".
-        /// </summary>
-        /// <param name="builder">The builder for web applications and services.</param>
-        /// <typeparam name="T">Type of "<see cref="IApplicationConfiguration"/>".</typeparam>
-        /// <remarks>
-        ///    This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="ApplicationConfiguration"/>":
-        ///    <para>1. Register the "builder.Configuration" into the DI container for the type "<see cref="IConfiguration"/>" with singleton life cycle.</para>
-        ///    <para>2. Convert the appsettings file into the strong typed class "<see cref="ApplicationConfiguration"/>".</para>
-        ///    <para>3. Grab all the matching system environment variables to override what match from the appsettings.</para>
-        ///    <para>4. Register the strong typed app settings (application configuration) into the DI container for the type "<see cref="IApplicationConfiguration"/>" with singleton life cycle.</para>
-        /// </remarks>
-        /// <returns>
-        ///    The application configuration of the type "<see cref="IApplicationConfiguration"/>".
-        /// </returns>
-        /// <Created>
-        ///   <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
-        ///   <DateTime>27/04/2021 01:04 PM</DateTime>
-        /// </Created>
-        public static IApplicationConfiguration GetApplicationConfiguration<T>(this WebApplicationBuilder builder) where T : IApplicationConfiguration
-        {
-            var hostEnvironment = new HostEnvironment
-            {
-                EnvironmentName = Enum.Parse<EnvironmentName>(builder.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT")),
-                ContentRootPath = builder.Configuration.GetValue<string>(WebHostDefaults.ContentRootKey)
-            };
+        ///// <summary>
+        /////    Get the bound/typed application configuration of the type "<see cref="IApplicationConfiguration"/>".
+        ///// </summary>
+        ///// <param name="builder">The builder for web applications and services.</param>
+        ///// <typeparam name="T">Type of "<see cref="IApplicationConfiguration"/>".</typeparam>
+        ///// <remarks>
+        /////    This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="ApplicationConfiguration"/>":
+        /////    <para>1. Register the "builder.Configuration" into the DI container for the type "<see cref="IConfiguration"/>" with singleton life cycle.</para>
+        /////    <para>2. Convert the appsettings file into the strong typed class "<see cref="ApplicationConfiguration"/>".</para>
+        /////    <para>3. Grab all the matching system environment variables to override what match from the appsettings.</para>
+        /////    <para>4. Register the strong typed app settings (application configuration) into the DI container for the type "<see cref="IApplicationConfiguration"/>" with singleton life cycle.</para>
+        ///// </remarks>
+        ///// <returns>
+        /////    The application configuration of the type "<see cref="IApplicationConfiguration"/>".
+        ///// </returns>
+        ///// <Created>
+        /////   <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+        /////   <DateTime>27/04/2021 01:04 PM</DateTime>
+        ///// </Created>
+        //public static IApplicationConfiguration GetApplicationConfiguration<T>(this WebApplicationBuilder builder) where T : IApplicationConfiguration
+        //{
+        //    var hostEnvironment = new HostEnvironment
+        //    {
+        //        EnvironmentName = Enum.Parse<EnvironmentName>(builder.Configuration.GetValue<string>("ASPNETCORE_ENVIRONMENT")),
+        //        ContentRootPath = builder.Configuration.GetValue<string>(WebHostDefaults.ContentRootKey)
+        //    };
 
-            var applicationConfiguration = (T)Activator.CreateInstance(typeof(T), new object[] { builder.Configuration, hostEnvironment });
+        //    var applicationConfiguration = Activator.CreateInstance(typeof(T), new object[] { builder.Configuration, hostEnvironment });
+        //    if (applicationConfiguration is null)
+        //    {
+        //        throw new InvalidOperationException($"'{nameof(GetApplicationConfiguration)}' failed to create an instance of the {typeof(T)}");
+        //    }
 
-            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-
-            builder.Configuration.Bind(applicationConfiguration);
-            builder.Services.AddSingleton<IApplicationConfiguration>((s) => { return applicationConfiguration; });
-            return applicationConfiguration;
-        }
+        //    var typedAppConfig = (T)applicationConfiguration;
+        //    builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+            
+        //    builder.Configuration.Bind(typedAppConfig);
+        //    builder.Services.AddSingleton<IApplicationConfiguration>((s) => { return typedAppConfig; });
+        //    return typedAppConfig;
+        //}
 
         /// <summary>
         ///    Gets the the value with the specified key and converts it to type <c>T</c>.

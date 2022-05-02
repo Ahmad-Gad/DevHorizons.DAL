@@ -41,7 +41,7 @@
             </summary>
             <param name="services">The contract for a collection of service descriptors.</param>
             <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>"</param>
-            <returns>The contract for a collection of service descriptors.</returns>
+            <returns>The contract for a collection of service descriptors which is used in the WebApis DI.</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>01/02/2022 09:45 PM</DateTime>

@@ -37,16 +37,21 @@ namespace DevHorizons.DAL.Sql
         /// </summary>
         /// <param name="services">The contract for a collection of service descriptors.</param>
         /// <param name="settings">The data access settings of the type "<see cref="IDataAccessSettings"/>"</param>
-        /// <returns>The contract for a collection of service descriptors.</returns>
+        /// <returns>The contract for a collection of service descriptors which is used in the WebApis DI.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>01/02/2022 09:45 PM</DateTime>
         /// </Created>
         public static IServiceCollection RegisterSqlDal(this IServiceCollection services, IDataAccessSettings settings)
         {
-            if (services == null || settings == null)
+            if (services == null)
             {
-                return services;
+                throw new ArgumentNullException(nameof(services), $"The '{nameof(RegisterSqlDal)}' failed because it doesn't expect null argument.");
+            }
+
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings), $"The '{nameof(RegisterSqlDal)}' failed because it doesn't expect null argument.");
             }
 
             if (!settings.CacheSettings.Disabled)

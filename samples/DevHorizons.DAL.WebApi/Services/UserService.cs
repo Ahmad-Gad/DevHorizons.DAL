@@ -1,7 +1,7 @@
 ﻿namespace DevHorizons.DAL.WebApi.Services
 {
     using DAL.Interfaces;
-    using Interfaces;
+    using DevHorizons.DAL.DependencyInjection;
     using Models;
     using Models.Commands;
 

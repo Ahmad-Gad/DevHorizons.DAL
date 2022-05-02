@@ -732,30 +732,6 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessId">
-            <summary>
-               Gets or sets the unique identifier for the current process.
-            </summary>
-            <value>
-               An integer number that represents the unique identifier for the current process.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.Platform">
-            <summary>
-               Gets or sets the platform on which an app is running.
-            </summary>
-            <value>
-               An opaque string that identifies the platform on which the app is running.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.AdvacedErrorDetails.OSVersion">
             <summary>
                Gets or sets the current operating system version's details including type, edition, version, platform architecture, etc.
@@ -2495,6 +2471,94 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.DependencyInjection.Extensions">
+            <summary>
+               A public static class which holds all the public extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:41 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.DependencyInjection.Extensions.RegisterDevHorizonsDal``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+            <summary>
+               Register the <c>SQL</c> <c>DAL</c> service into the dependency injection <c>(DI)</c> container with the scoped life cycle.
+            </summary>
+            <param name="services">The contract for a collection of service descriptors.</param>
+            <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>"</param>
+            <typeparam name="T">The implementation type of the "<see cref="T:DevHorizons.DAL.Interfaces.ICommand"/>".</typeparam>
+            <returns>The contract for a collection of service descriptors which is used in the WebApis DI.</returns>
+            <remarks>The {T} type must be of the type "<see cref="T:DevHorizons.DAL.Interfaces.ICommand"/>".</remarks>
+            <exception cref="T:System.ArgumentNullException">The "settings" argument of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>" cannot be null.</exception>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.DependencyInjection.Extensions.GetDalAppConfig``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+               Get the bound/typed application configuration of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".
+            </summary>
+            <param name="services">The contract for a collection of service descriptors.</param>
+            <param name="configuration">The App Configuration instance of the type "<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>" which represents a set of key/value application configuration properties.</param>
+            <typeparam name="T">Type of "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".</typeparam>
+            <remarks>
+               <para>The implementation {T} class must be type of "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>" and must have a default parameterless constructor.</para>
+               This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="!:ApplicationConfiguration"/>":
+               <para>1. Convert the appsettings file into the strong typed class of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".</para>
+               <para>2. Grab all the matching system environment variables to override what match from the appsettings.</para>
+               <para>3. Register the strong typed app settings (application configuration) into the DI container for the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>" with singleton life cycle.</para>
+            </remarks>
+            <returns>
+               The application configuration of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".
+            </returns>
+            <exception cref="T:System.MissingMethodException">Exception will be raised if the implementation {T} class does not have a default parameterless constructor.</exception>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration">
+            <summary>
+               The application configuration abstract in a typed format.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.AppName">
+            <summary>
+               Gets or sets the name of the running host deployed/running application. This property is automatically set by the host to the assembly containing the application entry point.
+            </summary>
+            <value>
+               The name of the host application.
+            </value>
+        </member>
+        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.AppVersion">
+            <summary>
+               Gets or sets the deployed/running host application version.
+            </summary>
+            <value>
+               The host application version.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.DataAccessSettings">
+            <summary>
+               Gets or sets the all the ("<c>DAL</c>") data access settings required to connect to the data source and to control the engine.
+            </summary>
+            <value>
+               The data access settings.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:11 PM</DateTime>
             </Created>
         </member>
         <member name="T:DevHorizons.DAL.ErrorDetails">
