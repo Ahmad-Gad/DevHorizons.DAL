@@ -12,8 +12,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace DevHorizons.DAL.Sql
 {
-    using System.Data;
-
     /// <summary>
     ///    Specifies SQL Server-specific data type of a SQL Parameter.
     /// </summary>
@@ -23,15 +21,6 @@ namespace DevHorizons.DAL.Sql
     /// </Created>
     public enum SqlDbType
     {
-        /// <summary>
-        ///    Auto detect the data type as possible. Otherwise, it would reset the type to the default one which is "<see cref="SqlDbType.NText"/>".
-        /// </summary>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>08/11/2018 03:53 PM</DateTime>
-        /// </Created>
-        Auto = -1,
-
         /// <summary>
         ///    "<see cref="long"/>". A 64-bit signed integer.
         /// </summary>
@@ -322,15 +311,6 @@ namespace DevHorizons.DAL.Sql
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>08/11/2018 03:12 PM</DateTime>
         /// </Created>
-        DateTimeOffset = System.Data.SqlDbType.DateTimeOffset,
-
-        /// <summary>
-        ///    <c>Json</c> data type where the mapped property should be serialized/deserialized from/to <c>Json</c> first.
-        /// </summary>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>02/02/2018 08:00 PM</DateTime>
-        /// </Created>
-        Json = 100
+        DateTimeOffset = System.Data.SqlDbType.DateTimeOffset
     }
 }

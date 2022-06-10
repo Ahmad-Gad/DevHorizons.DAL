@@ -24,14 +24,14 @@ namespace DevHorizons.DAL.Sql
 
 
     /// <summary>
-    ///    A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="Abstracts.Command"/>".
+    ///    A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="Abstracts.ACommand"/>".
     /// </summary>
     /// <Created>
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>11/02/2020 12:05 AM</DateTime>
     /// </Created>
-    /// <seealso cref="Abstracts.Command" />
-    public sealed class SqlCommand : Abstracts.Command
+    /// <seealso cref="Abstracts.ACommand" />
+    public sealed class SqlCommand : Abstracts.ACommand
     {
         #region Constructors
         /*
@@ -133,10 +133,10 @@ namespace DevHorizons.DAL.Sql
         #region Protected Override Methods
 
         /// <summary>
-        ///    Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="Abstracts.Command"/>" to map the data type that match the <c>SQL</c> provider factory.
+        ///    Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="Abstracts.ACommand"/>" to map the data type that match the <c>SQL</c> provider factory.
         /// </summary>
         /// <param name="dbParameter">The database parameter as an instance of "<see cref="DbParameter" />" or any class that implements it.</param>
-        /// <param name="parameter">The parameter as an instance of a class that implements "<see cref="IParameter" />".</param>
+        /// <param name="parameter">The parameter as an instance of a class that implements "<see cref="IDataField" />".</param>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 12:07 AM</DateTime>
@@ -147,33 +147,64 @@ namespace DevHorizons.DAL.Sql
         /// </Created>
         protected override void MapDataType(DbParameter dbParameter, IParameter parameter)
         {
-            if (dbParameter != null && parameter != null)
+            if (dbParameter is null || parameter is null)
             {
-                var dalSqlParameter = parameter as SqlParameter;
-                if (dalSqlParameter.DataType == SqlDbType.Auto || dalSqlParameter.DataType == SqlDbType.Json)
-                {
-                    var description = $"{{'Name':'{dalSqlParameter.Name}', 'Direction':'{dalSqlParameter.Direction}', 'Type':'{dalSqlParameter.DataType}', 'HasParameterAttribute':{dalSqlParameter.ParameterAttribute != null}, 'PropertyName':'{dalSqlParameter.ParameterAttribute?.Property?.Name}',, 'PropertyType':'{dalSqlParameter.ParameterAttribute?.Property?.PropertyType}' }}";
-                    var error = this.Settings.CreateErrorDetails(
-                        stackTrace: Environment.StackTrace,
-                        source: "DevHorizons.DAL.Sql.Command.MapDataType(DbParameter dbParameter, IParameter parameter)",
-                        message: "Failed to map the data type",
-                        description: description,
-                        errorNumber: -700
-                        );
-                    this.HandleError(error);
-                    throw new Exception($"Failed to map the data type for {description}");
-                }
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                (dbParameter as Microsoft.Data.SqlClient.SqlParameter).SqlDbType = (System.Data.SqlDbType)dalSqlParameter.DataType;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                return;
             }
+
+            if (dbParameter is not Microsoft.Data.SqlClient.SqlParameter sqlParameter)
+            {
+                var parameterDetails = $"{{'Name':'{dbParameter.ParameterName}', 'Direction':'{dbParameter.Direction}', 'Type':'{dbParameter.DbType}' }}";
+                var description = $"Failed to map the data type for {parameterDetails}";
+                var error = this.Settings.CreateErrorDetails(
+                    stackTrace: Environment.StackTrace,
+                    source: $"{this.GetType().FullName}.{nameof(MapDataType)}DbParameter dbParameter, IParameter parameter)",
+                    message: $"The sepcified parameter is not type of ({typeof(Microsoft.Data.SqlClient.SqlParameter).FullName}).",
+                    description: description,
+                    errorNumber: -701
+                    );
+                this.HandleError(error);
+                throw new Exception(description);
+            }
+
+            if (parameter is not SqlParameter dalSqlParameter)
+            {
+                var parameterDetails = $"{{'Name':'{parameter.Name}', 'Direction':'{parameter.Direction}', 'PropertyName':'{parameter.Property?.Name}',, 'PropertyType':'{parameter.Property?.PropertyType}' }}";
+                var description = $"Failed to map the data type for {parameterDetails}";
+                var error = this.Settings.CreateErrorDetails(
+                    stackTrace: Environment.StackTrace,
+                    source: $"{this.GetType().FullName}.{nameof(MapDataType)}(DbParameter dbParameter, IParameter parameter)",
+                    message: $"The sepcified parameter is not type of ({typeof(SqlParameter).FullName}).",
+                    description: description,
+                    errorNumber: -702
+                    );
+                this.HandleError(error);
+                throw new Exception(description);
+            }
+
+            if (dalSqlParameter.DataType is null)
+            {
+                var parameterDetails = $"{{'Name':'{dalSqlParameter.Name}', 'Direction':'{dalSqlParameter.Direction}', 'Type':'{dalSqlParameter.DataType}', 'PropertyName':'{dalSqlParameter?.Property?.Name}',, 'PropertyType':'{dalSqlParameter?.Property?.PropertyType}' }}";
+                var description = $"Failed to map the data type for {parameterDetails}";
+                var error = this.Settings.CreateErrorDetails(
+                    stackTrace: Environment.StackTrace,
+                    source: $"{this.GetType().FullName}.{nameof(MapDataType)}(DbParameter dbParameter, IParameter parameter)",
+                    message: "Failed to map the data type because it is null!",
+                    description: description,
+                    errorNumber: -703
+                    );
+                this.HandleError(error);
+                throw new Exception(description);
+            }
+
+            sqlParameter.SqlDbType = (System.Data.SqlDbType)dalSqlParameter.DataType;
         }
 
         /// <summary>
-        ///    Gets the parameters from dictionary as <see cref="List{T}"/> of <see cref="IParameter"/>.
+        ///    Gets the parameters from dictionary as <see cref="List{T}"/> of <see cref="IDataField"/>.
         /// </summary>
         /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="IParameter"/>.</returns>
+        /// <returns>A <see cref="List{T}"/> of <see cref="IDataField"/>.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:03 PM</DateTime>
@@ -199,7 +230,7 @@ namespace DevHorizons.DAL.Sql
         ///    Extracts the list of the parameters from the specified command body as type of of <see cref="ICommandBody"/>.
         /// </summary>
         /// <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="IParameter"/>.</returns>
+        /// <returns>A <see cref="List{T}"/> of <see cref="IDataField"/>.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>01/02/2022 09:45 PM</DateTime>
@@ -228,14 +259,13 @@ namespace DevHorizons.DAL.Sql
             }
             else
             {
-                var specialType = dalSqlParameter.ParameterAttribute != null ? dalSqlParameter.ParameterAttribute.SpecialType : SpecialType.None;
-                if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value.IsConcreteClass() && dalSqlParameter.DataType != SqlDbType.Structured && specialType != SpecialType.Structured)
+                if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value.IsConcreteClass() && dalSqlParameter.DataType != SqlDbType.Structured && dalSqlParameter.SpecialType != SpecialType.Structured)
                 {
                     var subDataFields = dalSqlParameter.Value.GetDataFieldList(this.Settings, this.MemoryCache, this.HandleError, Internal.CacheCategory.DataField);
-                    dalSqlParameter.Value.UpdateDataRowObject(subDataFields, specialType, DataDirection.Outbound, this.Settings, this.MemoryCache, this.HandleError, true);
+                    dalSqlParameter.Value.UpdateDataRowObject(subDataFields, dalSqlParameter.SpecialType, DataDirection.Outbound, this.Settings, this.MemoryCache, this.HandleError, true);
                 }
 
-                if (dalSqlParameter.DataType == SqlDbType.Json || specialType == SpecialType.Json)
+                if (dalSqlParameter.SpecialType == SpecialType.Json)
                 {
                     dalSqlParameter.DataType = SqlDbType.NVarChar;
                     dalSqlParameter.Size = -1;
@@ -244,7 +274,7 @@ namespace DevHorizons.DAL.Sql
                         dalSqlParameter.Value = JsonConvert.SerializeObject(dalSqlParameter.Value);
                     }
                 }
-                else if (dalSqlParameter.DataType == SqlDbType.Xml || specialType == SpecialType.Xml)
+                else if (dalSqlParameter.DataType == SqlDbType.Xml || dalSqlParameter.SpecialType == SpecialType.Xml)
                 {
                     dalSqlParameter.DataType = SqlDbType.Xml;
                     if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value is not string)
@@ -252,7 +282,7 @@ namespace DevHorizons.DAL.Sql
                         dalSqlParameter.Value = dalSqlParameter.Value.ToXmlString();
                     }
                 }
-                else if (dalSqlParameter.DataType == SqlDbType.Structured || specialType == SpecialType.Structured)
+                else if (dalSqlParameter.DataType == SqlDbType.Structured || dalSqlParameter.SpecialType == SpecialType.Structured)
                 {
                     dalSqlParameter.DataType = SqlDbType.Structured;
 
@@ -261,16 +291,16 @@ namespace DevHorizons.DAL.Sql
                         dalSqlParameter.Value = dalSqlParameter.Value.ToStructuredDbType(this.Settings, this.MemoryCache, this.HandleError);
                     }
                 }
-                else if (dalSqlParameter.DataType == SqlDbType.VarBinary || specialType == SpecialType.Binary)
+                else if (dalSqlParameter.DataType == SqlDbType.VarBinary || dalSqlParameter.SpecialType == SpecialType.Binary)
                 {
                     dalSqlParameter.DataType = SqlDbType.VarBinary;
                     dalSqlParameter.Size = -1;
-                    if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value != null && dalSqlParameter.Value is not string)
+                    if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value != null && dalSqlParameter.Value is not ICollection<byte>)
                     {
                         dalSqlParameter.Value = Convert.FromBase64String(dalSqlParameter.Value.ToString());
                     }
                 }
-                else if (specialType == SpecialType.Base64)
+                else if (dalSqlParameter.SpecialType == SpecialType.Base64)
                 {
                     dalSqlParameter.DataType = SqlDbType.NVarChar;
                     dalSqlParameter.Size = -1;
@@ -280,7 +310,7 @@ namespace DevHorizons.DAL.Sql
                         dalSqlParameter.Value = Convert.ToBase64String((byte[])dalSqlParameter.Value);
                     }
                 }
-                else if (dalSqlParameter.DataType == SqlDbType.Auto)
+                else if (dalSqlParameter.DataType is null)
                 {
                     this.SetParameterAutoType(parameter);
                 }
@@ -301,20 +331,20 @@ namespace DevHorizons.DAL.Sql
         {
             var dalSqlParameter = parameter as SqlParameter;
 
-            Type? type = null;
-            if (dalSqlParameter.ParameterAttribute?.Property != null)
+            Type type = null;
+            if (dalSqlParameter.Property != null)
             {
-                type = Nullable.GetUnderlyingType(dalSqlParameter.ParameterAttribute.Property.PropertyType) ?? (dalSqlParameter.ParameterAttribute.Property.PropertyType);
+                type = Nullable.GetUnderlyingType(dalSqlParameter.Property.PropertyType) ?? (dalSqlParameter.Property.PropertyType);
             }
 
-            if (dalSqlParameter.Value != null && dalSqlParameter.ParameterAttribute != null && dalSqlParameter.ParameterAttribute.SpecialType != SpecialType.None)
+            if (dalSqlParameter.Value != null && dalSqlParameter.SpecialType != SpecialType.None)
             {
                 dalSqlParameter.Size = -1;
                 parameter.Size = -1;
 
                 if (dalSqlParameter.Direction != Direction.Output)
                 {
-                    switch (dalSqlParameter.ParameterAttribute.SpecialType)
+                    switch (dalSqlParameter.SpecialType)
                     {
                         case SpecialType.Json:
                             {
@@ -439,7 +469,7 @@ namespace DevHorizons.DAL.Sql
             {
                 dalSqlParameter.DataType = SqlDbType.Structured;
             }
-            else if (dalSqlParameter.Value.IsSerializableType() && dalSqlParameter.DataType == SqlDbType.Auto)
+            else if (dalSqlParameter.Value.IsSerializableType() && dalSqlParameter.DataType is null)
             {
                 dalSqlParameter.DataType = SqlDbType.Structured;
 

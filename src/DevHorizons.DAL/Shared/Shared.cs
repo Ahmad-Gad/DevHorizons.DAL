@@ -362,7 +362,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        public static void UpdateDataRowObject(this object obj, ICollection<DataFieldAttribute> dataFieldsList, SpecialType parentSpecialType, DataDirection dataDirection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, bool childProp = false)
+        public static void UpdateDataRowObject(this object obj, ICollection<DataField> dataFieldsList, SpecialType parentSpecialType, DataDirection dataDirection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, bool childProp = false)
         {
             if (obj == null)
             {
@@ -402,7 +402,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        public static List<DataFieldAttribute> GetDataFieldList(this object obj, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, CacheCategory cacheCategory)
+        public static List<DataField> GetDataFieldList(this object obj, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, CacheCategory cacheCategory)
         {
             if (obj == null)
             {
@@ -431,15 +431,15 @@ namespace DevHorizons.DAL.Shared
         /// <param name="memoryCache">The internal memory cached object/container.</param>
         /// <param name="handleError">The handle error function passed from the command.</param>
         /// <param name="cacheCategory">The cache category by the source type. E.g. DataField, Structured, etc.</param>
-        /// <returns>List of "<see cref="DataFieldAttribute"/>".</returns>
+        /// <returns>List of "<see cref="DataField"/>".</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        public static List<DataFieldAttribute> GetDataFieldList(this Type type, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, CacheCategory cacheCategory)
+        public static List<DataField> GetDataFieldList(this Type type, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, CacheCategory cacheCategory)
         {
             var before = GC.GetTotalMemory(false);
-            var dataFieldList = new List<DataFieldAttribute>();
+            var dataFieldList = new List<DataField>();
             var cacheKey = $"{type.FullName}.{cacheCategory}";
             if (!dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CacheSettings.DisableSecondLevel)
             {
@@ -450,7 +450,7 @@ namespace DevHorizons.DAL.Shared
                 }
                 else
                 {
-                    dataFieldList = new List<DataFieldAttribute>();
+                    dataFieldList = new List<DataField>();
                 }
             }
 
@@ -501,7 +501,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:34 AM</DateTime>
         /// </Created>
-        public static void SaveDataFieldsToCache(this List<DataFieldAttribute> dataFieldsList, string cacheKey, IMemoryCache memoryCache)
+        public static void SaveDataFieldsToCache(this List<DataField> dataFieldsList, string cacheKey, IMemoryCache memoryCache)
         {
             if (memoryCache == null)
             {
@@ -575,7 +575,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:34 AM</DateTime>
         /// </Created>
-        internal static List<DataFieldAttribute> GetDataFields<T>(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
+        internal static List<DataField> GetDataFields<T>(IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
         {
             var type = typeof(T);
 
@@ -972,7 +972,7 @@ namespace DevHorizons.DAL.Shared
         #region Get
 
         /// <summary>
-        ///    Gets the data columns as <see cref="List{T}"/> where <c>T</c> is <see cref="DataFieldAttribute"/> from the memory cache.
+        ///    Gets the data columns as <see cref="List{T}"/> where <c>T</c> is <see cref="DataField"/> from the memory cache.
         /// </summary>
         /// <param name="cacheKey">The unique cache key.</param>
         /// <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
@@ -980,11 +980,11 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:34 AM</DateTime>
         /// </Created>
-        private static List<DataFieldAttribute> GetDataFieldsFromCache(string cacheKey, IMemoryCache memoryCache)
+        private static List<DataField> GetDataFieldsFromCache(string cacheKey, IMemoryCache memoryCache)
         {
             if (memoryCache != null && memoryCache.CachedDataFields != null && memoryCache?.CachedDataFields?.Count != 0)
             {
-                var valueExist = memoryCache.CachedDataFields.TryGetValue(cacheKey, out List<DataFieldAttribute> value);
+                var valueExist = memoryCache.CachedDataFields.TryGetValue(cacheKey, out List<DataField> value);
                 return valueExist ? value : null;
             }
 
@@ -1004,7 +1004,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:34 AM</DateTime>
         /// </Created>
-        private static void SaveDataFieldsToCacheAsync(this List<DataFieldAttribute> dataColumnAttributeList, string cacheKey, IMemoryCache memoryCache)
+        private static void SaveDataFieldsToCacheAsync(this List<DataField> dataColumnAttributeList, string cacheKey, IMemoryCache memoryCache)
         {
             Task.Run(() => dataColumnAttributeList.SaveDataFieldsToCache(cacheKey, memoryCache));
         }
@@ -1015,7 +1015,7 @@ namespace DevHorizons.DAL.Shared
         #region DataTable
 
         /// <summary>
-        ///    Converts the properties of the specified source object into list of "<see cref="DataFieldAttribute"/>".
+        ///    Converts the properties of the specified source object into list of "<see cref="DataField"/>".
         /// </summary>
         /// <param name="obj">The source object.</param>
         /// <param name="dataAccessSettings">The data access settings of the type "<see cref="IDataAccessSettings"/>".</param>
@@ -1027,7 +1027,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static List<DataFieldAttribute> GetDataColumnDetailsList(this object obj, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
+        private static List<DataField> GetDataColumnDetailsList(this object obj, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
         {
             var before = GC.GetTotalMemory(false);
             var cacheKey = $"{obj.GetType().FullName}.DataColumns";
@@ -1042,7 +1042,7 @@ namespace DevHorizons.DAL.Shared
             }
 
             var props = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-            var colDetailsList = new List<DataFieldAttribute>();
+            var colDetailsList = new List<DataField>();
             foreach (var prop in props)
             {
                 var dataColumn = obj.GetDataColumnDetails(prop);
@@ -1089,39 +1089,12 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static DataFieldAttribute GetDataColumnDetails(this object obj, PropertyInfo prop)
+        private static DataField GetDataColumnDetails(this object obj, PropertyInfo prop)
         {
-            var dataField = prop.GetCustomAttribute<DataFieldAttribute>(true);
-
-            if (dataField == null)
+            var dataField = prop.GetDataField(obj);
+            if (dataField.NotMapped || dataField.DataDirection == DataDirection.Inbound || dataField.DataDirection == DataDirection.None)
             {
-                dataField = new DataFieldAttribute
-                {
-                    SpecialType = SpecialType.None,
-                    DataDirection = DataDirection.Outbound
-                };
-            }
-            else
-            {
-                if (dataField.NotMapped || dataField.DataDirection == DataDirection.Inbound || dataField.DataDirection == DataDirection.None)
-                {
-                    return null;
-                }
-            }
-
-            if (dataField.Name.IsNullOrEmpty(true))
-            {
-                dataField.Name = prop.Name;
-            }
-
-            dataField.Property = prop;
-            if (dataField.SpecialType != SpecialType.None)
-            {
-                dataField.DataType = typeof(string);
-            }
-            else
-            {
-                dataField.DataType = prop.GetValue(obj).IsSerializableType() ? typeof(string) : prop.PropertyType;
+                return null;
             }
 
             return dataField;
@@ -1136,53 +1109,15 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static List<DataColumn> GetNonReferencedCopy(this ICollection<DataFieldAttribute> dataColumnsList)
+        private static List<DataColumn> GetNonReferencedCopy(this ICollection<DataField> dataColumnsList)
         {
             var newList = new List<DataColumn>();
             foreach (var dc in dataColumnsList)
             {
-                newList.Add(new DataColumn(dc.Name, dc.DataType));
+                newList.Add(new DataColumn(dc.Name, dc.Type));
             }
 
             return newList;
-        }
-
-        /// <summary>
-        ///    Converts to data field details as an instance of "<see cref="DataFieldAttribute"/>" object.
-        /// </summary>
-        /// <param name="prop">Data property info.</param>
-        /// <returns>The data row as an instance of "<see cref="DataRow"/>".</returns>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>11/02/2020 10:44 AM</DateTime>
-        /// </Created>
-        private static DataFieldAttribute GetDataField(this PropertyInfo prop)
-        {
-            var dataField = prop.GetCustomAttribute<DataFieldAttribute>(true);
-
-            if (dataField == null)
-            {
-                dataField = new DataFieldAttribute
-                {
-                    SpecialType = SpecialType.None,
-                    DataDirection = DataDirection.Both
-                };
-            }
-            else
-            {
-                if (dataField.NotMapped || dataField.DataDirection == DataDirection.None)
-                {
-                    return null;
-                }
-            }
-
-            if (dataField.Name.IsNullOrEmpty(true))
-            {
-                dataField.Name = prop.Name;
-            }
-
-            dataField.Property = prop;
-            return dataField;
         }
 
         /// <summary>
@@ -1199,14 +1134,14 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static DataRow GetDataRow(this DataTable dt, object obj, ICollection<DataFieldAttribute> dataFieldsList, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
+        private static DataRow GetDataRow(this DataTable dt, object obj, ICollection<DataField> dataFieldsList, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError)
         {
             var dr = dt.NewRow();
             obj.UpdateDataRowObject(dataFieldsList, SpecialType.None, DataDirection.Outbound, dataAccessSettings, memoryCache, handleError);
             foreach (var df in dataFieldsList)
             {
-                dr[df.Name] = df.Value;
-                df.Value = null;
+                var value = df.Property.GetValue(obj);
+                dr[df.Name] = value;
             }
 
             return dr;
@@ -1227,7 +1162,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static void UpdateDataRowSingleObject(this object obj, ICollection<DataFieldAttribute> dataFieldsList, SpecialType parentSpecialType, DataDirection dataDirection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, bool childProp = false)
+        private static void UpdateDataRowSingleObject(this object obj, ICollection<DataField> dataFieldsList, SpecialType parentSpecialType, DataDirection dataDirection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, bool childProp = false)
         {
             foreach (var dataField in dataFieldsList)
             {
@@ -1267,7 +1202,7 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static void UpdateDataRowSingleObjectProp(this DataFieldAttribute dataField, SpecialType parentSpecialType, object value, object obj, DataDirection dataDirection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, bool childProp = false)
+        private static void UpdateDataRowSingleObjectProp(this DataField dataField, SpecialType parentSpecialType, object value, object obj, DataDirection dataDirection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, Action<ILogDetails> handleError, bool childProp = false)
         {
             if (dataField == null || dataField.NotMapped || dataField.DataDirection == DataDirection.None)
             {
@@ -1314,7 +1249,6 @@ namespace DevHorizons.DAL.Shared
                     }
                 }
 
-                dataField.Value = newValue;
                 if (childProp)
                 {
                     prop.SetValue(obj, newValue);

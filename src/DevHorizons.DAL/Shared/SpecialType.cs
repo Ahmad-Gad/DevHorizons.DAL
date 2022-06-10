@@ -12,6 +12,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace DevHorizons.DAL.Shared
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///    Specifies the explicit special type of data column or parameter.
     /// </summary>
@@ -19,6 +21,7 @@ namespace DevHorizons.DAL.Shared
     ///      <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///      <DateTime>02/02/2022 06:00 PMM</DateTime>
     /// </Created>
+    [DefaultValue(None)]
     public enum SpecialType
     {
         /// <summary>

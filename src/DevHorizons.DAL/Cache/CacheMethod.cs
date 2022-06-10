@@ -29,7 +29,7 @@ namespace DevHorizons.DAL.Cache
         /// <summary>
         ///    Using the built-in memory cache ("<see cref="IMemoryCache"/>") on the host machine which is following life cycle of the host application and usually being hosted in a Singleton Dependency Injection life cycle.
         ///    <para>The most recommended option for the best performance. However, it can consume significant amount of memory on the host server depends on the number of data models registered in the host application.</para>
-        ///    <para>You can monitor the allocated memory (in bytes) for this option for the designated levels using from the "<see cref="Abstracts.Command"/>" class. E.g. "<see cref="Abstracts.Command.SecondLevelCacheMemorySize"/>".</para>
+        ///    <para>You can monitor the allocated memory (in bytes) for this option for the designated levels using from the "<see cref="Abstracts.ACommand"/>" class. E.g. "<see cref="Abstracts.ACommand.SecondLevelCacheMemorySize"/>".</para>
         /// </summary>
         Memory = 1,
     }

@@ -43,7 +43,7 @@
         public string Password { get; set; }
 
         [JsonProperty(Required = Required.AllowNull)]
-        [SqlParameter(Type = Sql.SqlDbType.Json, Direction = Direction.Output)]
+        [SqlParameter(SpecialType = SpecialType.Json, Direction = Direction.Output)]
         public List<UserEvent>? Events { get; set; }
     }
 }

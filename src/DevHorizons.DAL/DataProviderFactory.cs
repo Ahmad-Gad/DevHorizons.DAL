@@ -23,6 +23,7 @@ namespace DevHorizons.DAL
     ///    <author>Ahmad Gad (ahmad.gad@DevHorizons.com)</author>
     ///    <datetime>03/07/2019 07:44 PM</datetime>
     /// </created>
+    [DefaultValue(None)]
     public enum DataProviderFactory
     {
         /// <summary>

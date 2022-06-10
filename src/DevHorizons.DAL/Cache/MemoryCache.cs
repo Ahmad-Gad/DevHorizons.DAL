@@ -58,7 +58,7 @@ namespace DevHorizons.DAL.Cache
         DbProviderFactory IMemoryCache.DataProviderFactory { get; set; }
 
         /// <inheritdoc/>
-        IDictionary<string, List<DataFieldAttribute>> IMemoryCache.CachedDataFields { get; set; } = new SortedDictionary<string, List<DataFieldAttribute>>();
+        IDictionary<string, List<DataField>> IMemoryCache.CachedDataFields { get; set; } = new SortedDictionary<string, List<DataField>>();
 
         /// <inheritdoc/>
         IDictionary<string, List<PropertyInfo>> IMemoryCache.CachedProperties { get; set; } = new SortedDictionary<string, List<PropertyInfo>>();

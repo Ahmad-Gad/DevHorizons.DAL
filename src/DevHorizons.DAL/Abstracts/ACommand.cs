@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="Command.cs" company="DevHorizons">
+//  <copyright file="ACommand.cs" company="DevHorizons">
 //    Copyright (c) DevHorizons. All rights reserved.
 //  </copyright>
 //  <summary>
@@ -41,7 +41,7 @@ namespace DevHorizons.DAL.Abstracts
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>10/02/2020 10:25 PM</DateTime>
     /// </Created>
-    public abstract class Command : ICommand
+    public abstract class ACommand : ICommand
     {
         #region Private Fields
         #region ReadOnly Fields
@@ -143,7 +143,7 @@ namespace DevHorizons.DAL.Abstracts
         #region Constructors
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="ACommand"/> class.
         ///    <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
         /// </summary>
         /// <param name="dataProviderFactory">The designated data factory which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
@@ -154,7 +154,7 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:27 PM</DateTime>
         /// </Created>
-        public Command(DataProviderFactory dataProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger)
+        public ACommand(DataProviderFactory dataProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<ACommand> logger)
         {
             this.dataProviderFactory = dataProviderFactory;
             this.MemoryCache = memoryCache;
@@ -168,7 +168,7 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="ACommand"/> class.
         ///    <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
         /// </summary>
         /// <param name="dbProviderFactory">The designated data factory instance of ("<see cref="DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
@@ -179,7 +179,7 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>30/04/2022 06:27 PM</DateTime>
         /// </Created>
-        public Command(DbProviderFactory dbProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger)
+        public ACommand(DbProviderFactory dbProviderFactory, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<ACommand> logger)
         {
             this.dbProviderFactory = dbProviderFactory;
             this.MemoryCache = memoryCache;
@@ -193,7 +193,7 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Command"/> class.
+        ///    Initializes a new instance of the <see cref="ACommand"/> class.
         ///    <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
         /// </summary>
         /// <param name="dbConnection">The designated data connection instance of the type ("<see cref="DbConnection"/>").</param>
@@ -204,7 +204,7 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>30/04/2022 06:27 PM</DateTime>
         /// </Created>
-        public Command(DbConnection dbConnection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<Command> logger)
+        public ACommand(DbConnection dbConnection, IDataAccessSettings dataAccessSettings, IMemoryCache memoryCache, ILogger<ACommand> logger)
         {
             this.Connection = dbConnection;
             this.MemoryCache = memoryCache;
@@ -345,7 +345,7 @@ namespace DevHorizons.DAL.Abstracts
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:35 PM</DateTime>
         /// </Created>
-        protected internal ILogger<Command> Logger { get; private set; }
+        protected internal ILogger<ACommand> Logger { get; private set; }
         #endregion Protected Fields
         #endregion Internal Properties
 
@@ -472,7 +472,6 @@ namespace DevHorizons.DAL.Abstracts
         /// <inheritdoc/>
         public void ClearParameters()
         {
-            this.Parameters.ForEach(p => p.Value = null);
             this.Parameters.Clear();
             this.Cmd.Parameters.Clear();
         }
@@ -1537,9 +1536,9 @@ namespace DevHorizons.DAL.Abstracts
             {
                 if (parameter.Value != null)
                 {
-                    if (parameter.Encrypted || (parameter.ParameterAttribute != null && parameter.ParameterAttribute.Encrypted))
+                    if (parameter.Encrypted)
                     {
-                        var nonDeterministic = parameter.ParameterAttribute.EncryptionType == EncryptionType.Randomized || this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
+                        var nonDeterministic = parameter.EncryptionType == EncryptionType.Randomized || this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
                         var cryptoResult = parameter.Value.ToString().EncryptSymmetric(this.Settings, nonDeterministic, this.MemoryCache);
                         if (cryptoResult.OutputError != null)
                         {
@@ -1549,12 +1548,12 @@ namespace DevHorizons.DAL.Abstracts
 
                         var value = cryptoResult.Value;
                         parameter.Value = value;
-                        if (parameter.ParameterAttribute.SpecialType != SpecialType.Xml && parameter.ParameterAttribute.SpecialType != SpecialType.Json && parameter.ParameterAttribute.SpecialType != SpecialType.Base64 && dbParameter.DbType != System.Data.DbType.Xml)
+                        if (parameter.SpecialType != SpecialType.Xml && parameter.SpecialType != SpecialType.Json && parameter.SpecialType != SpecialType.Base64 && dbParameter.DbType != System.Data.DbType.Xml)
                         {
                             parameter.Size = value.Length;
                         }
                     }
-                    else if (parameter.Hashed || (parameter.ParameterAttribute != null && parameter.ParameterAttribute.Hashed))
+                    else if (parameter.Hashed)
                     {
                         var cryptoResult = parameter.Value.ToString().ToHash(this.Settings, this.MemoryCache);
                         if (cryptoResult.OutputError != null)
@@ -1634,7 +1633,7 @@ namespace DevHorizons.DAL.Abstracts
         /// </Created>
         protected virtual void UpdateParameter(IParameter parameter)
         {
-            var dalParameter = parameter as DAL.Shared.Parameter;
+            var dalParameter = parameter as Parameter;
             if (dalParameter.DataType == DAL.Shared.DbType.Auto)
             {
                 if (dalParameter.Direction == Direction.ReturnValue)
@@ -1848,11 +1847,25 @@ namespace DevHorizons.DAL.Abstracts
         {
             ILogDetails error = null;
 
+            if (this.Settings is null)
+            {
+                error = this.Settings.CreateErrorDetails(
+                  source: "DAL.Command.InitializeConnection()",
+                  errorNumber: -100,
+                  stackTrace: Environment.StackTrace,
+                  message: "Failed to initialize the connection with the data source.",
+                  description: $"The data access settings ({typeof(DataAccessSettings).FullName}) cannot be null.");
+
+                this.terminateFurtherExecutions = true;
+                this.HandleError(error);
+                return false;
+            }
+
             if (this.dataProviderFactory == DataProviderFactory.None && this.dbProviderFactory is null && this.Connection is null)
             {
                 error = this.Settings.CreateErrorDetails(
                    source: "DAL.Command.InitializeConnection()",
-                   errorNumber: -100,
+                   errorNumber: -101,
                    stackTrace: Environment.StackTrace,
                    message: "Failed to initialize the connection with the data source.",
                    description: $"The engine needs either DataProviderFactory or an instance of either DbProviderFactory or IDbConnection to initialize the connection.");
@@ -1864,11 +1877,11 @@ namespace DevHorizons.DAL.Abstracts
 
             if (this.Connection == null)
             {
-                if (this.Settings?.ConnectionSettings?.DbConnection is null && string.IsNullOrWhiteSpace(this.Settings?.ConnectionSettings?.ConnectionString))
+                if (this.Settings.ConnectionSettings?.DbConnection is null && string.IsNullOrWhiteSpace(this.Settings.ConnectionSettings?.ConnectionString))
                 {
                     error = this.Settings.CreateErrorDetails(
                         source: "DAL.Command.InitializeConnection()",
-                        errorNumber: -101,
+                        errorNumber: -102,
                         stackTrace: Environment.StackTrace,
                         message: "Failed to initialize the connection with the data source.",
                         description: $"The engine needs either an instance of the 'DbConnection' [DataAccessSettings.ConnectionSettings.DbConnection] or a valid connection string [DataAccessSettings.ConnectionSettings.ConnectionString].");
@@ -1903,7 +1916,7 @@ namespace DevHorizons.DAL.Abstracts
                     {
                         error = this.Settings.CreateErrorDetails(
                           ex: ex,
-                          errorNumber: -102,
+                          errorNumber: -103,
                           description: $"Failed to initialize the connection with the data source. The connection string might be in mismatch format regarding the provided data factory and the client connection.",
                           source: "DAL.Command.InitializeConnection()");
 
@@ -2016,7 +2029,7 @@ namespace DevHorizons.DAL.Abstracts
                             {
                                 continue;
                             }
-                            else if (reader[df.Name] is DBNull && (df.CanBeNull || ignoreNull))
+                            else if (reader[df.Name] is DBNull && (df.Optional || ignoreNull))
                             {
                                 continue;
                             }
@@ -2077,7 +2090,7 @@ namespace DevHorizons.DAL.Abstracts
                             }
                             else
                             {
-                                if (df.CanBeNull)
+                                if (df.Optional)
                                 {
                                     continue;
                                 }
@@ -2219,27 +2232,25 @@ namespace DevHorizons.DAL.Abstracts
 
                 if (direction == ParameterDirection.ReturnValue || direction == ParameterDirection.Output || direction == ParameterDirection.InputOutput)
                 {
-                    var parameterAttribute = parameter.ParameterAttribute;
-
                     if (direction == ParameterDirection.ReturnValue)
                     {
-                        parameterAttribute.Property.SetValue(commandBody, parameter.Value);
+                        parameter.Property.SetValue(commandBody, parameter.Value);
                         continue;
                     }
 
-                    switch (parameterAttribute.SpecialType)
+                    switch (parameter.SpecialType)
                     {
                         case SpecialType.Json:
                             {
-                                var value = parameter.Value.ToString().FromJsonString(parameterAttribute.Property.PropertyType);
-                                parameterAttribute.Property.SetValue(commandBody, value);
+                                var value = parameter.Value.ToString().FromJsonString(parameter.Property.PropertyType);
+                                parameter.Property.SetValue(commandBody, value);
                                 break;
                             }
 
                         case SpecialType.Xml:
                             {
-                                var value = parameter.Value.ToString().FromXmlString(parameterAttribute.Property.PropertyType);
-                                parameterAttribute.Property.SetValue(commandBody, value);
+                                var value = parameter.Value.ToString().FromXmlString(parameter.Property.PropertyType);
+                                parameter.Property.SetValue(commandBody, value);
                                 break;
                             }
 
@@ -2249,18 +2260,18 @@ namespace DevHorizons.DAL.Abstracts
                                 using var stringWriter = new System.IO.StringWriter();
                                 dataTable.WriteXml(stringWriter, false);
                                 var xmlString = stringWriter.ToString();
-                                var value = xmlString.FromXmlString(parameterAttribute.Property.PropertyType);
-                                parameterAttribute.Property.SetValue(commandBody, value);
+                                var value = xmlString.FromXmlString(parameter.Property.PropertyType);
+                                parameter.Property.SetValue(commandBody, value);
 
                                 break;
                             }
 
                         case SpecialType.Binary:
                             {
-                                if (parameterAttribute.Property.PropertyType == typeof(string))
+                                if (parameter.Property.PropertyType == typeof(string))
                                 {
                                     var value = Convert.ToBase64String((byte[])parameter.Value);
-                                    parameterAttribute.Property.SetValue(commandBody, value);
+                                    parameter.Property.SetValue(commandBody, value);
                                 }
 
                                 break;
@@ -2268,10 +2279,10 @@ namespace DevHorizons.DAL.Abstracts
 
                         case SpecialType.Base64:
                             {
-                                if (parameterAttribute.Property.PropertyType.IsGenericType && parameterAttribute.Property.PropertyType.GenericTypeArguments[0] == typeof(byte))
+                                if (parameter.Property.PropertyType.IsGenericType && parameter.Property.PropertyType.GenericTypeArguments[0] == typeof(byte))
                                 {
                                     var value = Convert.FromBase64String(parameter.Value.ToString());
-                                    parameterAttribute.Property.SetValue(commandBody, value);
+                                    parameter.Property.SetValue(commandBody, value);
                                 }
 
                                 break;
@@ -2279,7 +2290,8 @@ namespace DevHorizons.DAL.Abstracts
 
                         default:
                             {
-                                parameterAttribute.Property.SetValue(commandBody, parameter.Value);
+                                //ToDo: Test with Decimal data type especially when the value is 0
+                                parameter.Property.SetValue(commandBody, parameter.Value);
                                 break;
                             }
                     }

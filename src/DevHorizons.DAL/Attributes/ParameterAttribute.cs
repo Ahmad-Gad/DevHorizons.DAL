@@ -13,8 +13,6 @@
 namespace DevHorizons.DAL.Attributes
 {
     using System;
-    using System.Reflection;
-
     using Cryptography;
     using Interfaces;
     using Shared;
@@ -29,10 +27,8 @@ namespace DevHorizons.DAL.Attributes
     /// </Created>
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Property)]
-    public class ParameterAttribute : Attribute, IParameterAttribute
+    public class ParameterAttribute : Attribute, IParameterBase
     {
-        #region Properties
-
         /// <inheritdoc/>
         public string Name { get; set; }
 
@@ -55,9 +51,6 @@ namespace DevHorizons.DAL.Attributes
         public SpecialType SpecialType { get; set; } = SpecialType.None;
 
         /// <inheritdoc/>
-        public PropertyInfo Property { get; set; }
-
-        /// <inheritdoc/>
         public bool Encrypted { get; set; }
 
         /// <inheritdoc/>
@@ -68,6 +61,8 @@ namespace DevHorizons.DAL.Attributes
 
         /// <inheritdoc/>
         public EncryptionType EncryptionType { get; set; } = EncryptionType.Default;
-        #endregion Properties
+
+        /// <inheritdoc/>
+        public bool Optional { get; set; }
     }
 }

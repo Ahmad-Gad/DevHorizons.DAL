@@ -29,6 +29,7 @@ namespace DevHorizons.DAL.Sql.Attributes
         /// <summary>
         ///    Gets or sets a the data type.
         /// </summary>
+        /// <remarks>If Null, the type will be auto determined based on the mapped property type or/and the "<see cref="DAL.Attributes.ParameterAttribute.SpecialType"/>".</remarks>
         /// <value>
         ///   The data type.
         /// </value>
@@ -36,7 +37,7 @@ namespace DevHorizons.DAL.Sql.Attributes
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:52 PM</DateTime>
         /// </Created>
-        public SqlDbType Type { get; set; } = SqlDbType.Auto;
+        public SqlDbType? Type { get; set; }
         #endregion Properties
     }
 }

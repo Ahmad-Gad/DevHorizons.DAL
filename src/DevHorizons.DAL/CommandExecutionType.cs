@@ -12,6 +12,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace DevHorizons.DAL
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///   The execution type/behaviour of a command.
     /// </summary>
@@ -19,8 +21,14 @@ namespace DevHorizons.DAL
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>12/02/2022 04:58 PM</DateTime>
     /// </Created>
+    [DefaultValue(Unkown)]
     public enum CommandExecutionType
     {
+        /// <summary>
+        ///    Unkown/Unspecified execution type.
+        /// </summary>
+        Unkown = 0,
+
         /// <summary>
         ///    Expects for the command to execute whatever it holds without expecting to return anything except for the provided return/output parameters.
         /// </summary>

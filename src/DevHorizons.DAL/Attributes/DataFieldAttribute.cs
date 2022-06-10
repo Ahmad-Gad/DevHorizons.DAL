@@ -13,8 +13,8 @@
 namespace DevHorizons.DAL.Attributes
 {
     using System;
-    using System.Reflection;
     using Cryptography;
+    using Interfaces;
     using Shared;
 
     /// <summary>
@@ -24,10 +24,12 @@ namespace DevHorizons.DAL.Attributes
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>10/02/2020 11:47 PM</DateTime>
     /// </Created>
-    /// <seealso cref="System.Attribute" />
+    /// <seealso cref="Attribute" />
+    /// <seealso cref="IDataFieldBase" />
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class DataFieldAttribute : Attribute
+    public sealed class DataFieldAttribute : Attribute, IDataFieldBase
     {
+
         #region Constructors
 
         /// <summary>
@@ -39,19 +41,6 @@ namespace DevHorizons.DAL.Attributes
         /// </Created>
         public DataFieldAttribute()
         {
-        }
-
-        /// <summary>
-        ///    Initializes a new instance of the <see cref="DataFieldAttribute"/> class.
-        /// </summary>
-        /// <param name="prop">The bound property as an instance of "<see cref="PropertyInfo"/>". This property is designed to serve the library internally only.</param>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:48 PM</DateTime>
-        /// </Created>
-        public DataFieldAttribute(PropertyInfo prop)
-        {
-            this.Property = prop;
         }
 
         /// <summary>
@@ -79,21 +68,6 @@ namespace DevHorizons.DAL.Attributes
         public DataFieldAttribute(string name, bool notMapped) : this(name)
         {
             this.NotMapped = notMapped;
-        }
-
-        /// <summary>
-        ///    Initializes a new instance of the <see cref="DataFieldAttribute"/> class.
-        /// </summary>
-        /// <param name="name">The source database table's column name or stored procedure's parameter name.</param>
-        /// <param name="notMapped">if set to <c>true</c> the property will not be mapped with returned table or the command body (stored procedure).</param>
-        /// <param name="canBeNull">if set to <c>true</c> the mapped column can be expected to return with null-able value and in this case, the <c>DAL</c> library will ignore it to be populated with the default value automatically by the <c>CLR</c>.</param>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:50 PM</DateTime>
-        /// </Created>
-        public DataFieldAttribute(string name, bool notMapped, bool canBeNull) : this(name, notMapped)
-        {
-            this.CanBeNull = canBeNull;
         }
         #endregion Constructors
 
@@ -124,18 +98,6 @@ namespace DevHorizons.DAL.Attributes
         public bool NotMapped { get; set; }
 
         /// <summary>
-        ///    Gets or sets a value indicating whether the mapped column can be expected to return (from output parameter) with null-able value and in this case, the <c>DAL</c> library will ignore it to be populated with the default value automatically by the <c>CLR</c>.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance can be null; otherwise, <c>false</c>.
-        /// </value>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:52 PM</DateTime>
-        /// </Created>
-        public bool CanBeNull { get; set; }
-
-        /// <summary>
         ///    Gets or sets a value indicating whether the mapped column in the designated table in the database is nullable.
         /// </summary>
         /// <value>
@@ -153,6 +115,22 @@ namespace DevHorizons.DAL.Attributes
         public bool AllowNull { get; set; }
 
         /// <summary>
+        ///    Gets or sets a value indicating whether the mapped property/column/parameter is optional/nullable.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this input value can be null; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///    Default Value: <c>false</c>.
+        ///    <para>If set to "<c>true</c>" while the value is null, then this property will be skipped from the data inputs into the database.</para>
+        /// </remarks>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>08/03/2022 06:38 PM</DateTime>
+        /// </Created>
+        public bool Optional { get; set; }
+
+        /// <summary>
         ///    Gets or sets the explicit special type of data column or parameter.
         /// </summary>
         /// <value>
@@ -162,7 +140,7 @@ namespace DevHorizons.DAL.Attributes
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:52 PM</DateTime>
         /// </Created>
-        public SpecialType SpecialType { get; set; }
+        public SpecialType SpecialType { get; set; } = SpecialType.None;
 
         /// <summary>
         ///    Gets or sets a value indicating whether the value/data will be decrypted before begin assigned to the mapped property.
@@ -221,7 +199,7 @@ namespace DevHorizons.DAL.Attributes
         public EncryptionType EncryptionType { get; set; } = EncryptionType.Default;
 
         /// <summary>
-        ///    Gets or sets the data direction from/to a data model which either data being sent to the data source or data being received by the data source.
+        ///    Gets or sets the data direction/flow from/to a data model which either data being sent to the data source or data being received by the data source.
         /// </summary>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -256,19 +234,6 @@ namespace DevHorizons.DAL.Attributes
         public bool Identity { get; set; }
 
         /// <summary>
-        ///    Gets the bound property as an instance of "<see cref="PropertyInfo"/>". This property is designed to serve the library internally only.
-        /// </summary>
-        /// <value>
-        ///    The property as an instance of "<see cref="PropertyInfo"/>".
-        /// </value>
-        /// <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:53 PM</DateTime>
-        /// </Created>
-        public PropertyInfo Property { get; internal set; }
-
-        /// <summary>
         ///    Gets or sets a value indicating whether the mapped field will be assigned by output values after the "Insert" action.
         /// </summary>
         /// <value>
@@ -281,36 +246,5 @@ namespace DevHorizons.DAL.Attributes
         /// </Created>
         public bool InsertedOutput { get; set; }
         #endregion Properties
-
-        #region Internal Properties
-
-        /// <summary>
-        ///    Gets or sets the transformed value which could be different from the mapped property value and type.
-        ///    <para>This value could encrypted, decrypted, hashed or <c>JSON</c>/<c>XML</c> serialized/deserialized.</para>
-        /// </summary>
-        /// <value>
-        ///    The final updated value.
-        /// </value>
-        /// <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:53 PM</DateTime>
-        /// </Created>
-        internal object Value { get; set; }
-
-        /// <summary>
-        ///    Gets or sets the transformed "Type" which could be different from the mapped property value and type.
-        ///    <para>This value could encrypted, decrypted, hashed or <c>JSON</c>/<c>XML</c> serialized/deserialized.</para>
-        /// </summary>
-        /// <value>
-        ///    The final updated type.
-        /// </value>
-        /// <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:53 PM</DateTime>
-        /// </Created>
-        internal Type DataType { get; set; }
-    #endregion Internal Properties
-}
+    }
 }

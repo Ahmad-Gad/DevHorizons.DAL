@@ -20,6 +20,7 @@ namespace DevHorizons.DAL
     using System.Reflection;
     using System.Xml;
     using Attributes;
+    using DevHorizons.DAL.Interfaces;
     using Newtonsoft.Json;
     using Shared;
 
@@ -35,13 +36,13 @@ namespace DevHorizons.DAL
         #region Public Methods
 
         /// <summary>
-        ///    Converts a collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="Interfaces.IParameter.Value"/>" property.
+        ///    Converts a collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="Interfaces.IDataField.Value"/>" property.
         ///    <para>This is required only if the host parameter holds a "Structured" data type.</para>
         /// </summary>
         /// <typeparam name="T">The type of the passed class based object.</typeparam>
         /// <param name="data">The collection of the based class objects to be converted.</param>
         /// <returns>
-        ///    A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="Interfaces.IParameter.Value"/>" property.
+        ///    A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="Interfaces.IDataField.Value"/>" property.
         /// </returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -78,13 +79,13 @@ namespace DevHorizons.DAL
         }
 
         /// <summary>
-        ///    Converts a collection of generic objects (value data type (struct) based) to the supported structured data type to be passed to the "<see cref="Interfaces.IParameter.Value"/>" property.
+        ///    Converts a collection of generic objects (value data type (struct) based) to the supported structured data type to be passed to the "<see cref="Interfaces.IDataField.Value"/>" property.
         ///    <para>This is required only if the host parameter holds a "Structured" data type.</para>
         /// </summary>
         /// <typeparam name="T">The type of the passed value data type (struct) based object.</typeparam>
         /// <param name="data">The collection of the value data type based objects to be converted.</param>
         /// <returns>
-        ///    A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="Interfaces.IParameter.Value"/>" property.
+        ///    A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="Interfaces.IDataField.Value"/>" property.
         /// </returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -363,6 +364,100 @@ namespace DevHorizons.DAL
             }
 
             return attributesDic;
+        }
+
+        /// <summary>
+        ///    Convert an instance of "<see cref="DataFieldAttribute"/>" to "<see cref="DataField"/>".
+        /// </summary>
+        /// <param name="dataFieldAttribute">The source "<see cref="DataFieldAttribute"/>".</param>
+        /// <returns>
+        ///    Instance of "<see cref="DataField"/>".
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 01:31 AM</DateTime>
+        /// </Created>
+        public static DataField ToDataField(this DataFieldAttribute dataFieldAttribute)
+        {
+            if (dataFieldAttribute == null)
+            {
+                return new DataField();
+            }
+
+            var dataField = new DataField
+            {
+                SpecialType = dataFieldAttribute.SpecialType,
+                Name = dataFieldAttribute.Name,
+                Optional = dataFieldAttribute.Optional,
+                Encrypted = dataFieldAttribute.Encrypted,
+                MayBeEncrypted = dataFieldAttribute.MayBeEncrypted,
+                EncryptionType = dataFieldAttribute.EncryptionType,
+                Hashed = dataFieldAttribute.Hashed,
+                DataDirection = dataFieldAttribute.DataDirection,
+                NotMapped = dataFieldAttribute.NotMapped
+            };
+
+            return dataField;
+        }
+
+        /// <summary>
+        ///    Convert an instance of "<see cref="DataFieldAttribute"/>" to "<see cref="DataField"/>".
+        /// </summary>
+        /// <param name="dataFieldAttribute">The source "<see cref="DataFieldAttribute"/>".</param>
+        /// <param name="prop">The mapped property.</param>
+        /// <param name="obj">The object whose property value will be returned.</param>
+        /// <returns>
+        ///    Instance of "<see cref="DataField"/>".
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 01:31 AM</DateTime>
+        /// </Created>
+        public static DataField ToDataField(this DataFieldAttribute dataFieldAttribute, PropertyInfo prop, object obj = null)
+        {
+            var dataField = new DataField(prop);
+
+            if (dataFieldAttribute != null)
+            {
+                dataField.Name = dataFieldAttribute.Name;
+                dataField.SpecialType = dataFieldAttribute.SpecialType;
+                dataField.Optional = dataFieldAttribute.Optional;
+                dataField.Encrypted = dataFieldAttribute.Encrypted;
+                dataField.MayBeEncrypted = dataFieldAttribute.MayBeEncrypted;
+                dataField.EncryptionType = dataFieldAttribute.EncryptionType;
+                dataField.Hashed = dataFieldAttribute.Hashed;
+                dataField.DataDirection = dataFieldAttribute.DataDirection;
+                dataField.NotMapped = dataFieldAttribute.NotMapped;
+            }
+
+            if (dataField.Name.IsNullOrEmpty(true))
+            {
+                dataField.Name = prop.Name;
+            }
+
+            var type = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+            dataField.Type = obj is not null && prop.GetValue(obj).IsSerializableType() ? typeof(string) : type;
+
+            return dataField;
+        }
+
+
+        /// <summary>
+        ///    Convert an instance of "<see cref="DataFieldAttribute"/>" to "<see cref="DataField"/>".
+        /// </summary>
+        /// <param name="prop">The mapped property.</param>
+        /// <param name="obj">The object whose property value will be returned.</param>
+        /// <returns>
+        ///    Instance of "<see cref="DataField"/>".
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 01:31 AM</DateTime>
+        /// </Created>
+        public static DataField GetDataField(this PropertyInfo prop, object obj = null)
+        {
+            var dataFieldAttribute = prop.GetCustomAttribute<DataFieldAttribute>(true);
+            return dataFieldAttribute.ToDataField(prop, obj);
         }
         #endregion Public Methods
     }

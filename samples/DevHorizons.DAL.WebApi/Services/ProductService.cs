@@ -28,8 +28,10 @@
         #region Public Methods
         public async Task<Product?> AddProduct(Product product)
         {
-            var result = await Task.FromResult(this.sqlCmd.ExecuteCommand(product, CommandAction.Insert));
-            return result ? product : null;
+            //var result = await Task.FromResult(this.sqlCmd.ExecuteCommand(product, CommandAction.Insert));
+            //return result ? product : null;
+
+            throw new NotImplementedException();
         }
         #endregion Public Methods
 

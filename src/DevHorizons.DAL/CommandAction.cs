@@ -13,6 +13,7 @@
 namespace DevHorizons.DAL
 {
     using System;
+    using System.ComponentModel;
 
     /// <summary>
     ///    Specifies the <c>DML</c> (Data Manipulation Language) action which would be used in <c>CRUD</c> operation.
@@ -22,6 +23,7 @@ namespace DevHorizons.DAL
     ///    <DateTime>23/02/2022 05:44 PM</DateTime>
     /// </Created>
     [Flags]
+    [DefaultValue(None)]
     public enum CommandAction
     {
         /// <summary>

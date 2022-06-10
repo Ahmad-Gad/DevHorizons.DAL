@@ -4,7 +4,7 @@
         <name>DevHorizons.DAL</name>
     </assembly>
     <members>
-        <member name="T:DevHorizons.DAL.Abstracts.Command">
+        <member name="T:DevHorizons.DAL.Abstracts.ACommand">
             <summary>
                The <c>DAL</c> Command abstract class which holds all the required members and operations to access the database and <c>T-SQL</c> command executions.
             <para>This abstract class can be used for the <c>DI</c> (Dependency Injection) design pattern.</para>
@@ -15,7 +15,7 @@
                <DateTime>10/02/2020 10:25 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.dataProviderFactory">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.dataProviderFactory">
             <summary>
                The designated data factory which identifies the data source manufacturer E.g. SQL, Oracle, etc.
             </summary>
@@ -24,7 +24,7 @@
                <DateTime>10/02/2020 11:35 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.dbProviderFactory">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.dbProviderFactory">
             <summary>
                The designated data factory instance of ("<see cref="T:DevHorizons.DAL.DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.
             </summary>
@@ -33,16 +33,16 @@
                <DateTime>30/04/2022 06:27 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.terminateFurtherExecutions">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.terminateFurtherExecutions">
             <summary>
-               If <c>true</c> ino further database commands/transactions will be executed until the "<see cref="M:DevHorizons.DAL.Abstracts.Command.ClearErrors"/>" is being called to reset.
+               If <c>true</c> ino further database commands/transactions will be executed until the "<see cref="M:DevHorizons.DAL.Abstracts.ACommand.ClearErrors"/>" is being called to reset.
             </summary>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>12/02/2022 12:25 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.commandSource">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.commandSource">
             <summary>
               The definition source of the command (stored procedure) name.
             </summary>
@@ -51,7 +51,7 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.commandExecutionType">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.commandExecutionType">
             <summary>
               The execution type/behaviour of a command.
             </summary>
@@ -60,7 +60,7 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.parametersSource">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.parametersSource">
             <summary>
               The definition source of the required parameters for the specified command (stored procedure).
             </summary>
@@ -69,7 +69,7 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.isolationLevel">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.isolationLevel">
             <summary>
                Specifies the transaction locking behavior for the connection.
             </summary>
@@ -78,7 +78,7 @@
                <DateTime>12/02/2022 12:25 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.dataExecutionSuccessful">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.dataExecutionSuccessful">
             <summary>
                Gets or sets a value indicating whether the specified command (stored procedure) execution has been completed from the data source side.
             </summary>
@@ -95,7 +95,7 @@
                <DateTime>18/02/2022 07:00 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Command.disposedValue">
+        <member name="F:DevHorizons.DAL.Abstracts.ACommand.disposedValue">
             <summary>
                The disposed boolean value to detect redundant calls.
             </summary>
@@ -104,9 +104,9 @@
                <DateTime>02/11/2018 04:47 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(DevHorizons.DAL.DataProviderFactory,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.Command})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.#ctor(DevHorizons.DAL.DataProviderFactory,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.ACommand})">
             <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.ACommand"/> class.
                <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
             </summary>
             <param name="dataProviderFactory">The designated data factory which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
@@ -118,9 +118,9 @@
                <DateTime>10/02/2020 10:27 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(System.Data.Common.DbProviderFactory,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.Command})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.#ctor(System.Data.Common.DbProviderFactory,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.ACommand})">
             <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.ACommand"/> class.
                <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
             </summary>
             <param name="dbProviderFactory">The designated data factory instance of ("<see cref="T:DevHorizons.DAL.DataProviderFactory"/>") which identifies the data source manufacturer E.g. SQL, Oracle, etc.</param>
@@ -132,9 +132,9 @@
                <DateTime>30/04/2022 06:27 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.#ctor(System.Data.Common.DbConnection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.Command})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.#ctor(System.Data.Common.DbConnection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Abstracts.ACommand})">
             <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.Command"/> class.
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Abstracts.ACommand"/> class.
                <para>This Constructor is used only to be implemented internally to implement the target data provider factory.</para>
             </summary>
             <param name="dbConnection">The designated data connection instance of the type ("<see cref="T:System.Data.Common.DbConnection"/>").</param>
@@ -146,7 +146,7 @@
                <DateTime>30/04/2022 06:27 PM</DateTime>
             </Created>
         </member>
-        <member name="T:DevHorizons.DAL.Abstracts.Command.RaiseError">
+        <member name="T:DevHorizons.DAL.Abstracts.ACommand.RaiseError">
             <summary>
                A delegate to handel the error raised by the class.
             </summary>
@@ -156,7 +156,7 @@
                <DateTime>08/11/2018 11:13 AM</DateTime>
             </Created>
         </member>
-        <member name="T:DevHorizons.DAL.Abstracts.Command.RaiseWarning">
+        <member name="T:DevHorizons.DAL.Abstracts.ACommand.RaiseWarning">
             <summary>
                A delegate to handel the warning raised by the class.
             </summary>
@@ -166,31 +166,31 @@
                <DateTime>17/02/2022 11:13 PM</DateTime>
             </Created>
         </member>
-        <member name="E:DevHorizons.DAL.Abstracts.Command.ErrorRaised">
+        <member name="E:DevHorizons.DAL.Abstracts.ACommand.ErrorRaised">
             <inheritdoc/>
         </member>
-        <member name="E:DevHorizons.DAL.Abstracts.Command.WarningRaised">
+        <member name="E:DevHorizons.DAL.Abstracts.ACommand.WarningRaised">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Errors">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Errors">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Warnings">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Warnings">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Parameters">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Parameters">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.FirstLevelCacheMemorySize">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.FirstLevelCacheMemorySize">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.SecondLevelCacheMemorySize">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.SecondLevelCacheMemorySize">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.TotalCacheMemorySize">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.TotalCacheMemorySize">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Connection">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Connection">
             <summary>
                Gets or sets the data connection as an instance of "<see cref="T:System.Data.Common.DbConnection" />".
             </summary>
@@ -202,7 +202,7 @@
                <DateTime>19/02/2020 11:02 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Cmd">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Cmd">
             <summary>
                Gets or sets the data command as an instance of "<see cref="T:System.Data.Common.DbCommand" />".
             </summary>
@@ -214,7 +214,7 @@
               <DateTime>13/11/2018 12:12 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.MemoryCache">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.MemoryCache">
             <summary>
                Gets the built-in memory cache on the host machine which is following life cycle of the host application and usually being hosted in a Singleton Dependency Injection life cycle.
             </summary>
@@ -223,7 +223,7 @@
                <DateTime>10/02/2020 11:35 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Settings">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Settings">
             <summary>
                Gets all the needed settings for the data access layers.
             </summary>
@@ -232,7 +232,7 @@
                <DateTime>10/02/2020 11:35 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Logger">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Logger">
             <summary>
                Gets the logger object of the type "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" which could be registered by the Dependency Injection.
             </summary>
@@ -241,7 +241,7 @@
                <DateTime>10/02/2020 11:35 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Command.Tran">
+        <member name="P:DevHorizons.DAL.Abstracts.ACommand.Tran">
             <summary>
                Gets or sets the database transaction within the same opened connection as an instance of "<see cref="T:System.Data.Common.DbTransaction"/>" which will be generated by executing the "<see cref="M:System.Data.Common.DbConnection.BeginTransaction"/>" method.
             </summary>
@@ -250,136 +250,136 @@
                <DateTime>12/02/2022 12:25 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.CanExecute">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.CanExecute">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetCurrentDatabaseName">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetCurrentDatabaseName">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ChangeDatabase(System.String)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ChangeDatabase(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ChangeConnectionString(System.String,System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ChangeConnectionString(System.String,System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ClearErrors">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ClearErrors">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ClearWarnings">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ClearWarnings">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.AddParameter(DevHorizons.DAL.Interfaces.IParameter)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ClearParameters">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ClearParameters">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.Reset">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.Reset">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ResetHard(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ResetHard(System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.BeginTransaction">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.BeginTransaction">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.BeginTransaction(DevHorizons.DAL.IsolationLevel)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.BeginTransaction(DevHorizons.DAL.IsolationLevel)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.CommitTransaction(System.Boolean,System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.CommitTransaction(System.Boolean,System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.CommitTransaction(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.CommitTransaction(System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.CommitTransaction">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.CommitTransaction">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.RollbackTransaction">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.RollbackTransaction">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(DevHorizons.DAL.Interfaces.ICommandBody)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(DevHorizons.DAL.Interfaces.ICommandBody)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(DevHorizons.DAL.Interfaces.ICommandBody)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(DevHorizons.DAL.Interfaces.ICommandBody)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(DevHorizons.DAL.Interfaces.ICommandBody)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(DevHorizons.DAL.Interfaces.ICommandBody)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteScalar``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(DevHorizons.DAL.Interfaces.IDataTable,DevHorizons.DAL.CommandAction)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(DevHorizons.DAL.Interfaces.IDataTable,DevHorizons.DAL.CommandAction)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(DevHorizons.DAL.Interfaces.ICommandBody)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(DevHorizons.DAL.Interfaces.ICommandBody)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteTranCommands(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.ICommandBody})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteTranCommands(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.ICommandBody})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteTranCommands(DevHorizons.DAL.Interfaces.ICommandBody[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteTranCommands(DevHorizons.DAL.Interfaces.ICommandBody[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteTranCommands(DevHorizons.DAL.IsolationLevel,DevHorizons.DAL.Interfaces.ICommandBody[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteTranCommands(DevHorizons.DAL.IsolationLevel,DevHorizons.DAL.Interfaces.ICommandBody[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteTranCommands(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.ICommandBody},DevHorizons.DAL.IsolationLevel)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteTranCommands(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.ICommandBody},DevHorizons.DAL.IsolationLevel)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ExecuteCommand(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.Dispose">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.Dispose">
             <summary>
                Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
@@ -388,7 +388,7 @@
                <DateTime>10/02/2020 11:13 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.HandleError(DevHorizons.DAL.Interfaces.ILogDetails)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.HandleError(DevHorizons.DAL.Interfaces.ILogDetails)">
             <summary>
                Handles the error.
             </summary>
@@ -398,7 +398,7 @@
                <DateTime>08/11/2018 11:12 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetFactoryDbConnection(DevHorizons.DAL.DataProviderFactory)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetFactoryDbConnection(DevHorizons.DAL.DataProviderFactory)">
             <summary>
                Gets the factory database connection.
                <para>This method can be be overridden by the derived class to return an implementation object of the "<see cref="T:System.Data.Common.DbConnection"/>" that match the target provider factory.</para>
@@ -410,7 +410,7 @@
                <DateTime>10/02/2020 11:15 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDbParameter(DevHorizons.DAL.Interfaces.IParameter)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetDbParameter(DevHorizons.DAL.Interfaces.IParameter)">
             <summary>
                Gets the database parameter as an instance of a class that implements "<see cref="T:System.Data.Common.DbParameter"/>".
                <para>This method can be be overridden by the derived class to return an implementation object of the "<see cref="T:System.Data.Common.DbParameter"/>" that match the target provider factory.</para>
@@ -422,7 +422,7 @@
                <DateTime>10/02/2020 11:07 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
             <summary>
                Maps data type for the implemented provider factory. This method should be overridden by the derived class to map the data type that match the target provider factory.
             </summary>
@@ -433,7 +433,7 @@
                <DateTime>10/02/2020 11:08 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
                Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
             </summary>
@@ -445,7 +445,7 @@
                <DateTime>10/02/2020 11:03 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
             <summary>
                Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
             </summary>
@@ -457,7 +457,7 @@
                <DateTime>10/02/2020 11:03 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateParameter(DevHorizons.DAL.Interfaces.IParameter)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.UpdateParameter(DevHorizons.DAL.Interfaces.IParameter)">
             <summary>
                Update the property with the correct type, value and size based on the parameter direction, assigned values, data type and the sepcial type.
             </summary>
@@ -467,7 +467,7 @@
                <DateTime>11/02/2020 12:13 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.SetParameterAutoType(DevHorizons.DAL.Interfaces.IParameter)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.SetParameterAutoType(DevHorizons.DAL.Interfaces.IParameter)">
             <summary>
                Sets the type of the parameter automatically.
             </summary>
@@ -477,7 +477,7 @@
                <DateTime>08/11/2018 03:56 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateConnectionString">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.UpdateConnectionString">
             <summary>
                Update the connection string with the specified advanced options within the specified settings.
             </summary>
@@ -490,7 +490,7 @@
                <DateTime>01/02/2022 09:45 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.Dispose(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.Dispose(System.Boolean)">
             <summary>
                Releases unmanaged and - optionally - managed resources.
             </summary>
@@ -500,7 +500,7 @@
                <DateTime>10/02/2020 11:13 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDataProviderFactory(DevHorizons.DAL.DataProviderFactory)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetDataProviderFactory(DevHorizons.DAL.DataProviderFactory)">
             <summary>
                Gets the factory database connection.
                <para>This method can be be overridden by the derived class to return an implementation object of the "<see cref="T:System.Data.Common.DbConnection"/>" that match the target provider factory.</para>
@@ -512,7 +512,7 @@
                <DateTime>10/02/2020 11:15 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.InitializeConnection(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.InitializeConnection(System.Boolean)">
             <summary>
                Initializes the connection.
             </summary>
@@ -523,9 +523,9 @@
                <DateTime>05/11/2018 11:47 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDataFromDataReader``1">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetDataFromDataReader``1">
             <summary>
-               Gets the data from data reader which will be called by the "<see cref="M:DevHorizons.DAL.Abstracts.Command.ExecuteQuery``1(System.String)"/>" overloads.
+               Gets the data from data reader which will be called by the "<see cref="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String)"/>" overloads.
             </summary>
             <typeparam name="T">The declaration type of the generic return object collection.</typeparam>
             <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".</returns>
@@ -534,7 +534,7 @@
                <DateTime>10/02/2020 11:20 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateParameters(System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.UpdateParameters(System.Boolean)">
             <summary>
                Updates the encapsulated parameters (array of "<see cref="T:System.Data.Common.DbParameter"/>") inside the <c>ADO.Net</c> "<see cref="T:System.Data.Common.DbCommand"/>" after a successful execution of the specified stored procedure.
             </summary>
@@ -545,7 +545,7 @@
                <DateTime>10/02/2020 11:25 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateCommandBody(DevHorizons.DAL.Interfaces.ICommandBodyBase,System.Boolean)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.UpdateCommandBody(DevHorizons.DAL.Interfaces.ICommandBodyBase,System.Boolean)">
             <summary>
                Updates the command body ("<see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>") with the result of the output and return parameters after executing the SQL command either it's executing query, executing command or executing scalar.
             </summary>
@@ -557,7 +557,7 @@
                <DateTime>10/02/2020 11:25 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.GetDbParameters(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetDbParameters(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.IParameter})">
             <summary>
                Gets the database parameters as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:System.Data.Common.DbParameter"/>.
             </summary>
@@ -568,7 +568,7 @@
                <DateTime>10/02/2020 11:12 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.ResetParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ResetParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
             <summary>
                Resets/clears both <c>DAL</c> parameters and the <c>ADO.Net command</c> parameters.
             </summary>
@@ -578,7 +578,7 @@
                <DateTime>10/02/2020 11:00 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.Command.UpdateErrorDetails(DevHorizons.DAL.Interfaces.ILogDetails)">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.UpdateErrorDetails(DevHorizons.DAL.Interfaces.ILogDetails)">
             <summary>
               Update the error details with the addional data source and command details.
             </summary>
@@ -588,7 +588,7 @@
                <DateTime>17/02/2022 11:35 PM</DateTime>
             </Created>
         </member>
-        <member name="T:DevHorizons.DAL.Abstracts.Parameter">
+        <member name="T:DevHorizons.DAL.Abstracts.AParameter">
             <summary>
                A class which holds the required database's parameter members required to be injected with the stored procedure.
             </summary>
@@ -597,7 +597,7 @@
                <DateTime>07/11/2018 11:00 AM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Abstracts.Parameter.name">
+        <member name="F:DevHorizons.DAL.Abstracts.AParameter.name">
             <summary>
             The parameter's name.
             </summary>
@@ -606,40 +606,22 @@
                <DateTime>11/02/2020 12:10 AM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Name">
+        <member name="P:DevHorizons.DAL.Abstracts.AParameter.Name">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Value">
+        <member name="P:DevHorizons.DAL.Abstracts.AParameter.Value">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Direction">
+        <member name="P:DevHorizons.DAL.Abstracts.AParameter.Direction">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Size">
+        <member name="P:DevHorizons.DAL.Abstracts.AParameter.Size">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Precision">
+        <member name="P:DevHorizons.DAL.Abstracts.AParameter.Precision">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Scale">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.ParameterAttribute">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.DataField">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Encrypted">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.MayBeEncrypted">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.EncryptionType">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.Abstracts.Parameter.Hashed">
+        <member name="P:DevHorizons.DAL.Abstracts.AParameter.Scale">
             <inheritdoc/>
         </member>
         <member name="T:DevHorizons.DAL.AdvacedErrorDetails">
@@ -726,6 +708,30 @@
             </summary>
             <value>
                The command line for this process.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessId">
+            <summary>
+               Gets or sets the unique identifier for the current process.
+            </summary>
+            <value>
+               An integer number that represents the unique identifier for the current process.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.Platform">
+            <summary>
+               Gets or sets the platform on which an app is running.
+            </summary>
+            <value>
+               An opaque string that identifies the platform on which the app is running.
             </value>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -951,21 +957,12 @@
                <DateTime>10/02/2020 11:47 PM</DateTime>
             </Created>
             <seealso cref="T:System.Attribute" />
+            <seealso cref="T:DevHorizons.DAL.Interfaces.IDataFieldBase" />
         </member>
         <member name="M:DevHorizons.DAL.Attributes.DataFieldAttribute.#ctor">
             <summary>
                Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/> class.
             </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:48 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Attributes.DataFieldAttribute.#ctor(System.Reflection.PropertyInfo)">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/> class.
-            </summary>
-            <param name="prop">The bound property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>". This property is designed to serve the library internally only.</param>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:48 PM</DateTime>
@@ -992,18 +989,6 @@
                <DateTime>10/02/2020 11:49 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Attributes.DataFieldAttribute.#ctor(System.String,System.Boolean,System.Boolean)">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/> class.
-            </summary>
-            <param name="name">The source database table's column name or stored procedure's parameter name.</param>
-            <param name="notMapped">if set to <c>true</c> the property will not be mapped with returned table or the command body (stored procedure).</param>
-            <param name="canBeNull">if set to <c>true</c> the mapped column can be expected to return with null-able value and in this case, the <c>DAL</c> library will ignore it to be populated with the default value automatically by the <c>CLR</c>.</param>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:50 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.Name">
             <summary>
                Gets or sets the source database table's column name or stored procedure's parameter name.
@@ -1028,18 +1013,6 @@
                <DateTime>10/02/2020 11:52 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.CanBeNull">
-            <summary>
-               Gets or sets a value indicating whether the mapped column can be expected to return (from output parameter) with null-able value and in this case, the <c>DAL</c> library will ignore it to be populated with the default value automatically by the <c>CLR</c>.
-            </summary>
-            <value>
-              <c>true</c> if this instance can be null; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.AllowNull">
             <summary>
                Gets or sets a value indicating whether the mapped column in the designated table in the database is nullable.
@@ -1051,6 +1024,22 @@
                Default Value: <c>false</c>.
                <para>Even if the host property is nullable type, this attribute is overriding the property behaviour.</para>
                <para>If set to "<c>false</c>" while the value is null, then this property will be skipped from the data inputs into the database.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/03/2022 06:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.Optional">
+            <summary>
+               Gets or sets a value indicating whether the mapped property/column/parameter is optional/nullable.
+            </summary>
+            <value>
+              <c>true</c> if this input value can be null; otherwise, <c>false</c>.
+            </value>
+            <remarks>
+               Default Value: <c>false</c>.
+               <para>If set to "<c>true</c>" while the value is null, then this property will be skipped from the data inputs into the database.</para>
             </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -1127,7 +1116,7 @@
         </member>
         <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.DataDirection">
             <summary>
-               Gets or sets the data direction from/to a data model which either data being sent to the data source or data being received by the data source.
+               Gets or sets the data direction/flow from/to a data model which either data being sent to the data source or data being received by the data source.
             </summary>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -1160,19 +1149,6 @@
                <DateTime>23/02/2022 06:02 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.Property">
-            <summary>
-               Gets the bound property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>". This property is designed to serve the library internally only.
-            </summary>
-            <value>
-               The property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>".
-            </value>
-            <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:53 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.InsertedOutput">
             <summary>
                Gets or sets a value indicating whether the mapped field will be assigned by output values after the "Insert" action.
@@ -1181,34 +1157,6 @@
                <c>true</c> if it expect to receive a value back from the data source after the "Insert" command; otherwise, <c>false</c>.
             </value>
             <remarks>Applicable only to the "<see cref="F:DevHorizons.DAL.CommandAction.Insert"/>" command.</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:53 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.Value">
-            <summary>
-               Gets or sets the transformed value which could be different from the mapped property value and type.
-               <para>This value could encrypted, decrypted, hashed or <c>JSON</c>/<c>XML</c> serialized/deserialized.</para>
-            </summary>
-            <value>
-               The final updated value.
-            </value>
-            <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:53 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Attributes.DataFieldAttribute.DataType">
-            <summary>
-               Gets or sets the transformed "Type" which could be different from the mapped property value and type.
-               <para>This value could encrypted, decrypted, hashed or <c>JSON</c>/<c>XML</c> serialized/deserialized.</para>
-            </summary>
-            <value>
-               The final updated type.
-            </value>
-            <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:53 PM</DateTime>
@@ -1402,9 +1350,6 @@
         <member name="P:DevHorizons.DAL.Attributes.ParameterAttribute.SpecialType">
             <inheritdoc/>
         </member>
-        <member name="P:DevHorizons.DAL.Attributes.ParameterAttribute.Property">
-            <inheritdoc/>
-        </member>
         <member name="P:DevHorizons.DAL.Attributes.ParameterAttribute.Encrypted">
             <inheritdoc/>
         </member>
@@ -1415,6 +1360,9 @@
             <inheritdoc/>
         </member>
         <member name="P:DevHorizons.DAL.Attributes.ParameterAttribute.EncryptionType">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Attributes.ParameterAttribute.Optional">
             <inheritdoc/>
         </member>
         <member name="T:DevHorizons.DAL.Attributes.ProviderFactoryDetailsAttribute">
@@ -1503,7 +1451,7 @@
             <summary>
                Using the built-in memory cache ("<see cref="T:DevHorizons.DAL.Cache.IMemoryCache"/>") on the host machine which is following life cycle of the host application and usually being hosted in a Singleton Dependency Injection life cycle.
                <para>The most recommended option for the best performance. However, it can consume significant amount of memory on the host server depends on the number of data models registered in the host application.</para>
-               <para>You can monitor the allocated memory (in bytes) for this option for the designated levels using from the "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" class. E.g. "<see cref="P:DevHorizons.DAL.Abstracts.Command.SecondLevelCacheMemorySize"/>".</para>
+               <para>You can monitor the allocated memory (in bytes) for this option for the designated levels using from the "<see cref="T:DevHorizons.DAL.Abstracts.ACommand"/>" class. E.g. "<see cref="P:DevHorizons.DAL.Abstracts.ACommand.SecondLevelCacheMemorySize"/>".</para>
             </summary>
         </member>
         <member name="T:DevHorizons.DAL.Cache.CacheSettings">
@@ -1552,7 +1500,7 @@
             <summary>
                Gets or sets a value indicating whether the engine will raise all the cache related errors as warning instead of errors.
                <para>If set to "<c>true</c>", all the cache related errors will be silently ignored and command executions will not fail or get terminated.</para>
-               <para>If set to "<c>true</c>", the <c>DAL</c> command ("<see cref="T:DevHorizons.DAL.Abstracts.Command"/>") will raise warning which can be captured by the "<see cref="E:DevHorizons.DAL.Abstracts.Command.WarningRaised"/>" event handler.</para>
+               <para>If set to "<c>true</c>", the <c>DAL</c> command ("<see cref="T:DevHorizons.DAL.Abstracts.ACommand"/>") will raise warning which can be captured by the "<see cref="E:DevHorizons.DAL.Abstracts.ACommand.WarningRaised"/>" event handler.</para>
                <para>The Default Value: <c>false</c>.</para>
             </summary>
             <remarks>If set to "<c>true</c>" and if the logging is not disabled ("<see cref="P:DevHorizons.DAL.Interfaces.IDataAccessSettings.LogLevel"/>"), those errors will be logged as warnings.</remarks>
@@ -1808,6 +1756,11 @@
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.CommandExecutionType.Unkown">
+            <summary>
+               Unkown/Unspecified execution type.
+            </summary>
         </member>
         <member name="F:DevHorizons.DAL.CommandExecutionType.ExecuteCommand">
             <summary>
@@ -2373,468 +2326,86 @@
                The bound field/property is expected to server both inbound and outbound connection from/to the database.
             </summary>
         </member>
-        <member name="T:DevHorizons.DAL.DataProviderFactory">
+        <member name="T:DevHorizons.DAL.Interfaces.DataField">
             <summary>
-                The Data Provider Factory name for the data connection.
-                Note: Only the "Microsoft.Data.SqlClient" library for the "<see cref="F:DevHorizons.DAL.DataProviderFactory.Sql"/>" Data Provider Factory is implemented and tested so far. And you would need to make sure the implemented provider factory is added.
-            </summary>
-            <created>
-               <author>Ahmad Gad (ahmad.gad@DevHorizons.com)</author>
-               <datetime>03/07/2019 07:44 PM</datetime>
-            </created>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.None">
-            <summary>
-               The provider factory is not yet set.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Sql">
-            <summary>
-               The <c>Microsoft SQL Server's Client</c> Data Provider Factory integrated with the official Microsoft "Microsoft.Data.SqlClient" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Oledb">
-            <summary>
-               The <c>OLEDB</c> Data Provider Factory integrated with the official Microsoft "System.Data.OleDb" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Odbc">
-            <summary>
-               The <c>ODBC</c> Data Provider Factory integrated with the official Microsoft "System.Data.Odbc" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Oracle">
-            <summary>
-               The <c>Oracle Client</c> Data Provider Factory integrated with the official Oracle "Oracle.ManagedDataAccess" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.MySql">
-            <summary>
-               The <c>MySql Client</c> Data Provider Factory integrated with the official Oracle "MySql.Data" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Sqlite">
-            <summary>
-               The <c>Sqlite</c> Data Provider Factory integrated with the official Microsoft "Microsoft.Data.Sqlite" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.DB2">
-            <summary>
-               The <c>DB2</c> Data Provider Factory integrated with the official IBM "IBM.Data.DB2.Core" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Teradata">
-            <summary>
-               The <c>Teradata</c> Data Provider Factory integrated with the official Teradata "Teradata.Client.Provider" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.PostgreSQL">
-            <summary>
-               The <c>PostgreSQL</c> Data Provider Factory integrated with the official "<c>pgSQL</c>" ("<c>Npgsql</c>") library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.Snowflake">
-            <summary>
-               The <c>Snowflake</c> Data Provider Factory integrated with the official pgSQL "Snowflake.Data" library.
-            </summary>
-        </member>
-        <member name="F:DevHorizons.DAL.DataProviderFactory.ASE">
-            <summary>
-               The "SAP Adaptive Server Enterprise (Sybase)" Data Provider Factory.
-            </summary>
-            <remarks>
-               This is not an offical "<c>SAP</c>" package becase <c>SAP</c>SAP has not yet release a ADO.NET driver/client to support .NET Core/Standard.
-               <para><see href="https://github.com/DataAction/AdoNetCore.AseClient"/></para>
-            </remarks>
-        </member>
-        <member name="P:DevHorizons.DAL.DataTable.Identity">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.DataTable.RowsCount">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.DataTable.ObjectName">
-            <inheritdoc/>
-        </member>
-        <member name="M:DevHorizons.DAL.DataTable.DevHorizons#DAL#Interfaces#IDataTable#GetParmeters(DevHorizons.DAL.CommandAction)">
-            <inheritdoc/>
-        </member>
-        <member name="M:DevHorizons.DAL.DataTable.DevHorizons#DAL#Interfaces#IDataTable#GetCommandText(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.IParameter},DevHorizons.DAL.CommandAction)">
-            <inheritdoc/>
-        </member>
-        <member name="M:DevHorizons.DAL.DataTable.GetParmetersFromDataTable(DevHorizons.DAL.CommandAction)">
-            <summary>
-               Extracts the list of the parameters from the specified "<c>DAL</c>" data table as type of of <see cref="T:DevHorizons.DAL.Interfaces.IDataTable"/>.
-            </summary>
-            <param name="commandAction">The command action.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:03 PM</DateTime>
-            </Created>
-        </member>
-        <member name="T:DevHorizons.DAL.DependencyInjection.Extensions">
-            <summary>
-               A public static class which holds all the public extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
+               A type which would represent the data field/parameter.
             </summary>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:41 PM</DateTime>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.DependencyInjection.Extensions.RegisterDevHorizonsDal``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+        <member name="M:DevHorizons.DAL.Interfaces.DataField.#ctor">
             <summary>
-               Register the <c>SQL</c> <c>DAL</c> service into the dependency injection <c>(DI)</c> container with the scoped life cycle.
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Interfaces.DataField"/> class.
             </summary>
-            <param name="services">The contract for a collection of service descriptors.</param>
-            <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>"</param>
-            <typeparam name="T">The implementation type of the "<see cref="T:DevHorizons.DAL.Interfaces.ICommand"/>".</typeparam>
-            <returns>The contract for a collection of service descriptors which is used in the WebApis DI.</returns>
-            <remarks>The {T} type must be of the type "<see cref="T:DevHorizons.DAL.Interfaces.ICommand"/>".</remarks>
-            <exception cref="T:System.ArgumentNullException">The "settings" argument of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>" cannot be null.</exception>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>01/02/2022 09:45 PM</DateTime>
+               <DateTime>09/06/2022 07:11 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.DependencyInjection.Extensions.GetDalAppConfig``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:DevHorizons.DAL.Interfaces.DataField.#ctor(System.Reflection.PropertyInfo)">
             <summary>
-               Get the bound/typed application configuration of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.Interfaces.DataField"/> class.
             </summary>
-            <param name="services">The contract for a collection of service descriptors.</param>
-            <param name="configuration">The App Configuration instance of the type "<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>" which represents a set of key/value application configuration properties.</param>
-            <typeparam name="T">Type of "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".</typeparam>
-            <remarks>
-               <para>The implementation {T} class must be type of "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>" and must have a default parameterless constructor.</para>
-               This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="!:ApplicationConfiguration"/>":
-               <para>1. Convert the appsettings file into the strong typed class of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".</para>
-               <para>2. Grab all the matching system environment variables to override what match from the appsettings.</para>
-               <para>3. Register the strong typed app settings (application configuration) into the DI container for the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>" with singleton life cycle.</para>
-            </remarks>
-            <returns>
-               The application configuration of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".
-            </returns>
-            <exception cref="T:System.MissingMethodException">Exception will be raised if the implementation {T} class does not have a default parameterless constructor.</exception>
+            <param name="property">The bound/mapped property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>".</param>
             <Created>
-              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
-              <DateTime>27/04/2021 01:04 PM</DateTime>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>09/06/2022 07:11 PM</DateTime>
             </Created>
         </member>
-        <member name="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration">
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.SpecialType">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.Encrypted">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.MayBeEncrypted">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.EncryptionType">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.Hashed">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.Optional">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.NotMapped">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.Property">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.DataDirection">
             <summary>
-               The application configuration abstract in a typed format.
+               Gets or sets the data direction/flow from/to a data model which either data being sent to the data source or data being received by the data source.
             </summary>
             <Created>
-               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
-               <DateTime>27/04/2021 01:11 PM</DateTime>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <datetime>13/02/2022 08:00 PM</datetime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.AppName">
+        <member name="P:DevHorizons.DAL.Interfaces.DataField.Type">
             <summary>
-               Gets or sets the name of the running host deployed/running application. This property is automatically set by the host to the assembly containing the application entry point.
+               Gets or sets the transformed <c>CLR</c> "Type" which could be different from the mapped property value and type.
+               <para>This value could be encrypted, decrypted, hashed or <c>JSON</c>/<c>XML</c> serialized/deserialized.</para>
             </summary>
             <value>
-               The name of the host application.
+               The final <c>CLR</c> updated type.
             </value>
-        </member>
-        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.AppVersion">
-            <summary>
-               Gets or sets the deployed/running host application version.
-            </summary>
-            <value>
-               The host application version.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
-               <DateTime>27/04/2021 01:09 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.DataAccessSettings">
-            <summary>
-               Gets or sets the all the ("<c>DAL</c>") data access settings required to connect to the data source and to control the engine.
-            </summary>
-            <value>
-               The data access settings.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
-               <DateTime>27/04/2021 01:11 PM</DateTime>
-            </Created>
-        </member>
-        <member name="T:DevHorizons.DAL.ErrorDetails">
-            <summary>
-               A class defines all the needed members for raised error/exceptions.
-            </summary>
+            <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>02/11/2018 05:33 PM</DateTime>
+               <DateTime>10/02/2020 11:53 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.ErrorDetails.#ctor">
-            <summary>
-               Initializes a new instance of the <see cref="T:DevHorizons.DAL.ErrorDetails"/> class.
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>02/11/2018 05:34 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.LogLevel">
+        <member name="M:DevHorizons.DAL.Interfaces.DataField.SetPropertyInfo(System.Reflection.PropertyInfo)">
             <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.Number">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.Message">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.Description">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.Source">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.ConnectionState">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.Exception">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.StackTrace">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.SourceMachine">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.DataSourceName">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.DatabaseName">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.LogTime">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.CommandText">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.HasParameters">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.CommandExecutionType">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.CommandSource">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.ParametersSource">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.IsolationLevel">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.FirstLevelCacheMemorySize">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.SecondLevelCacheMemorySize">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.ThirdLevelCacheMemorySize">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.DataSourceVersion">
-            <inheritdoc/>
-        </member>
-        <member name="P:DevHorizons.DAL.ErrorDetails.DataExecutionSuccessful">
-            <inheritdoc/>
-        </member>
-        <member name="T:DevHorizons.DAL.ExtensionMethods">
-            <summary>
-               A public static class which holds all the public extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:41 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.ToStructuredDbType``1(System.Collections.Generic.ICollection{``0})">
-            <summary>
-               Converts a collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
-               <para>This is required only if the host parameter holds a "Structured" data type.</para>
-            </summary>
-            <typeparam name="T">The type of the passed class based object.</typeparam>
-            <param name="data">The collection of the based class objects to be converted.</param>
-            <returns>
-               A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
-            </returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:42 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.ToStructuredDbType``1(System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-               Converts a collection of generic objects (value data type (struct) based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
-               <para>This is required only if the host parameter holds a "Structured" data type.</para>
-            </summary>
-            <typeparam name="T">The type of the passed value data type (struct) based object.</typeparam>
-            <param name="data">The collection of the value data type based objects to be converted.</param>
-            <returns>
-               A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Value"/>" property.
-            </returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 12:42 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object)">
-            <summary>
-                 Converts to generic data type based on the generic input data type.
-            </summary>
-            <typeparam name="T">The generic input data type.</typeparam>
-            <param name="source">The source object to be converted.</param>
-            <returns>Value based on generic data type from generic input data type.</returns>
-            <Created>
-                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                <DateTime>30/06/2012  06:22 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDescription(System.Object)">
-            <summary>
-               Gets the description attribute value.
-            </summary>
-            <param name="source">The source object.</param>
-            <returns>
-               The description attribute value.
-            </returns>
-            <Created>
-                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                <DateTime>30/06/2012  06:22 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDisplayName(System.Object)">
-            <summary>
-               Gets the "display name" attribute value.
-            </summary>
-            <param name="source">The source object.</param>
-            <returns>
-               The "display name" attribute value.
-            </returns>
-            <Created>
-                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                <DateTime>30/06/2012  06:22 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDefaultValue(System.Object)">
-            <summary>
-               Gets the "Default Value" attribute value.
-            </summary>
-            <param name="source">The source object.</param>
-            <returns>
-               The "display name" attribute value.
-            </returns>
-            <Created>
-                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                <DateTime>30/06/2012  06:22 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDefaultValue``1(System.Object)">
-            <summary>
-               Gets the "Default Value" attribute value.
-            </summary>
-            <param name="source">The source object.</param>
-            <typeparam name="T">The type of the returned value.</typeparam>
-            <returns>
-               The "display name" attribute value.
-            </returns>
-            <Created>
-                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                <DateTime>30/06/2012  06:22 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object,``0)">
-            <summary>
-                 Converts to generic data type based on the generic input data type.
-            </summary>
-            <typeparam name="T">The generic input data type.</typeparam>
-            <param name="source">The source object to be converted.</param>
-            <param name="defaultValue">The default return (replacement) value in case if the conversion operation failed.</param>
-            <returns>Value based on generic data type from generic input data type.</returns>
-            <Created>
-                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-                <DateTime>30/06/2012  06:22 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.ToXmlString(System.Object)">
-            <summary>
-               Serialize an object into XML string.
-            </summary>
-            <param name="obj">The object to be serialized into XML string.</param>
-            <returns>The XML string as the result of the specified object XML serialization.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 10:44 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.FromXmlString(System.String,System.Type)">
-            <summary>
-              Deserialize an XML string into an object.
-            </summary>
-            <param name="xmlString">The XML string to be deserialized into object.</param>
-            <param name="objectType">The type of the output deserialized object.</param>
-            <returns>The object as the result of the XML deserialization.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 10:44 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.ToJsonString(System.Object)">
-            <summary>
-               Serialize an object into <c>JSON</c> string.
-            </summary>
-            <param name="obj">The object to be serialized into <c>JSON</c> string.</param>
-            <returns>The <c>JSON</c> string as the result of the specified object <c>JSON</c> serialization.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 10:44 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.FromJsonString(System.String,System.Type)">
-            <summary>
-              Deserialize an <c>JSON</c> string into an object.
-            </summary>
-            <param name="jsonString">The <c>JSON</c> string to be deserialized into object.</param>
-            <param name="objectType">The type of the output deserialized object.</param>
-            <returns>The object as the result of the <c>JSON</c> deserialization.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 10:44 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.FromJsonString``1(System.String)">
-            <summary>
-              Deserialize an <c>JSON</c> string into an object.
-            </summary>
-            <param name="jsonString">The <c>JSON</c> string to be deserialized into object.</param>
-            <typeparam name="T">The type of the serialized object.</typeparam>
-            <returns>The object as the result of the <c>JSON</c> deserialization.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 10:44 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.ExtensionMethods.GetNameValueProperties(System.Object)">
-            <summary>
-               Extracts the properties with the "<see cref="T:DevHorizons.DAL.Attributes.NameValuePairAttribute"/>" in a dictionary as "<see cref="T:System.Collections.Generic.Dictionary`2"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
-            </summary>
-            <param name="source">The source object.</param>
-            <returns>
-               Dictionary represents the mapped keys/names and values as "<see cref="T:System.Collections.Generic.Dictionary`2"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
-            </returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>23/04/2022 09:48 PM</DateTime>
-            </Created>
         </member>
         <member name="T:DevHorizons.DAL.Interfaces.ICommand">
             <summary>
@@ -3545,7 +3116,7 @@
         </member>
         <member name="P:DevHorizons.DAL.Interfaces.IDataAccessSettings.LogLevel">
             <summary>
-               Gets or sets the log level for the "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" parameter passed by the dependency inject to the "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" constructors to decide which level it will write to logs or to be totally disabled.
+               Gets or sets the log level for the "<see cref="T:Microsoft.Extensions.Logging.ILogger"/>" parameter passed by the dependency inject to the "<see cref="T:DevHorizons.DAL.Abstracts.ACommand"/>" constructors to decide which level it will write to logs or to be totally disabled.
                <para>The Default Value: Warning >> 4.</para>
             </summary>
             <remarks>If set to "None", then the whole logging will be disabled and won't write any message to the logs.</remarks>
@@ -3695,6 +3266,158 @@
                <DateTime>16/02/2022 10:22 PM</DateTime>
             </Created>
         </member>
+        <member name="T:DevHorizons.DAL.Interfaces.IDataField">
+            <summary>
+               A type which would represent the data field/parameter.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+            <seealso cref="T:DevHorizons.DAL.Interfaces.IDataFieldBase" />
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataField.Property">
+            <summary>
+               Gets the bound/mapped property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>".
+            </summary>
+            <remarks>
+               This value is totally managed by the engine and designed to serve the library internally only.
+            </remarks>
+            <value>
+               The mapped property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>".
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:53 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Interfaces.IDataField.SetPropertyInfo(System.Reflection.PropertyInfo)">
+            <summary>
+               Sets the bound/mapped property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>".
+            </summary>
+            <remarks>
+               This method is totally managed by the engine and designed to serve the library internally only.
+            </remarks>
+            <param name="property">The bound/mapped property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>".</param>|
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>06/05/2022 04:41 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.Interfaces.IDataFieldBase">
+            <summary>
+               A type which would represent the data field/parameter.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:00 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Name">
+            <summary>
+               Gets or sets the parameter's name.
+            </summary>
+            <value>
+               The parameter's name.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>07/11/2018 11:02 AM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.SpecialType">
+            <summary>
+               Gets or sets the explicit special type of data column or parameter.
+            </summary>
+            <value>
+              The explicit special type of data column or parameter.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Encrypted">
+            <summary>
+               Gets or sets a value indicating whether the value will be encrypted (to the "<c>Base</c>" string fromat) before begin assigned to the stored procedure parameter's value or decrypted back (to the "<c>Base</c>" string fromat) for the output parameters.
+            </summary>
+            <remarks>Suppresses the "<see cref="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Hashed"/>" property if specified.</remarks>
+            <value>
+              <c>true</c> if [Encrypted]; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.MayBeEncrypted">
+            <summary>
+               Gets or sets a value indicating whether the value/data may be encrypted and will attempt to decrypt it before begin assigned to the mapped property.
+            </summary>
+            <remarks>
+               The returned data/value should be in the "<c>Base64</c>" string fromat.
+               <para>Supress the "<see cref="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Hashed"/>".</para>
+            </remarks>
+            <value>
+              <c>true</c> if the data could be encrypted; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.EncryptionType">
+            <summary>
+               Gets or sets a the encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
+            </summary>
+            <remarks>The default value will be specified by the "<see cref="P:DevHorizons.DAL.Cryptography.SymmetricEncryption.DefaultEncryptionType"/>" which is usually "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>".</remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>26/12/2021 05:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Hashed">
+            <summary>
+               Gets or sets a value indicating whether the value will be hashed to the "<c>Base</c>" string fromat before begin assigned to the stored procedure parameter's value.
+               <para>Common for passwords.</para>
+            </summary>
+            <remarks>Suppressed by the "<see cref="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Encrypted"/>" property if specified.</remarks>
+            <value>
+              <c>true</c> if [hashed]; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.Optional">
+            <summary>
+               Gets or sets a value indicating whether the mapped property/column/parameter is optional/nullable.
+            </summary>
+            <value>
+              <c>true</c> if this input value can be null; otherwise, <c>false</c>.
+            </value>
+            <remarks>
+               Default Value: <c>false</c>.
+               <para>If set to "<c>true</c>" while the value is null, then the mapped property/column/parameter will be skipped from mapping and will follow the data source nullable rules/default assigned value/default constraint.</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>08/03/2022 06:38 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IDataFieldBase.NotMapped">
+            <summary>
+               Gets or sets a value indicating whether the property will not be mapped with returned table or the command body (stored procedure).
+            </summary>
+            <value>
+              <c>true</c> if [not mapped]; otherwise, <c>false</c>.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:52 PM</DateTime>
+            </Created>
+        </member>
         <member name="P:DevHorizons.DAL.Interfaces.IDataTable.ObjectName">
             <summary>
                Gets or sets the target object name in the data source which could be a table or view including the schema name. <c>E.g. [dbo].[Orders]</c>.
@@ -3727,7 +3450,7 @@
                Extracts the list of the parameters from the specified "<c>DAL</c>" data table as type of of <see cref="T:DevHorizons.DAL.Interfaces.IDataTable"/>.
             </summary>
             <param name="commandAction">The command action.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>.</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:03 PM</DateTime>
@@ -3960,7 +3683,7 @@
         </member>
         <member name="P:DevHorizons.DAL.Interfaces.ILogDetails.ParametersSource">
             <summary>
-               Gets or sets the definition source of the required parameters for the specified command (stored procedure) which could be explicitly defined one or more of "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>", a generic dictionary or through an "<see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>" implemented instance.
+               Gets or sets the definition source of the required parameters for the specified command (stored procedure) which could be explicitly defined one or more of "<see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>", a generic dictionary or through an "<see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>" implemented instance.
             </summary>
             <value>
                The definition source of the command (stored procedure) name.
@@ -4027,38 +3750,41 @@
         </member>
         <member name="T:DevHorizons.DAL.Interfaces.IParameter">
             <summary>
-               An interface which would represent the data Parameter.
+               The attribute can be added to the properties within the command body class which implements the "<see cref="T:DevHorizons.DAL.Shared.CommandBody"/>".
+               <para>Defines all the required properties of the mapped stored procedure's parameter.</para>
             </summary>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>07/11/2018 11:00 AM</DateTime>
+               <DateTime>10/02/2020 11:57 PM</DateTime>
             </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Name">
-            <summary>
-               Gets or sets the parameter's name.
-            </summary>
-            <value>
-               The parameter's name.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>07/11/2018 11:02 AM</DateTime>
-            </Created>
+            <seealso cref="T:DevHorizons.DAL.Interfaces.IDataField" />
         </member>
         <member name="P:DevHorizons.DAL.Interfaces.IParameter.Value">
             <summary>
-               Gets or sets the parameter's value.
+               Gets or sets the transformed value which could be different from the mapped property value and type.
+               <para>This value could encrypted, decrypted, hashed or <c>JSON</c>/<c>XML</c> serialized/deserialized.</para>
             </summary>
             <value>
-               The parameter's value.
+               The final updated value.
             </value>
+            <remarks>This property is managed by the "<c>DAL</c>" service.</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>07/11/2018 11:02 AM</DateTime>
+               <DateTime>10/02/2020 11:53 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Direction">
+        <member name="T:DevHorizons.DAL.Interfaces.IParameterBase">
+            <summary>
+               The attribute can be added to the properties within the command body class which implements the "<see cref="T:DevHorizons.DAL.Shared.CommandBody"/>".
+               <para>Defines all the required properties of the mapped stored procedure's parameter.</para>
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:57 PM</DateTime>
+            </Created>
+            <seealso cref="T:DevHorizons.DAL.Interfaces.IDataFieldBase" />
+        </member>
+        <member name="P:DevHorizons.DAL.Interfaces.IParameterBase.Direction">
             <summary>
                Gets or sets the direction of the parameter as "Input", "Output" or "Return".
                <para>The Default Value: <see cref="F:DevHorizons.DAL.Shared.Direction.Input"/>.</para>
@@ -4071,7 +3797,7 @@
                <DateTime>07/11/2018 11:12 AM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Size">
+        <member name="P:DevHorizons.DAL.Interfaces.IParameterBase.Size">
             <summary>
                Gets or sets the maximum size, in bytes, of the data within the column.
                <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
@@ -4084,7 +3810,7 @@
                <DateTime>08/11/2018 03:23 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Precision">
+        <member name="P:DevHorizons.DAL.Interfaces.IParameterBase.Precision">
             <summary>
               Gets or sets the maximum number of digits for the numeric and decimal data types.
             </summary>
@@ -4097,7 +3823,7 @@
                <DateTime>08/11/2018 03:26 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Scale">
+        <member name="P:DevHorizons.DAL.Interfaces.IParameterBase.Scale">
             <summary>
                Gets or sets the number of decimal places for the for the numeric and decimal data types.
             </summary>
@@ -4107,240 +3833,6 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>08/11/2018 03:28 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.ParameterAttribute">
-            <summary>
-               Gets or sets the encapsulated Parameter Attribute which is mainly used/controlled/managed internally by the engine itself.
-            </summary>
-            <remarks>Developers should not try to interact with this property by any mean when using the engine for the data access.</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:28 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.DataField">
-            <summary>
-               Gets or sets the attribute can be added to the properties which is encapsulated in the designed data model classes to be implemented and populated by the <c>DAL</c> library.
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:28 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Encrypted">
-            <summary>
-               Gets or sets a value indicating whether the value will be encrypted (to the "<c>Base</c>" string fromat) before begin assigned to the stored procedure parameter's value or decrypted back (to the "<c>Base</c>" string fromat) for the output parameters.
-            </summary>
-            <remarks>Suppresses the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Hashed"/>" property if specified.</remarks>
-            <value>
-              <c>true</c> if [Encrypted]; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.MayBeEncrypted">
-            <summary>
-               Gets or sets a value indicating whether the value/data may be encrypted and will attempt to decrypt it before begin assigned to the mapped property.
-            </summary>
-            <remarks>
-               The returned data/value should be in the "<c>Base64</c>" string fromat.
-               <para>Supress the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Hashed"/>".</para>
-            </remarks>
-            <value>
-              <c>true</c> if the data could be encrypted; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.EncryptionType">
-            <summary>
-               Gets or sets a the encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
-            </summary>
-            <remarks>The default value will be specified by the "<see cref="P:DevHorizons.DAL.Cryptography.SymmetricEncryption.DefaultEncryptionType"/>" which is usually "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>".</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameter.Hashed">
-            <summary>
-               Gets or sets a value indicating whether the value will be hashed to the "<c>Base</c>" string fromat before begin assigned to the stored procedure parameter's value.
-               <para>Common for passwords.</para>
-            </summary>
-            <remarks>Suppressed by the "<see cref="P:DevHorizons.DAL.Interfaces.IParameter.Encrypted"/>" property if specified.</remarks>
-            <value>
-              <c>true</c> if [hashed]; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="T:DevHorizons.DAL.Interfaces.IParameterAttribute">
-            <summary>
-               The attribute can be added to the properties within the command body class which implements the "<see cref="T:DevHorizons.DAL.Shared.CommandBody"/>".
-               <para>Defines all the required properties of the mapped stored procedure's parameter.</para>
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:57 PM</DateTime>
-            </Created>
-            <seealso cref="T:System.Attribute" />
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Name">
-            <summary>
-               Gets or sets the parameter's name.
-            </summary>
-            <value>
-               The parameter's name.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>07/11/2018 11:02 AM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Direction">
-            <summary>
-               Gets or sets the direction of the parameter as "Input", "Output" or "Return".
-               <para>The Default Value: <see cref="F:DevHorizons.DAL.Shared.Direction.Input"/>.</para>
-            </summary>
-            <value>
-            The direction.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>07/11/2018 11:12 AM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Size">
-            <summary>
-               Gets or sets the maximum size, in bytes, of the data within the column.
-               <para>The Default Value: -1 (Which would be The max value the parameter can hold).</para>
-            </summary>
-            <value>
-               The maximum size, in bytes, of the data within the column. The default value is inferred from the parameter value.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:23 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Precision">
-            <summary>
-              Gets or sets the maximum number of digits used to represent the "<see cref="P:System.Data.Common.DbParameter.Value"/>" property.
-            </summary>
-            <value>
-              The maximum number of digits used to represent the "<see cref="P:System.Data.Common.DbParameter.Value"/>" property.
-              The default value is 0. This indicates that the data provider sets the precision for the "<see cref="P:System.Data.Common.DbParameter.Value"/>".
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:26 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Scale">
-            <summary>
-               Gets or sets the number of decimal places to which "<see cref="P:System.Data.Common.DbParameter.Value"/>" is resolved.
-            </summary>
-            <value>
-               The number of decimal places to which "<see cref="P:System.Data.Common.DbParameter.Value"/>" is resolved. The default is 0.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:28 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.NotMapped">
-            <summary>
-               Gets or sets a value indicating whether the property will not be mapped with returned table or the command body (stored procedure).
-            </summary>
-            <value>
-              <c>true</c> if [not mapped]; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.SpecialType">
-            <summary>
-               Gets or sets the explicit special type of data column or parameter.
-            </summary>
-            <value>
-              The explicit special type of data column or parameter.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Property">
-            <summary>
-               Gets or sets the bound property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>". This property is designed to serve the library internally only.
-            </summary>
-            <value>
-               The property as an instance of "<see cref="T:System.Reflection.PropertyInfo"/>"..
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:53 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Encrypted">
-            <summary>
-               Gets or sets a value indicating whether the value will be encrypted (to the "<c>Base</c>" string fromat) before begin assigned to the stored procedure parameter's value or decrypted back (to the "<c>Base</c>" string fromat) for the output parameters.
-            </summary>
-            <remarks>Suppresses the "<see cref="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Hashed"/>" property if specified.</remarks>
-            <value>
-              <c>true</c> if [Encrypted]; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Hashed">
-            <summary>
-               Gets or sets a value indicating whether the value will be hashed to the "<c>Base</c>" string fromat before begin assigned to the stored procedure parameter's value.
-               <para>Common for passwords.</para>
-            </summary>
-            <remarks>Suppressed by the "<see cref="P:DevHorizons.DAL.Interfaces.IParameterAttribute.Encrypted"/>" property if specified.</remarks>
-            <value>
-              <c>true</c> if [hashed]; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.MayBeEncrypted">
-            <summary>
-               Gets or sets a value indicating whether the value/data may be encrypted and will attempt to decrypt it before begin assigned to the mapped property.
-            </summary>
-            <remarks>
-               The returned data/value should be in the "<c>Base64</c>" string fromat.
-            </remarks>
-            <value>
-              <c>true</c> if the data could be encrypted; otherwise, <c>false</c>.
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:52 PM</DateTime>
-            </Created>
-        </member>
-        <member name="P:DevHorizons.DAL.Interfaces.IParameterAttribute.EncryptionType">
-            <summary>
-               Gets or sets a the encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
-            </summary>
-            <remarks>The default value will be specified by the "<see cref="P:DevHorizons.DAL.Cryptography.SymmetricEncryption.DefaultEncryptionType"/>" which is usually "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>".</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>26/12/2021 05:00 PM</DateTime>
             </Created>
         </member>
         <member name="T:DevHorizons.DAL.Interfaces.IProviderFactoryDetails">
@@ -4386,6 +3878,511 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 12:33 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.DataProviderFactory">
+            <summary>
+                The Data Provider Factory name for the data connection.
+                Note: Only the "Microsoft.Data.SqlClient" library for the "<see cref="F:DevHorizons.DAL.DataProviderFactory.Sql"/>" Data Provider Factory is implemented and tested so far. And you would need to make sure the implemented provider factory is added.
+            </summary>
+            <created>
+               <author>Ahmad Gad (ahmad.gad@DevHorizons.com)</author>
+               <datetime>03/07/2019 07:44 PM</datetime>
+            </created>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.None">
+            <summary>
+               The provider factory is not yet set.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Sql">
+            <summary>
+               The <c>Microsoft SQL Server's Client</c> Data Provider Factory integrated with the official Microsoft "Microsoft.Data.SqlClient" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Oledb">
+            <summary>
+               The <c>OLEDB</c> Data Provider Factory integrated with the official Microsoft "System.Data.OleDb" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Odbc">
+            <summary>
+               The <c>ODBC</c> Data Provider Factory integrated with the official Microsoft "System.Data.Odbc" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Oracle">
+            <summary>
+               The <c>Oracle Client</c> Data Provider Factory integrated with the official Oracle "Oracle.ManagedDataAccess" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.MySql">
+            <summary>
+               The <c>MySql Client</c> Data Provider Factory integrated with the official Oracle "MySql.Data" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Sqlite">
+            <summary>
+               The <c>Sqlite</c> Data Provider Factory integrated with the official Microsoft "Microsoft.Data.Sqlite" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.DB2">
+            <summary>
+               The <c>DB2</c> Data Provider Factory integrated with the official IBM "IBM.Data.DB2.Core" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Teradata">
+            <summary>
+               The <c>Teradata</c> Data Provider Factory integrated with the official Teradata "Teradata.Client.Provider" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.PostgreSQL">
+            <summary>
+               The <c>PostgreSQL</c> Data Provider Factory integrated with the official "<c>pgSQL</c>" ("<c>Npgsql</c>") library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.Snowflake">
+            <summary>
+               The <c>Snowflake</c> Data Provider Factory integrated with the official pgSQL "Snowflake.Data" library.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.DataProviderFactory.ASE">
+            <summary>
+               The "SAP Adaptive Server Enterprise (Sybase)" Data Provider Factory.
+            </summary>
+            <remarks>
+               This is not an offical "<c>SAP</c>" package becase <c>SAP</c>SAP has not yet release a ADO.NET driver/client to support .NET Core/Standard.
+               <para><see href="https://github.com/DataAction/AdoNetCore.AseClient"/></para>
+            </remarks>
+        </member>
+        <member name="P:DevHorizons.DAL.DataTable.Identity">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.DataTable.RowsCount">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.DataTable.ObjectName">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.DataTable.DevHorizons#DAL#Interfaces#IDataTable#GetParmeters(DevHorizons.DAL.CommandAction)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.DataTable.DevHorizons#DAL#Interfaces#IDataTable#GetCommandText(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.IParameter},DevHorizons.DAL.CommandAction)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.DataTable.GetParmetersFromDataTable(DevHorizons.DAL.CommandAction)">
+            <summary>
+               Extracts the list of the parameters from the specified "<c>DAL</c>" data table as type of of <see cref="T:DevHorizons.DAL.Interfaces.IDataTable"/>.
+            </summary>
+            <param name="commandAction">The command action.</param>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/02/2020 11:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.DependencyInjection.Extensions">
+            <summary>
+               A public static class which holds all the public extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:41 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.DependencyInjection.Extensions.RegisterDevHorizonsDal``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,DevHorizons.DAL.Interfaces.IDataAccessSettings)">
+            <summary>
+               Register the <c>SQL</c> <c>DAL</c> service into the dependency injection <c>(DI)</c> container with the scoped life cycle.
+            </summary>
+            <param name="services">The contract for a collection of service descriptors.</param>
+            <param name="settings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>"</param>
+            <typeparam name="T">The implementation type of the "<see cref="T:DevHorizons.DAL.Interfaces.ICommand"/>".</typeparam>
+            <returns>The contract for a collection of service descriptors which is used in the WebApis DI.</returns>
+            <remarks>The {T} type must be of the type "<see cref="T:DevHorizons.DAL.Interfaces.ICommand"/>".</remarks>
+            <exception cref="T:System.ArgumentNullException">The "settings" argument of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>" cannot be null.</exception>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>01/02/2022 09:45 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.DependencyInjection.Extensions.GetDalAppConfig``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+               Get the bound/typed application configuration of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".
+            </summary>
+            <param name="services">The contract for a collection of service descriptors.</param>
+            <param name="configuration">The App Configuration instance of the type "<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>" which represents a set of key/value application configuration properties.</param>
+            <typeparam name="T">Type of "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".</typeparam>
+            <remarks>
+               <para>The implementation {T} class must be type of "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>" and must have a default parameterless constructor.</para>
+               This method is essential for the WebAPI project because it will perform the following operations before returning the strongly typed appsettings as an instance of "<see cref="!:ApplicationConfiguration"/>":
+               <para>1. Convert the appsettings file into the strong typed class of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".</para>
+               <para>2. Grab all the matching system environment variables to override what match from the appsettings.</para>
+               <para>3. Register the strong typed app settings (application configuration) into the DI container for the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>" with singleton life cycle.</para>
+            </remarks>
+            <returns>
+               The application configuration of the type "<see cref="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration"/>".
+            </returns>
+            <exception cref="T:System.MissingMethodException">Exception will be raised if the implementation {T} class does not have a default parameterless constructor.</exception>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+              <DateTime>27/04/2021 01:04 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration">
+            <summary>
+               The application configuration abstract in a typed format.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.AppName">
+            <summary>
+               Gets or sets the name of the running host deployed/running application. This property is automatically set by the host to the assembly containing the application entry point.
+            </summary>
+            <value>
+               The name of the host application.
+            </value>
+        </member>
+        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.AppVersion">
+            <summary>
+               Gets or sets the deployed/running host application version.
+            </summary>
+            <value>
+               The host application version.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:09 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.DependencyInjection.IApplicationConfiguration.DataAccessSettings">
+            <summary>
+               Gets or sets the all the ("<c>DAL</c>") data access settings required to connect to the data source and to control the engine.
+            </summary>
+            <value>
+               The data access settings.
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@retailinmotion.com)</Author>
+               <DateTime>27/04/2021 01:11 PM</DateTime>
+            </Created>
+        </member>
+        <member name="T:DevHorizons.DAL.ErrorDetails">
+            <summary>
+               A class defines all the needed members for raised error/exceptions.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:33 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ErrorDetails.#ctor">
+            <summary>
+               Initializes a new instance of the <see cref="T:DevHorizons.DAL.ErrorDetails"/> class.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>02/11/2018 05:34 PM</DateTime>
+            </Created>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.LogLevel">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Number">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Message">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Description">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Source">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.ConnectionState">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.Exception">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.StackTrace">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.SourceMachine">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.DataSourceName">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.DatabaseName">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.LogTime">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.CommandText">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.HasParameters">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.CommandExecutionType">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.CommandSource">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.ParametersSource">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.IsolationLevel">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.FirstLevelCacheMemorySize">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.SecondLevelCacheMemorySize">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.ThirdLevelCacheMemorySize">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.DataSourceVersion">
+            <inheritdoc/>
+        </member>
+        <member name="P:DevHorizons.DAL.ErrorDetails.DataExecutionSuccessful">
+            <inheritdoc/>
+        </member>
+        <member name="T:DevHorizons.DAL.ExtensionMethods">
+            <summary>
+               A public static class which holds all the public extension methods which can be consumed by the consumer libraries, APIs or applications to wrap around the library with a smoother and quicker way.
+            </summary>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:41 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToStructuredDbType``1(System.Collections.Generic.ICollection{``0})">
+            <summary>
+               Converts a collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="!:Interfaces.IDataField.Value"/>" property.
+               <para>This is required only if the host parameter holds a "Structured" data type.</para>
+            </summary>
+            <typeparam name="T">The type of the passed class based object.</typeparam>
+            <param name="data">The collection of the based class objects to be converted.</param>
+            <returns>
+               A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="!:Interfaces.IDataField.Value"/>" property.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:42 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToStructuredDbType``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+               Converts a collection of generic objects (value data type (struct) based) to the supported structured data type to be passed to the "<see cref="!:Interfaces.IDataField.Value"/>" property.
+               <para>This is required only if the host parameter holds a "Structured" data type.</para>
+            </summary>
+            <typeparam name="T">The type of the passed value data type (struct) based object.</typeparam>
+            <param name="data">The collection of the value data type based objects to be converted.</param>
+            <returns>
+               A collection of generic objects (class based) to the supported structured data type to be passed to the "<see cref="!:Interfaces.IDataField.Value"/>" property.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 12:42 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object)">
+            <summary>
+                 Converts to generic data type based on the generic input data type.
+            </summary>
+            <typeparam name="T">The generic input data type.</typeparam>
+            <param name="source">The source object to be converted.</param>
+            <returns>Value based on generic data type from generic input data type.</returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDescription(System.Object)">
+            <summary>
+               Gets the description attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               The description attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDisplayName(System.Object)">
+            <summary>
+               Gets the "display name" attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               The "display name" attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDefaultValue(System.Object)">
+            <summary>
+               Gets the "Default Value" attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               The "display name" attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDefaultValue``1(System.Object)">
+            <summary>
+               Gets the "Default Value" attribute value.
+            </summary>
+            <param name="source">The source object.</param>
+            <typeparam name="T">The type of the returned value.</typeparam>
+            <returns>
+               The "display name" attribute value.
+            </returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.To``1(System.Object,``0)">
+            <summary>
+                 Converts to generic data type based on the generic input data type.
+            </summary>
+            <typeparam name="T">The generic input data type.</typeparam>
+            <param name="source">The source object to be converted.</param>
+            <param name="defaultValue">The default return (replacement) value in case if the conversion operation failed.</param>
+            <returns>Value based on generic data type from generic input data type.</returns>
+            <Created>
+                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                <DateTime>30/06/2012  06:22 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToXmlString(System.Object)">
+            <summary>
+               Serialize an object into XML string.
+            </summary>
+            <param name="obj">The object to be serialized into XML string.</param>
+            <returns>The XML string as the result of the specified object XML serialization.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.FromXmlString(System.String,System.Type)">
+            <summary>
+              Deserialize an XML string into an object.
+            </summary>
+            <param name="xmlString">The XML string to be deserialized into object.</param>
+            <param name="objectType">The type of the output deserialized object.</param>
+            <returns>The object as the result of the XML deserialization.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToJsonString(System.Object)">
+            <summary>
+               Serialize an object into <c>JSON</c> string.
+            </summary>
+            <param name="obj">The object to be serialized into <c>JSON</c> string.</param>
+            <returns>The <c>JSON</c> string as the result of the specified object <c>JSON</c> serialization.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.FromJsonString(System.String,System.Type)">
+            <summary>
+              Deserialize an <c>JSON</c> string into an object.
+            </summary>
+            <param name="jsonString">The <c>JSON</c> string to be deserialized into object.</param>
+            <param name="objectType">The type of the output deserialized object.</param>
+            <returns>The object as the result of the <c>JSON</c> deserialization.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.FromJsonString``1(System.String)">
+            <summary>
+              Deserialize an <c>JSON</c> string into an object.
+            </summary>
+            <param name="jsonString">The <c>JSON</c> string to be deserialized into object.</param>
+            <typeparam name="T">The type of the serialized object.</typeparam>
+            <returns>The object as the result of the <c>JSON</c> deserialization.</returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>11/02/2020 10:44 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetNameValueProperties(System.Object)">
+            <summary>
+               Extracts the properties with the "<see cref="T:DevHorizons.DAL.Attributes.NameValuePairAttribute"/>" in a dictionary as "<see cref="T:System.Collections.Generic.Dictionary`2"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
+            </summary>
+            <param name="source">The source object.</param>
+            <returns>
+               Dictionary represents the mapped keys/names and values as "<see cref="T:System.Collections.Generic.Dictionary`2"/>"; where "<c>TKey</c>" is string and "<c>TValue</c>" is object.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>23/04/2022 09:48 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToDataField(DevHorizons.DAL.Attributes.DataFieldAttribute)">
+            <summary>
+               Convert an instance of "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>" to "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
+            </summary>
+            <param name="dataFieldAttribute">The source "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>".</param>
+            <returns>
+               Instance of "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 01:31 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.ToDataField(DevHorizons.DAL.Attributes.DataFieldAttribute,System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+               Convert an instance of "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>" to "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
+            </summary>
+            <param name="dataFieldAttribute">The source "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>".</param>
+            <param name="prop">The mapped property.</param>
+            <param name="obj">The object whose property value will be returned.</param>
+            <returns>
+               Instance of "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 01:31 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.ExtensionMethods.GetDataField(System.Reflection.PropertyInfo,System.Object)">
+            <summary>
+               Convert an instance of "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>" to "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
+            </summary>
+            <param name="prop">The mapped property.</param>
+            <param name="obj">The object whose property value will be returned.</param>
+            <returns>
+               Instance of "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 01:31 AM</DateTime>
             </Created>
         </member>
         <member name="T:DevHorizons.DAL.IConnectionSettings">
@@ -4558,7 +4555,7 @@
         </member>
         <member name="F:DevHorizons.DAL.ParametersSource.Explicit">
             <summary>
-               Explicitly defined one or more of "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".
+               Explicitly defined one or more of "<see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>".
             </summary>
         </member>
         <member name="F:DevHorizons.DAL.ParametersSource.Dictionary">
@@ -5201,7 +5198,7 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.UpdateDataRowObject(System.Object,System.Collections.Generic.ICollection{DevHorizons.DAL.Attributes.DataFieldAttribute},DevHorizons.DAL.Shared.SpecialType,DevHorizons.DAL.DataDirection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails},System.Boolean)">
+        <member name="M:DevHorizons.DAL.Shared.Shared.UpdateDataRowObject(System.Object,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.DataField},DevHorizons.DAL.Shared.SpecialType,DevHorizons.DAL.DataDirection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails},System.Boolean)">
             <summary>
                Update the object (single class or collection of classes) with the targeted data transformation like encryption, decryption, hashing, serialization or deserialization.
             </summary>
@@ -5242,13 +5239,13 @@
             <param name="memoryCache">The internal memory cached object/container.</param>
             <param name="handleError">The handle error function passed from the command.</param>
             <param name="cacheCategory">The cache category by the source type. E.g. DataField, Structured, etc.</param>
-            <returns>List of "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>".</returns>
+            <returns>List of "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.SaveDataFieldsToCache(System.Collections.Generic.List{DevHorizons.DAL.Attributes.DataFieldAttribute},System.String,DevHorizons.DAL.Cache.IMemoryCache)">
+        <member name="M:DevHorizons.DAL.Shared.Shared.SaveDataFieldsToCache(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.DataField},System.String,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
                Save the data columns as <see cref="T:System.Collections.Generic.List`1"/> where <c>T</c> is <see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/> into the cache.
             </summary>
@@ -5501,7 +5498,7 @@
         </member>
         <member name="M:DevHorizons.DAL.Shared.Shared.GetDataFieldsFromCache(System.String,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
-               Gets the data columns as <see cref="T:System.Collections.Generic.List`1"/> where <c>T</c> is <see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/> from the memory cache.
+               Gets the data columns as <see cref="T:System.Collections.Generic.List`1"/> where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.DataField"/> from the memory cache.
             </summary>
             <param name="cacheKey">The unique cache key.</param>
             <param name="memoryCache">The memory cached objects passed by the engine. Usually registered as Singleton Dependency Injection life cycle.</param>
@@ -5510,7 +5507,7 @@
                <DateTime>11/02/2020 10:34 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.SaveDataFieldsToCacheAsync(System.Collections.Generic.List{DevHorizons.DAL.Attributes.DataFieldAttribute},System.String,DevHorizons.DAL.Cache.IMemoryCache)">
+        <member name="M:DevHorizons.DAL.Shared.Shared.SaveDataFieldsToCacheAsync(System.Collections.Generic.List{DevHorizons.DAL.Interfaces.DataField},System.String,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
                Save the data columns as <see cref="T:System.Collections.Generic.List`1"/> where <c>T</c> is <see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/> into the cache in a running task in the background.
             </summary>
@@ -5524,7 +5521,7 @@
         </member>
         <member name="M:DevHorizons.DAL.Shared.Shared.GetDataColumnDetailsList(System.Object,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails})">
             <summary>
-               Converts the properties of the specified source object into list of "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>".
+               Converts the properties of the specified source object into list of "<see cref="T:DevHorizons.DAL.Interfaces.DataField"/>".
             </summary>
             <param name="obj">The source object.</param>
             <param name="dataAccessSettings">The data access settings of the type "<see cref="T:DevHorizons.DAL.Interfaces.IDataAccessSettings"/>".</param>
@@ -5548,7 +5545,7 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.GetNonReferencedCopy(System.Collections.Generic.ICollection{DevHorizons.DAL.Attributes.DataFieldAttribute})">
+        <member name="M:DevHorizons.DAL.Shared.Shared.GetNonReferencedCopy(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.DataField})">
             <summary>
                Gets non reference copy of the specified list of "<see cref="T:System.Data.DataColumn"/>".
             </summary>
@@ -5559,18 +5556,7 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.GetDataField(System.Reflection.PropertyInfo)">
-            <summary>
-               Converts to data field details as an instance of "<see cref="T:DevHorizons.DAL.Attributes.DataFieldAttribute"/>" object.
-            </summary>
-            <param name="prop">Data property info.</param>
-            <returns>The data row as an instance of "<see cref="T:System.Data.DataRow"/>".</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>11/02/2020 10:44 AM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.GetDataRow(System.Data.DataTable,System.Object,System.Collections.Generic.ICollection{DevHorizons.DAL.Attributes.DataFieldAttribute},DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails})">
+        <member name="M:DevHorizons.DAL.Shared.Shared.GetDataRow(System.Data.DataTable,System.Object,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.DataField},DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails})">
             <summary>
                Gets to data row as an instance of "<see cref="T:System.Data.DataRow"/>" from the specified data table ("<see cref="T:System.Data.DataTable"/>") object.
             </summary>
@@ -5586,7 +5572,7 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.UpdateDataRowSingleObject(System.Object,System.Collections.Generic.ICollection{DevHorizons.DAL.Attributes.DataFieldAttribute},DevHorizons.DAL.Shared.SpecialType,DevHorizons.DAL.DataDirection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails},System.Boolean)">
+        <member name="M:DevHorizons.DAL.Shared.Shared.UpdateDataRowSingleObject(System.Object,System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.DataField},DevHorizons.DAL.Shared.SpecialType,DevHorizons.DAL.DataDirection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails},System.Boolean)">
             <summary>
                Update the object (single class) with the targeted data transformation like encryption, decryption, hashing, serialization or deserialization.
             </summary>
@@ -5603,7 +5589,7 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Shared.Shared.UpdateDataRowSingleObjectProp(DevHorizons.DAL.Attributes.DataFieldAttribute,DevHorizons.DAL.Shared.SpecialType,System.Object,System.Object,DevHorizons.DAL.DataDirection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails},System.Boolean)">
+        <member name="M:DevHorizons.DAL.Shared.Shared.UpdateDataRowSingleObjectProp(DevHorizons.DAL.Interfaces.DataField,DevHorizons.DAL.Shared.SpecialType,System.Object,System.Object,DevHorizons.DAL.DataDirection,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,System.Action{DevHorizons.DAL.Interfaces.ILogDetails},System.Boolean)">
             <summary>
                Update the property with the new value inside an object (single class) with the targeted data transformation like encryption, decryption, hashing, serialization or deserialization.
             </summary>

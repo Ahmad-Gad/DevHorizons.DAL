@@ -8,8 +8,9 @@
     using Interfaces;
     using Shared;
 
-    public class SqlDataTable : DataTable
+    public class SqlDataTable // : DataTable
     {
+        /*
         private protected ICommand cmd;
 
         #region Constructors
@@ -133,7 +134,7 @@
                     {
                         case SpecialType.Json:
                             {
-                                param.DataType = SqlDbType.Json;
+                                param.DataType = SqlDbType.NVarChar;
                                 param.Size = -1;
                                 break;
                             }
@@ -214,7 +215,7 @@
 
                 if (par.Direction == Direction.Output || par.Direction == Direction.InputOutput)
                 {
-                    if (par.DataField.Identity)
+                    if (par.Identity)
                     {
                         identity = identity.Append($"{par.Name}=SCOPE_IDENTITY(),");
                     }
@@ -260,5 +261,6 @@
         {
             throw new NotImplementedException();
         }
+*/
     }
 }

@@ -13,6 +13,7 @@
 namespace DevHorizons.DAL
 {
     using System;
+    using System.ComponentModel;
 
     /// <summary>
     ///    Defines the data direction from/to a data model which either data being sent to the data source or data being received by the data source.
@@ -22,6 +23,7 @@ namespace DevHorizons.DAL
     ///   <datetime>13/02/2022 08:00 PM</datetime>
     /// </Created>
     [Flags]
+    [DefaultValue(None)]
     public enum DataDirection
     {
         /// <summary>

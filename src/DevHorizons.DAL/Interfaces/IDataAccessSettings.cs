@@ -37,7 +37,7 @@ namespace DevHorizons.DAL.Interfaces
         IConnectionSettings ConnectionSettings { get; set; }
 
         /// <summary>
-        ///    Gets or sets the log level for the "<see cref="Microsoft.Extensions.Logging.ILogger"/>" parameter passed by the dependency inject to the "<see cref="Abstracts.Command"/>" constructors to decide which level it will write to logs or to be totally disabled.
+        ///    Gets or sets the log level for the "<see cref="Microsoft.Extensions.Logging.ILogger"/>" parameter passed by the dependency inject to the "<see cref="Abstracts.ACommand"/>" constructors to decide which level it will write to logs or to be totally disabled.
         ///    <para>The Default Value: Warning >> 4.</para>
         /// </summary>
         /// <remarks>If set to "None", then the whole logging will be disabled and won't write any message to the logs.</remarks>

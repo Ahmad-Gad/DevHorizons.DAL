@@ -12,6 +12,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace DevHorizons.DAL
 {
+    using System.ComponentModel;
+
     /// <summary>
     ///   The definition source of the required parameters for the specified command (stored procedure).
     /// </summary>
@@ -19,6 +21,7 @@ namespace DevHorizons.DAL
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>12/02/2022 04:58 PM</DateTime>
     /// </Created>
+    [DefaultValue(None)]
     public enum ParametersSource
     {
         /// <summary>
@@ -27,7 +30,7 @@ namespace DevHorizons.DAL
         None,
 
         /// <summary>
-        ///    Explicitly defined one or more of "<see cref="Interfaces.IParameter"/>".
+        ///    Explicitly defined one or more of "<see cref="Interfaces.IDataField"/>".
         /// </summary>
         Explicit = 1,
 

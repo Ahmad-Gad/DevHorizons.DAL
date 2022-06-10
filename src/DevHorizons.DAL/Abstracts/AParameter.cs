@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-//  <copyright file="Parameter.cs" company="DevHorizons">
+//  <copyright file="AParameter.cs" company="DevHorizons">
 //    Copyright (c) DevHorizons. All rights reserved.
 //  </copyright>
 //  <summary>
@@ -25,7 +25,7 @@ namespace DevHorizons.DAL.Abstracts
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>07/11/2018 11:00 AM</DateTime>
     /// </Created>
-    public abstract class Parameter : IParameter
+    public abstract class AParameter : DataField, IParameter
     {
         #region Protected Fields
 
@@ -43,7 +43,7 @@ namespace DevHorizons.DAL.Abstracts
         #region Properties
 
         /// <inheritdoc/>
-        public string Name
+        public new string Name
         {
             get
             {
@@ -74,24 +74,6 @@ namespace DevHorizons.DAL.Abstracts
 
         /// <inheritdoc/>
         public byte Scale { get; set; }
-
-        /// <inheritdoc/>
-        public IParameterAttribute ParameterAttribute { get; set; }
-
-        /// <inheritdoc/>
-        public Attributes.DataFieldAttribute DataField { get; set; }
-
-        /// <inheritdoc/>
-        public bool Encrypted { get; set; }
-
-        /// <inheritdoc/>
-        public bool MayBeEncrypted { get; set; }
-
-        /// <inheritdoc/>
-        public EncryptionType EncryptionType { get; set; } = EncryptionType.Default;
-
-        /// <inheritdoc/>
-        public bool Hashed { get; set; }
         #endregion Properties
     }
 }

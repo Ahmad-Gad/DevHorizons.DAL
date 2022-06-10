@@ -59,7 +59,7 @@ namespace DevHorizons.DAL.Cache
         /// <summary>
         ///    Gets or sets a value indicating whether the engine will raise all the cache related errors as warning instead of errors.
         ///    <para>If set to "<c>true</c>", all the cache related errors will be silently ignored and command executions will not fail or get terminated.</para>
-        ///    <para>If set to "<c>true</c>", the <c>DAL</c> command ("<see cref="Abstracts.Command"/>") will raise warning which can be captured by the "<see cref="Abstracts.Command.WarningRaised"/>" event handler.</para>
+        ///    <para>If set to "<c>true</c>", the <c>DAL</c> command ("<see cref="Abstracts.ACommand"/>") will raise warning which can be captured by the "<see cref="Abstracts.ACommand.WarningRaised"/>" event handler.</para>
         ///    <para>The Default Value: <c>false</c>.</para>
         /// </summary>
         /// <remarks>If set to "<c>true</c>" and if the logging is not disabled ("<see cref="Interfaces.IDataAccessSettings.LogLevel"/>"), those errors will be logged as warnings.</remarks>

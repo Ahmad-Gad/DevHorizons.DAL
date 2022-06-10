@@ -47,7 +47,7 @@
         ///    Extracts the list of the parameters from the specified "<c>DAL</c>" data table as type of of <see cref="IDataTable"/>.
         /// </summary>
         /// <param name="commandAction">The command action.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="IParameter"/>.</returns>
+        /// <returns>A <see cref="List{T}"/> of <see cref="IDataField"/>.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 11:03 PM</DateTime>

@@ -234,7 +234,7 @@ namespace DevHorizons.DAL.Interfaces
         CommandSource? CommandSource { get; set; }
 
         /// <summary>
-        ///    Gets or sets the definition source of the required parameters for the specified command (stored procedure) which could be explicitly defined one or more of "<see cref="IParameter"/>", a generic dictionary or through an "<see cref="ICommandBody"/>" implemented instance.
+        ///    Gets or sets the definition source of the required parameters for the specified command (stored procedure) which could be explicitly defined one or more of "<see cref="IDataField"/>", a generic dictionary or through an "<see cref="ICommandBody"/>" implemented instance.
         /// </summary>
         /// <value>
         ///    The definition source of the command (stored procedure) name.

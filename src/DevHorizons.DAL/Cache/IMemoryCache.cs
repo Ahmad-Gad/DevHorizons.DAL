@@ -16,8 +16,7 @@ namespace DevHorizons.DAL.Cache
     using System.Data.Common;
     using System.Reflection;
     using System.Security.Cryptography;
-
-    using Attributes;
+    using Interfaces;
 
     /// <summary>
     ///    Defines all the internal components which can be cached into the built-in memory cache on the host machine which is following life cycle of the host application and usually being hosted in a Singleton Dependency Injection life cycle.
@@ -59,7 +58,7 @@ namespace DevHorizons.DAL.Cache
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
         /// </Created>
-        IDictionary<string, List<DataFieldAttribute>> CachedDataFields { get; set; }
+        IDictionary<string, List<DataField>> CachedDataFields { get; set; }
 
         /// <summary>
         ///    Gets or sets the internal list of the extracted properties from a specific type.

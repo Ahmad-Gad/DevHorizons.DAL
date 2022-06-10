@@ -18,6 +18,7 @@
             <summary>
                Gets or sets a the data type.
             </summary>
+            <remarks>If Null, the type will be auto determined based on the mapped property type or/and the "<see cref="P:DevHorizons.DAL.Attributes.ParameterAttribute.SpecialType"/>".</remarks>
             <value>
               The data type.
             </value>
@@ -60,13 +61,13 @@
         </member>
         <member name="T:DevHorizons.DAL.Sql.SqlCommand">
             <summary>
-               A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>".
+               A class holds all the needed members for the <c>SQL</c> Command class which implements the abstraction class "<see cref="T:DevHorizons.DAL.Abstracts.ACommand"/>".
             </summary>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 12:05 AM</DateTime>
             </Created>
-            <seealso cref="T:DevHorizons.DAL.Abstracts.Command" />
+            <seealso cref="T:DevHorizons.DAL.Abstracts.ACommand" />
         </member>
         <member name="M:DevHorizons.DAL.Sql.SqlCommand.#ctor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cache.IMemoryCache,Microsoft.Extensions.Logging.ILogger{DevHorizons.DAL.Sql.SqlCommand})">
             <summary>
@@ -130,10 +131,10 @@
         </member>
         <member name="M:DevHorizons.DAL.Sql.SqlCommand.MapDataType(System.Data.Common.DbParameter,DevHorizons.DAL.Interfaces.IParameter)">
             <summary>
-               Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="T:DevHorizons.DAL.Abstracts.Command"/>" to map the data type that match the <c>SQL</c> provider factory.
+               Maps data type for the implemented provider factory which overrides the virtual one in the parent class "<see cref="T:DevHorizons.DAL.Abstracts.ACommand"/>" to map the data type that match the <c>SQL</c> provider factory.
             </summary>
             <param name="dbParameter">The database parameter as an instance of "<see cref="T:System.Data.Common.DbParameter" />" or any class that implements it.</param>
-            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter" />".</param>
+            <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IDataField" />".</param>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 12:07 AM</DateTime>
@@ -145,10 +146,10 @@
         </member>
         <member name="M:DevHorizons.DAL.Sql.SqlCommand.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
+               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>.
             </summary>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>.</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:03 PM</DateTime>
@@ -159,7 +160,7 @@
                Extracts the list of the parameters from the specified command body as type of of <see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>.
             </summary>
             <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
+            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>.</returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>01/02/2022 09:45 PM</DateTime>
@@ -274,9 +275,6 @@
                <DateTime>26/12/2021 05:00 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Sql.SqlDataTable.GetParmetersFromDataTable(DevHorizons.DAL.CommandAction)">
-            <inheritdoc/>
-        </member>
         <member name="T:DevHorizons.DAL.Sql.SqlDbType">
             <summary>
                Specifies SQL Server-specific data type of a SQL Parameter.
@@ -284,15 +282,6 @@
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
               <DateTime>08/11/2018 02:38 PM</DateTime>
-            </Created>
-        </member>
-        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Auto">
-            <summary>
-               Auto detect the data type as possible. Otherwise, it would reset the type to the default one which is "<see cref="F:DevHorizons.DAL.Sql.SqlDbType.NText"/>".
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>08/11/2018 03:53 PM</DateTime>
             </Created>
         </member>
         <member name="F:DevHorizons.DAL.Sql.SqlDbType.BigInt">
@@ -587,15 +576,6 @@
                <DateTime>08/11/2018 03:12 PM</DateTime>
             </Created>
         </member>
-        <member name="F:DevHorizons.DAL.Sql.SqlDbType.Json">
-            <summary>
-               <c>Json</c> data type where the mapped property should be serialized/deserialized from/to <c>Json</c> first.
-            </summary>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>02/02/2018 08:00 PM</DateTime>
-            </Created>
-        </member>
         <member name="T:DevHorizons.DAL.Sql.SqlParameter">
             <summary>
                A class which holds the required database's parameter members required to be injected with the stored procedure.
@@ -728,7 +708,7 @@
         <member name="P:DevHorizons.DAL.Sql.SqlParameter.DataType">
             <summary>
                Gets or sets the data type as "<see cref="T:DevHorizons.DAL.Sql.SqlDbType"/>".
-               <para>The Default Value: <see cref="F:DevHorizons.DAL.Sql.SqlDbType.Auto"/>.</para>
+               <para>The Default Value: Null.</para>
             </summary>
             <value>
             The type of the data.

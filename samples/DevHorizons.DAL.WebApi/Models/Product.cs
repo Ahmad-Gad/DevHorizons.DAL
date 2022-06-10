@@ -11,7 +11,8 @@
         {
             get
             {
-                return this.Identity;
+               // return this.Identity;
+               throw new NotImplementedException();
             }
         }
 

@@ -21,7 +21,7 @@ namespace DevHorizons.DAL.Sql
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>07/11/2018 11:00 AM</DateTime>
     /// </Created>
-    public class SqlParameter : Abstracts.Parameter
+    public class SqlParameter : Abstracts.AParameter
     {
         #region Constructors
 
@@ -179,7 +179,7 @@ namespace DevHorizons.DAL.Sql
 
         /// <summary>
         ///    Gets or sets the data type as "<see cref="Sql.SqlDbType"/>".
-        ///    <para>The Default Value: <see cref="SqlDbType.Auto"/>.</para>
+        ///    <para>The Default Value: Null.</para>
         /// </summary>
         /// <value>
         /// The type of the data.
@@ -188,7 +188,7 @@ namespace DevHorizons.DAL.Sql
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 02:13 PM</DateTime>
         /// </Created>
-        public virtual SqlDbType DataType { get; set; } = SqlDbType.Auto;
+        public virtual SqlDbType? DataType { get; set; }
         #endregion Properties
     }
 }

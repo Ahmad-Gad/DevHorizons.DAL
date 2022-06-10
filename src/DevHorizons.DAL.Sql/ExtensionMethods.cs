@@ -13,10 +13,9 @@
 namespace DevHorizons.DAL.Sql
 {
     using System.Reflection;
-
     using Attributes;
-
     using Cache;
+    using DAL.Attributes;
 
     using Interfaces;
 
@@ -84,43 +83,36 @@ namespace DevHorizons.DAL.Sql
             var type = commandBody.GetType();
             var parameters = new List<IParameter>();
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            SqlParameterAttribute? parameterAttribute = null;
             foreach (var prop in properties)
             {
-                var parameterAttributeType = prop.GetCustomAttributes(true).FirstOrDefault(a => a is DAL.Attributes.ParameterAttribute || a is SqlParameterAttribute);
+                var parameterAttributeObject = prop.GetCustomAttributes(true).FirstOrDefault(a => a is ParameterAttribute);
                 var param = new SqlParameter
                 {
                     Name = prop.Name,
-                    Direction = Shared.Direction.Input,
-                    DataType = SqlDbType.Auto,
+                    Direction = Shared.Direction.Input
                 };
 
-                if (parameterAttributeType != null)
+                if (parameterAttributeObject != null)
                 {
-                    var dalParameterAttribute = parameterAttributeType is SqlParameterAttribute attribute ? attribute : (DAL.Attributes.ParameterAttribute)parameterAttributeType;
+                    //var dalParameterAttribute = parameterAttribute is SqlParameterAttribute sqlParamAttribute ? sqlParamAttribute : (DAL.Attributes.ParameterAttribute)parameterAttribute;
+                    var parameterAttribute = (ParameterAttribute)parameterAttributeObject;
 
-                    if (dalParameterAttribute.NotMapped)
+                    if (parameterAttribute.NotMapped)
                     {
                         continue;
                     }
 
-                    if (dalParameterAttribute.Direction == Shared.Direction.ReturnValue)
+                    param.SetPropertyInfo(prop);
+                    if (parameterAttribute.Direction == Shared.Direction.ReturnValue)
                     {
                         param.Name = $"R{Guid.NewGuid().ToString().Replace("-", string.Empty)}";
                         param.DataType = SqlDbType.Int;
                         param.Direction = Shared.Direction.ReturnValue;
-                        param.ParameterAttribute = new SqlParameterAttribute
-                        {
-                            Property = prop,
-                            Direction = param.Direction,
-                            Type = param.DataType
-                        };
 
                         parameters.Add(param);
                         continue;
                     }
 
-                    parameterAttribute = (SqlParameterAttribute)parameterAttributeType;
 
                     param.Encrypted = parameterAttribute.Encrypted;
                     param.MayBeEncrypted = parameterAttribute.MayBeEncrypted;
@@ -128,37 +120,23 @@ namespace DevHorizons.DAL.Sql
                     param.EncryptionType = parameterAttribute.EncryptionType;
                     param.Precision = parameterAttribute.Precision;
                     param.Scale = parameterAttribute.Scale;
-                    param.DataType = parameterAttribute.Type;
+                    param.DataType = ((SqlParameterAttribute)parameterAttribute).Type;
                     param.Direction = parameterAttribute.Direction;
                     if (string.IsNullOrWhiteSpace(parameterAttribute.Name))
                     {
-                        parameterAttribute.Name = prop.Name;
+                        param.Name = prop.Name;
                     }
                     else
                     {
                         param.Name = parameterAttribute.Name;
                     }
-                }
-                else
-                {
-                    parameterAttribute = new SqlParameterAttribute
-                    {
-                        Name = prop.Name,
-                        Direction = Shared.Direction.Input,
-                        Type = SqlDbType.Auto
-                    };
-                }
 
-                parameterAttribute.Property = prop;
-                param.ParameterAttribute = parameterAttribute;
-
-                if (parameterAttribute.SpecialType != Shared.SpecialType.None)
-                {
                     switch (parameterAttribute.SpecialType)
                     {
+                        case Shared.SpecialType.Base64:
                         case Shared.SpecialType.Json:
                             {
-                                param.DataType = SqlDbType.Json;
+                                param.DataType = SqlDbType.NVarChar;
                                 param.Size = -1;
                                 break;
                             }
@@ -182,53 +160,13 @@ namespace DevHorizons.DAL.Sql
                                 param.Size = -1;
                                 break;
                             }
-
-                        case Shared.SpecialType.Base64:
-                            {
-                                param.DataType = SqlDbType.NVarChar;
-                                param.Size = -1;
-                                break;
-                            }
-
                         default:
                             {
                                 break;
                             }
                     }
                 }
-                else
-                {
-                    switch (param.DataType)
-                    {
-                        case SqlDbType.Json:
-                            {
-                                parameterAttribute.SpecialType = Shared.SpecialType.Json;
-                                break;
-                            }
-                        case SqlDbType.Xml:
-                            {
-                                parameterAttribute.SpecialType = Shared.SpecialType.Xml;
-                                break;
-                            }
-                        case SqlDbType.Structured:
-                            {
-                                parameterAttribute.SpecialType = Shared.SpecialType.Structured;
-                                break;
-                            }
-                        case SqlDbType.Binary:
-                        case SqlDbType.VarBinary:
-                        case SqlDbType.Image:
-                            {
-                                parameterAttribute.SpecialType = Shared.SpecialType.Binary;
-                                break;
-                            }
-                        default:
-                            {
-                                parameterAttribute.SpecialType = Shared.SpecialType.None;
-                                break;
-                            }
-                    }
-                }
+
 
                 if (param.Direction != Shared.Direction.Output)
                 {

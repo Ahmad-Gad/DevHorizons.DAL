@@ -21,7 +21,7 @@ namespace DevHorizons.DAL.Shared
     ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
     ///    <DateTime>07/11/2018 11:00 AM</DateTime>
     /// </Created>
-    public class Parameter : Abstracts.Parameter
+    public class Parameter : Abstracts.AParameter
     {
         #region Constructors
 
