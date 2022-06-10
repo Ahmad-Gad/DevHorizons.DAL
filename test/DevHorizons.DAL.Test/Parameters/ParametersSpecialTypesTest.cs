@@ -1,4 +1,4 @@
-namespace DevHorizons.DAL.Test
+namespace DevHorizons.DAL.Test.Parameters
 {
     using System;
     using System.Data.Common;
@@ -153,6 +153,41 @@ namespace DevHorizons.DAL.Test
 
             var par = new Sql.SqlParameter(parName, employee);
             par.SpecialType = SpecialType.Xml;
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<string>() == expectedParameterValue
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Xml
+                    && sqlIntParmeter.Size == -1
+                );
+        }
+
+        [Fact]
+        public void BinaryParameter()
+        {
+            var dob = DateTime.Now;
+            var employee = new Employee
+            {
+                FirstName = "Ahmad",
+                LastName = "Gad",
+                DateOfBirth = dob,
+                Salary = 500
+            };
+
+            var parName = "Employee";
+
+            var expectedParameterValue = employee.ToXmlString();
+            Assert.True(!string.IsNullOrEmpty(expectedParameterValue));
+            if (string.IsNullOrEmpty(expectedParameterValue))
+            {
+                return;
+            }
+
+
+            var par = new Sql.SqlParameter(parName, employee);
+            par.SpecialType = SpecialType.Binary;
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True

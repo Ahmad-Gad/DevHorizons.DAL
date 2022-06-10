@@ -15,8 +15,10 @@ namespace DevHorizons.DAL.Shared
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
 
     using Attributes;
@@ -537,6 +539,74 @@ namespace DevHorizons.DAL.Shared
 
             var result = sourceDictionary.Count == comparerDictionary.Count && !sourceDictionary.Except(comparerDictionary).Any();
             return result;
+        }
+
+        /// <summary>
+        ///    Converts the specified object to binary as "<see cref="Array"/>" of "<see cref="byte"/>".
+        /// </summary>
+        /// <param name="source">The specified object.</param>
+        /// <returns>
+        ///    The binary convertion "<see cref="Array"/>" of "<see cref="byte"/>".
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 08:00 PM</DateTime>
+        /// </Created>
+        public static byte[] ToBinary(this object source)
+        {
+            return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(source);
+        }
+
+        /// <summary>
+        ///    Converts the specified binary object ("<see cref="Array"/>" of "<see cref="byte"/>") to the specifid "T" type.
+        /// </summary>
+        /// <param name="binary">The specified object in binary format.</param>
+        /// <typeparam name="T">The type of the converted object.</typeparam>
+        /// <returns>
+        ///    The binary convertion "<see cref="Array"/>" of "<see cref="byte"/>".
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 08:00 PM</DateTime>
+        /// </Created>
+        public static T FromBinary<T>(this byte[] binary)
+        {
+            return System.Text.Json.JsonSerializer.Deserialize<T>(binary);
+        }
+
+        /// <summary>
+        ///    Serialize the specified object to Base64 string.
+        /// </summary>
+        /// <param name="source">The specified object.</param>
+        /// <returns>
+        ///    The object converted to Base64 string.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 08:00 PM</DateTime>
+        /// </Created>
+        public static string ToBase64String(this object source)
+        {
+            var binary = source.ToBinary();
+            var base64 = Convert.ToBase64String(binary);
+            return base64;
+        }
+
+        /// <summary>
+        ///    Deserialize the Base64 string into the specified "T" object.
+        /// </summary>
+        /// <param name="source">The specified object serialized in Base64 String format.</param>
+        /// <returns>
+        ///    The object converted to Base64 string.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 08:00 PM</DateTime>
+        /// </Created>
+        public static T FromBase64String<T>(this string source)
+        {
+            var binary = Convert.FromBase64String(source);
+            return binary.FromBinary<T>();
         }
         #endregion Public Methods
 

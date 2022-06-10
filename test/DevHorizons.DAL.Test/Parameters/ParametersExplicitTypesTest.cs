@@ -1,4 +1,4 @@
-namespace DevHorizons.DAL.Test
+namespace DevHorizons.DAL.Test.Parameters
 {
     using System;
     using System.Data.Common;
@@ -8,13 +8,13 @@ namespace DevHorizons.DAL.Test
 
     using Xunit;
 
-    public class ParametersTest
+    public class ParametersExplicitTypesTest
     {
         private readonly DataAccessSettings dataAccessSettings;
         private readonly Sql.SqlCommand dalCmd;
         private readonly Microsoft.Data.SqlClient.SqlCommand internalCmdObject;
 
-        public ParametersTest()
+        public ParametersExplicitTypesTest()
         {
             this.dataAccessSettings = new DataAccessSettings
             {
@@ -147,6 +147,22 @@ namespace DevHorizons.DAL.Test
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
                     && sqlIntParmeter.Value.To<DateTime>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.SmallDateTime
+                );
+        }
+
+        [Fact]
+        public void GuidParameter()
+        {
+            var parName = "ProductGuid";
+            var parValue = Guid.NewGuid();
+            var par = new Sql.SqlParameter(parName, SqlDbType.UniqueIdentifier, parValue);
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<Guid>() == parValue
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.UniqueIdentifier
                 );
         }
 

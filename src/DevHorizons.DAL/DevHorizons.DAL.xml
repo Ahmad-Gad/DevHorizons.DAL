@@ -714,6 +714,19 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
+        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessPath">
+            <summary>
+               Gets or sets the path of the executable that started the currently executing process.
+            </summary>
+            <value>
+               The path of the executable that started the currently executing process.
+               <para>Returns null when the path is not available.</para>
+            </value>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>12/02/2022 04:58 PM</DateTime>
+            </Created>
+        </member>
         <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessId">
             <summary>
                Gets or sets the unique identifier for the current process.
@@ -5271,6 +5284,59 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 10:34 AM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.ToBinary(System.Object)">
+            <summary>
+               Converts the specified object to binary as "<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>".
+            </summary>
+            <param name="source">The specified object.</param>
+            <returns>
+               The binary convertion "<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>".
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 08:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.FromBinary``1(System.Byte[])">
+            <summary>
+               Converts the specified binary object ("<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>") to the specifid "T" type.
+            </summary>
+            <param name="binary">The specified object in binary format.</param>
+            <typeparam name="T">The type of the converted object.</typeparam>
+            <returns>
+               The binary convertion "<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>".
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 08:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.ToBase64String(System.Object)">
+            <summary>
+               Serialize the specified object to Base64 string.
+            </summary>
+            <param name="source">The specified object.</param>
+            <returns>
+               The object converted to Base64 string.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 08:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.FromBase64String``1(System.String)">
+            <summary>
+               Deserialize the Base64 string into the specified "T" object.
+            </summary>
+            <param name="source">The specified object serialized in Base64 String format.</param>
+            <returns>
+               The object converted to Base64 string.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 08:00 PM</DateTime>
             </Created>
         </member>
         <member name="M:DevHorizons.DAL.Shared.Shared.GetProviderFactoryDetails(DevHorizons.DAL.DataProviderFactory)">

@@ -297,7 +297,15 @@ namespace DevHorizons.DAL.Sql
                     dalSqlParameter.Size = -1;
                     if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value != null && dalSqlParameter.Value is not ICollection<byte>)
                     {
-                        dalSqlParameter.Value = Convert.FromBase64String(dalSqlParameter.Value.ToString());
+                        if (dalSqlParameter.Value is string)
+                        {
+                            dalSqlParameter.Value = Convert.FromBase64String(dalSqlParameter.Value.ToString());
+                        }
+                        else
+                        {
+                            dalSqlParameter.Value = dalSqlParameter.Value.ToBinary();
+                        }
+
                     }
                 }
                 else if (dalSqlParameter.SpecialType == SpecialType.Base64)
@@ -305,9 +313,16 @@ namespace DevHorizons.DAL.Sql
                     dalSqlParameter.DataType = SqlDbType.NVarChar;
                     dalSqlParameter.Size = -1;
 
-                    if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value != null && dalSqlParameter.Value is ICollection<byte>)
+                    if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value != null && dalSqlParameter.Value is not string)
                     {
-                        dalSqlParameter.Value = Convert.ToBase64String((byte[])dalSqlParameter.Value);
+                        if (dalSqlParameter.Value is ICollection<byte>)
+                        {
+                            dalSqlParameter.Value = Convert.ToBase64String((byte[])dalSqlParameter.Value);
+                        }
+                        else
+                        {
+                            dalSqlParameter.Value = dalSqlParameter.Value.ToBase64String();
+                        }
                     }
                 }
                 else if (dalSqlParameter.DataType is null)
@@ -448,7 +463,7 @@ namespace DevHorizons.DAL.Sql
             {
                 dalSqlParameter.DataType = SqlDbType.Real;
             }
-            else if (dalSqlParameter.Value is decimal || (type != null && type == typeof(decimal)))
+            else if (dalSqlParameter.Value is decimal || dalSqlParameter.Value is ulong || (type != null && type == typeof(decimal)) || (type != null && type == typeof(ulong)))
             {
                 dalSqlParameter.DataType = SqlDbType.Decimal;
             }
@@ -460,7 +475,7 @@ namespace DevHorizons.DAL.Sql
             {
                 dalSqlParameter.DataType = SqlDbType.UniqueIdentifier;
             }
-            else if (dalSqlParameter.Value is ICollection<byte>)
+            else if (dalSqlParameter.Value is ICollection<byte> || (type != null && type == typeof(byte[])))
             {
                 dalSqlParameter.DataType = SqlDbType.VarBinary;
                 dalSqlParameter.Size = -1;

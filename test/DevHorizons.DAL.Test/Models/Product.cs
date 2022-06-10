@@ -20,5 +20,7 @@
         public bool? Active   { get; set; }
 
         public string ProductName { get; set; }
+
+        public byte[] ProductImage { get; set; }
     }
 }

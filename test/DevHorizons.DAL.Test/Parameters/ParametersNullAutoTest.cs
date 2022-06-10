@@ -1,4 +1,4 @@
-namespace DevHorizons.DAL.Test
+namespace DevHorizons.DAL.Test.Parameters
 {
     using System;
     using System.Data.Common;
@@ -55,7 +55,7 @@ namespace DevHorizons.DAL.Test
         [Fact]
         public void IntNullParameter()
         {
-            var parName = "ProductId";
+            var parName = nameof(this.product.ProductId);
             int? parValue = null;
             var par = new Sql.SqlParameter(name: parName, value: parValue);
             var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
@@ -65,114 +65,112 @@ namespace DevHorizons.DAL.Test
             Assert.True
                 (
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value == null
+                    && sqlIntParmeter.To<int?>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Int
                 );
         }
 
-        [Fact]
-        public void IntZeroParameter()
-        {
-            var parName = "EmployeeId";
-            int? parValue = 0;
-            var par = new Sql.SqlParameter(parName, parValue);
-            this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
-            Assert.True
-                (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<int>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Int
-                );
-        }
 
         [Fact]
-        public void ExplicitDouble2FloatParameter()
+        public void FloatNullParameter()
         {
-            var parName = "Price";
-            var parValue = 3.5D;
+            var parName = nameof(this.product.Discount);
+            float? parValue = null;
             var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<float>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Float
-                );
-        }
-
-        [Fact]
-        public void Double2FloatParameter()
-        {
-            var parName = "Price";
-            var parValue = 3.5;
-            var par = new Sql.SqlParameter(parName, parValue);
-            this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
-            Assert.True
-                (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<float>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Float
-                );
-        }
-
-        [Fact]
-        public void Float2RealParameter()
-        {
-            var parName = "Price";
-            var parValue = 3.5F;
-            var par = new Sql.SqlParameter(parName, parValue);
-            this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
-            Assert.True
-                (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<float>() == parValue
+                    && sqlIntParmeter.Value.To<float?>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Real
                 );
         }
 
         [Fact]
-        public void DecimalParameter()
+        public void DoubleNullParameter()
         {
-            var parName = "Price";
-            var parValue = 3.5M;
+            var parName = nameof(this.product.PriceTotal);
+            double? parValue = null;
             var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<decimal>() == parValue
+                    && sqlIntParmeter.Value.To<float?>() == parValue
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Float
+                );
+        }
+
+
+        [Fact]
+        public void DecimalNullParameter()
+        {
+            var parName = nameof(this.product.Price);
+            decimal? parValue = null;
+            var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<decimal?>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Decimal
                 );
         }
 
         [Fact]
-        public void DateTimeParameter()
+        public void DateTimeNullParameter()
         {
-            var parName = "OrderDate";
-            var parValue = DateTime.Now;
+            var parName = nameof(this.product.Modified);
+            DateTime? parValue = null;
             var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<DateTime>() == parValue
+                    && sqlIntParmeter.Value.To<DateTime?>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.DateTime
                 );
         }
 
 
         [Fact]
-        public void StringParameterEmptyString()
+        public void StringNullParameter()
         {
-            var parName = "Description";
-            var parValue = string.Empty;
+            var parName = nameof(this.product.ProductName);
+            string parValue = null;
             var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<string?>() == parValue
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
+                    && sqlIntParmeter.Size == 1
+                );
+        }
+
+        public void String2NullParameter()
+        {
+            var parName = nameof(this.product.ProductName);
+            string parValue = null;
+            var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
@@ -180,33 +178,78 @@ namespace DevHorizons.DAL.Test
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
                     && sqlIntParmeter.Value.To<string>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
-                    && sqlIntParmeter.Size == 0
+                    && sqlIntParmeter.Size == 1
                 );
         }
 
         [Fact]
-        public void StringParameter()
+        public void CharNullParameter()
         {
-            var parName = "Name";
-            var parValue = "Ahmad Gad";
+            var parName = nameof(this.product.DiscountCode);
+            char? parValue = null;
             var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<string>() == parValue
+                    && sqlIntParmeter.Value.To<char?>() == parValue
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
-                    && sqlIntParmeter.Size == parValue.Length
+                    && sqlIntParmeter.Size == 1
                 );
         }
 
+
         [Fact]
-        public void VarBinaryParameterAuto()
+        public void GuidNullParameter()
         {
-            var parName = "Description";
-            var parValue = new byte[2];
+            var parName = nameof(this.product.ProductGuid);
+            Guid? parValue = null;
             var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<Guid?>() == parValue
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.UniqueIdentifier
+                    && sqlIntParmeter.Size == -1
+                );
+        }
+
+
+        [Fact]
+        public void BooleanNullParameter()
+        {
+            var parName = nameof(this.product.Active);
+            bool? parValue = null;
+            var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<bool?>() == parValue
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Bit
+                    && sqlIntParmeter.Size == -1
+                );
+        }
+
+
+        [Fact]
+        public void VarBinaryNullParameter()
+        {
+            var parName = nameof(this.product.ProductImage);
+            byte[] parValue = null;
+            var par = new Sql.SqlParameter(parName, parValue);
+            var prop = this.product.GetType().GetProperty(parName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            par.SetPropertyInfo(prop);
             this.dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
