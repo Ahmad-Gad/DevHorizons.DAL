@@ -441,7 +441,6 @@ namespace DevHorizons.DAL
             return dataField;
         }
 
-
         /// <summary>
         ///    Convert an instance of "<see cref="DataFieldAttribute"/>" to "<see cref="DataField"/>".
         /// </summary>
