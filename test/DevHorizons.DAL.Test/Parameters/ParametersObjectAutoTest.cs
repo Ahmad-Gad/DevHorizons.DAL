@@ -5,7 +5,7 @@ namespace DevHorizons.DAL.Test.Parameters
     using Sql;
     using Xunit;
 
-    public class ParametersObjectAutoTest : Base
+    public class ParametersObjectAutoTest : TestBase
     {
         [Fact]
         public void ByteParameter()

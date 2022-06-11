@@ -4,8 +4,10 @@
     using DAL.Shared;
     using Xunit;
 
-    public class ConnectionStringBuilderTest : Base
+    public class ConnectionStringBuilderTest : TestBase
     {
+        public ConnectionStringBuilderTest() : base("Integrated Security=SSPI; Data Source=.;Initial Catalog=OnlineStore;")
+        { }
 
         [Fact]
         public void InternalCmdObject()

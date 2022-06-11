@@ -6,7 +6,7 @@ namespace DevHorizons.DAL.Test.Parameters
     using Sql;
     using Xunit;
 
-    public class ParametersNullAutoTest : Base
+    public class ParametersNullAutoTest : TestBase
     {
 
         private readonly Product product = new Product();

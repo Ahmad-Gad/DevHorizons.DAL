@@ -6,7 +6,7 @@ namespace DevHorizons.DAL.Test.Parameters
 
     using Xunit;
 
-    public class ParametersBlob : Base
+    public class ParametersBlobTest : TestBase
     {
         [Fact]
         public void BinaryParameter()

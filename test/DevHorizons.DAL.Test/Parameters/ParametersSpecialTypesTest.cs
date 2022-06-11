@@ -6,7 +6,7 @@ namespace DevHorizons.DAL.Test.Parameters
 
     using Xunit;
 
-    public class ParametersSpecialTypesTest : Base
+    public class ParametersSpecialTypesTest : TestBase
     {
         [Fact]
         public void StructuredParameter()

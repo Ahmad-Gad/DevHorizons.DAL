@@ -5,7 +5,7 @@ namespace DevHorizons.DAL.Test.Parameters
     using Sql;
     using Xunit;
 
-    public class ParametersExplicitTypesTest : Base
+    public class ParametersExplicitTypesTest : TestBase
     {
         [Fact]
         public void ParameterName()

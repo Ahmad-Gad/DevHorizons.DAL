@@ -3,17 +3,16 @@
     using System;
     using System.Data.Common;
     using Sql;
-    using Xunit;
 
-    public class Base
+    public class TestBase
     {
         protected readonly DataAccessSettings dataAccessSettings;
-        protected readonly new SqlCommand dalCmd;
+        protected readonly SqlCommand dalCmd;
         protected readonly Microsoft.Data.SqlClient.SqlCommand internalCmdObject;
         protected readonly SqlConnectionSettings sqlConnectionSettings;
         protected const string INITIALCONNECTIONSTRING = "Integrated Security=SSPI; Data Source=.;Initial Catalog=OnlineStore;";
 
-        public Base(string connectionString = null)
+        public TestBase(string connectionString = null)
         {
             this.sqlConnectionSettings = new SqlConnectionSettings
             {
