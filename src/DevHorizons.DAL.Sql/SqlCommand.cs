@@ -291,9 +291,13 @@ namespace DevHorizons.DAL.Sql
                         dalSqlParameter.Value = dalSqlParameter.Value.ToStructuredDbType(this.Settings, this.MemoryCache, this.HandleError);
                     }
                 }
-                else if (dalSqlParameter.DataType == SqlDbType.VarBinary || dalSqlParameter.SpecialType == SpecialType.Binary)
+                else if (dalSqlParameter.DataType == SqlDbType.Image && dalSqlParameter.Value is string)
                 {
-                    dalSqlParameter.DataType = SqlDbType.VarBinary;
+                    dalSqlParameter.Value = dalSqlParameter.Value.ToString().ToBinary();
+                }
+                else if (dalSqlParameter.DataType == SqlDbType.Binary || dalSqlParameter.DataType == SqlDbType.VarBinary || dalSqlParameter.SpecialType == SpecialType.Binary)
+                {
+                    dalSqlParameter.DataType = dalSqlParameter.DataType ?? SqlDbType.VarBinary;
                     dalSqlParameter.Size = -1;
                     if (dalSqlParameter.Direction != Direction.Output && dalSqlParameter.Value != null && dalSqlParameter.Value is not ICollection<byte>)
                     {

@@ -1,70 +1,25 @@
 namespace DevHorizons.DAL.Test.Parameters
 {
     using System;
-    using System.Data.Common;
     using DAL.Shared;
-    using Microsoft.Data.SqlClient;
     using Sql;
-
     using Xunit;
 
-    public class ParametersAutoTest
+    public class ParametersAutoTest : Base
     {
-        private readonly DataAccessSettings dataAccessSettings;
-        private readonly Sql.SqlCommand dalCmd;
-        private readonly Microsoft.Data.SqlClient.SqlCommand internalCmdObject;
-
-        public ParametersAutoTest()
-        {
-            this.dataAccessSettings = new DataAccessSettings
-            {
-                ConnectionSettings = new SqlConnectionSettings
-                {
-                    ConnectionString = "Integrated Security=SSPI; Data Source=.;Initial Catalog=OnlineStore;TrustServerCertificate=True;"
-                    //ConnectionString = "Dummy"
-                }
-            };
-
-            try
-            {
-                this.dalCmd = new Sql.SqlCommand(this.dataAccessSettings);
-                var type = dalCmd.GetType();
-                var internalCmdProp = type.GetProperty("Cmd", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                internalCmdObject = internalCmdProp.GetValue(dalCmd) as Microsoft.Data.SqlClient.SqlCommand;
-            }
-            catch (SqlException ex)
-            {
-                throw;
-            }
-            catch (DbException ex)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-
-        [Fact]
-        public void InternalCmdObject()
-        {
-            Assert.NotNull(this.internalCmdObject);
-        }
-
         [Fact]
         public void ByteParameter()
         {
             var parName = "EmployeeId";
             byte parValue = 3;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<byte>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.TinyInt
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<byte>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.TinyInt
                 );
         }
 
@@ -73,14 +28,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             sbyte parValue = -3;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<sbyte>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.TinyInt
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<sbyte>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.TinyInt
                 );
         }
 
@@ -89,14 +44,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             short parValue = 3;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<short>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.SmallInt
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<short>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.SmallInt
                 );
         }
 
@@ -105,14 +60,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             var parValue = ushort.MaxValue;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<ushort>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Int
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<ushort>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Int
                 );
         }
 
@@ -121,14 +76,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             var parValue = 3;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<int>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Int
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<int>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Int
                 );
         }
 
@@ -137,14 +92,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             var parValue = uint.MaxValue;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<uint>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.BigInt
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<uint>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.BigInt
                 );
         }
 
@@ -153,14 +108,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             var parValue = long.MaxValue;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<long>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.BigInt
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<long>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.BigInt
                 );
         }
 
@@ -169,14 +124,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             var parValue = ulong.MaxValue;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<ulong>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Decimal
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<ulong>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Decimal
                 );
         }
 
@@ -185,14 +140,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "EmployeeId";
             var parValue = 0;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<int>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Int
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<int>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Int
                 );
         }
 
@@ -201,14 +156,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Price";
             var parValue = 3.5D;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<double>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Float
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<double>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Float
                 );
         }
 
@@ -217,14 +172,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Price";
             var parValue = 3.5;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<double>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Float
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<double>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Float
                 );
         }
 
@@ -233,14 +188,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Price";
             var parValue = 3.5F;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<float>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Real
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<float>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Real
                 );
         }
 
@@ -249,14 +204,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Price";
             var parValue = 3.5M;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<decimal>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Decimal
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<decimal>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Decimal
                 );
         }
 
@@ -265,14 +220,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "OrderDate";
             var parValue = DateTime.Now;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<DateTime>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.DateTime
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<DateTime>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.DateTime
                 );
         }
 
@@ -281,14 +236,16 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Active";
             var parValue = true;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
+            Assert.NotNull(par);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
+            Assert.NotNull(sqlParmeter);
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<bool>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Bit
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<bool>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Bit
                 );
         }
 
@@ -297,14 +254,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Active";
             var parValue = false;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<bool>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Bit
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<bool>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Bit
                 );
         }
 
@@ -313,14 +270,14 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "ProductGuid";
             var parValue = Guid.NewGuid();
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<Guid>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.UniqueIdentifier
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<Guid>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.UniqueIdentifier
                 );
         }
 
@@ -329,15 +286,15 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Description";
             var parValue = 'A';
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<char>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
-                    && sqlIntParmeter.Size == 1
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<char>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
+                    && sqlParmeter.Size == 1
                 );
         }
 
@@ -346,15 +303,15 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Description";
             object parValue = 'A';
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<char>() == parValue.To<char>()
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
-                    && sqlIntParmeter.Size == 1
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<char>() == parValue.To<char>()
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
+                    && sqlParmeter.Size == 1
                 );
         }
 
@@ -363,15 +320,15 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Description";
             var parValue = string.Empty;
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<string>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
-                    && sqlIntParmeter.Size == 0
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<string>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
+                    && sqlParmeter.Size == 0
                 );
         }
 
@@ -380,15 +337,15 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Name";
             var parValue = "Ahmad Gad";
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<string>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
-                    && sqlIntParmeter.Size == parValue.Length
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<string>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
+                    && sqlParmeter.Size == parValue.Length
                 );
         }
 
@@ -397,15 +354,15 @@ namespace DevHorizons.DAL.Test.Parameters
         {
             var parName = "Description";
             var parValue = new byte[2];
-            var par = new Sql.SqlParameter(parName, parValue);
+            var par = new SqlParameter(parName, parValue);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<byte[]>() == parValue
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.VarBinary
-                    && sqlIntParmeter.Size == -1
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<byte[]>() == parValue
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.VarBinary
+                    && sqlParmeter.Size == -1
                 );
         }
 
@@ -425,10 +382,6 @@ namespace DevHorizons.DAL.Test.Parameters
 
             var expectedParValue = employee.ToStructuredDbType(this.dataAccessSettings, null, null);
             Assert.NotNull(expectedParValue);
-            if (expectedParValue == null)
-            {
-                return;
-            }
 
             Assert.True
                 (
@@ -438,15 +391,15 @@ namespace DevHorizons.DAL.Test.Parameters
                     && expectedParValue.Columns[2].ColumnName == nameof(employee.DateOfBirth)
                     && expectedParValue.Columns[3].ColumnName == nameof(employee.Salary)
                 );
-            var par = new Sql.SqlParameter(parName, employee);
+            var par = new SqlParameter(parName, employee);
             this.dalCmd.AddParameter(par);
-            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            var sqlParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
-                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
-                    && sqlIntParmeter.Value.To<System.Data.DataTable>().ToJsonString() == expectedParValue.ToJsonString()
-                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.Structured
-                    && sqlIntParmeter.Size == -1
+                    sqlParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlParmeter.Value.To<System.Data.DataTable>().ToJsonString() == expectedParValue.ToJsonString()
+                    && sqlParmeter.SqlDbType == System.Data.SqlDbType.Structured
+                    && sqlParmeter.Size == -1
                 );
         }
     }

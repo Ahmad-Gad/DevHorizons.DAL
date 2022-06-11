@@ -1,44 +1,11 @@
 ﻿namespace DevHorizons.DAL.Test.Connection
 {
-    using DAL.Shared;
-    using Sql;
     using System.Collections.Generic;
+    using DAL.Shared;
     using Xunit;
 
-    public class ConnectionStringBuilderTest
+    public class ConnectionStringBuilderTest : Base
     {
-        private readonly DataAccessSettings dataAccessSettings;
-        private readonly new SqlCommand sqlCmd;
-        private readonly Microsoft.Data.SqlClient.SqlCommand internalCmdObject;
-        private readonly SqlConnectionSettings sqlConnectionSettings;
-        private const string INITIALCONNECTIONSTRING = "Integrated Security=SSPI; Data Source=.;Initial Catalog=OnlineStore;";
-        public ConnectionStringBuilderTest()
-        {
-            this.sqlConnectionSettings = new SqlConnectionSettings
-            {
-                ConnectionString = INITIALCONNECTIONSTRING
-            };
-
-            this.dataAccessSettings = new DataAccessSettings
-            {
-                ConnectionSettings = this.sqlConnectionSettings
-            };
-
-            try
-            {
-                this.sqlCmd = new SqlCommand(this.dataAccessSettings);
-                var type = this.sqlCmd.GetType();
-                var internalCmdProp = type.GetProperty("Cmd", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (internalCmdProp != null)
-                {
-                    this.internalCmdObject = internalCmdProp.GetValue(sqlCmd) as Microsoft.Data.SqlClient.SqlCommand;
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
 
         [Fact]
         public void InternalCmdObject()
@@ -82,7 +49,7 @@
         {
             var newConnectionString = "Integrated Security=SSPI; Data Source=.;Initial Catalog=OnlineStore;";
             this.sqlConnectionSettings.ConnectionString = newConnectionString;
-            this.sqlCmd.ResetHard(true);
+            this.dalCmd.ResetHard(true);
             Assert.Equal(this.dataAccessSettings.ConnectionSettings.ConnectionString, newConnectionString);
         }
 
@@ -92,7 +59,7 @@
             var newConnectionString = "Integrated Security=SSPI;Data Source=.;Initial Catalog=OnlineStore;";
             this.sqlConnectionSettings.ConnectionString = newConnectionString;
             this.sqlConnectionSettings.PacketSize = 4800;
-            this.sqlCmd.ResetHard(true);
+            this.dalCmd.ResetHard(true);
             var expectedConnectionString = $"{newConnectionString}Packet Size=4800;";
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
@@ -103,7 +70,7 @@
             var newConnectionString = "Integrated Security=SSPI;Data Source=.;Initial Catalog=OnlineStore;Packet Size=1024";
             this.sqlConnectionSettings.ConnectionString = newConnectionString;
             this.sqlConnectionSettings.PacketSize = 4800;
-            this.sqlCmd.ResetHard(true);
+            this.dalCmd.ResetHard(true);
             var expectedConnectionString = "Integrated Security=SSPI;Data Source=.;Initial Catalog=OnlineStore;Packet Size=4800;";
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
@@ -114,7 +81,7 @@
             var newConnectionString = "Integrated Security=SSPI;Data Source=.;Initial Catalog=OnlineStore;";
             this.sqlConnectionSettings.ConnectionString = newConnectionString;
             this.sqlConnectionSettings.ColumnAlwaysEncryptedSettingEnabled = true;
-            this.sqlCmd.ResetHard(true);
+            this.dalCmd.ResetHard(true);
             var expectedConnectionString = $"{newConnectionString}Column Encryption Setting=Enabled;";
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
@@ -125,7 +92,7 @@
             var newConnectionString = "Integrated Security=SSPI;Data Source=.;Initial Catalog=OnlineStore;Column Encryption Setting=Disabled;";
             this.sqlConnectionSettings.ConnectionString = newConnectionString;
             this.sqlConnectionSettings.ColumnAlwaysEncryptedSettingEnabled = true;
-            this.sqlCmd.ResetHard(true);
+            this.dalCmd.ResetHard(true);
             var expectedConnectionString = "Integrated Security=SSPI;Data Source=.;Initial Catalog=OnlineStore;Column Encryption Setting=Enabled;";
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
@@ -134,7 +101,7 @@
         public void ChangeConnectionString()
         {
             var newConnectionString = "User Id =ahmad.gad;Password = 123; Data Source=.;Initial Catalog=System;";
-            this.sqlCmd.ChangeConnectionString(newConnectionString);
+            this.dalCmd.ChangeConnectionString(newConnectionString);
             Assert.Equal(this.dataAccessSettings.ConnectionSettings.ConnectionString, newConnectionString);
         }
 
@@ -143,7 +110,7 @@
         {
             var newConnectionString = "User Id =ahmad.gad;Password = 123; Data Source=.;Initial Catalog=System;";
             this.sqlConnectionSettings.Encrypted = true;
-            this.sqlCmd.ChangeConnectionString(newConnectionString);
+            this.dalCmd.ChangeConnectionString(newConnectionString);
             Assert.Equal(this.dataAccessSettings.ConnectionSettings.ConnectionString, newConnectionString);
         }
 
@@ -153,7 +120,7 @@
             var newConnectionString = "User Id =ahmad.gad;Password = 123; Data Source=.;Initial Catalog=System;";
             this.sqlConnectionSettings.Encrypted = true;
             var expectedConnectionString = "User Id=ahmad.gad;Password=123;Data Source=.;Initial Catalog=System;Encrypt=True;";
-            this.sqlCmd.ChangeConnectionString(newConnectionString, true);
+            this.dalCmd.ChangeConnectionString(newConnectionString, true);
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
 
@@ -163,7 +130,7 @@
             var newConnectionString = "User Id =ahmad.gad;Password = 123; Data Source=.;Initial Catalog=System;";
             this.sqlConnectionSettings.ConnectionPooling = false;
             var expectedConnectionString = "User Id=ahmad.gad;Password=123;Data Source=.;Initial Catalog=System;Pooling=False;";
-            this.sqlCmd.ChangeConnectionString(newConnectionString, true);
+            this.dalCmd.ChangeConnectionString(newConnectionString, true);
             Assert.Equal(expectedConnectionString, this.dataAccessSettings.ConnectionSettings.ConnectionString);
         }
     }

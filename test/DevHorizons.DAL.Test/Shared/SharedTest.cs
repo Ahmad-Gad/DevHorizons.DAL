@@ -69,7 +69,7 @@
         }
 
         [Fact]
-        public void TestBinaryConvertion()
+        public void BinaryConvertion()
         {
             var employee = new Employee
             {
@@ -91,7 +91,7 @@
         }
 
         [Fact]
-        public void TestObject2Base64Serialization()
+        public void Object2Base64Serialization()
         {
             var employee = new Employee
             {
@@ -110,6 +110,42 @@
             Assert.NotNull(deserializedEmployee);
 
             Assert.Equal(JsonConvert.SerializeObject(employee), JsonConvert.SerializeObject(deserializedEmployee));
+        }
+
+        [Fact]
+        public void String2Base64Encoding()
+        {
+            var name = "Ahmad Gad";
+            var base64Result = name.ToBase64String();
+            Assert.NotNull(base64Result);
+            Assert.True(base64Result.Length > 0);
+
+            var decodedString = base64Result.FromBase64String();
+            Assert.NotNull(decodedString);
+
+            Assert.Equal(name, decodedString);
+        }
+
+        [Fact]
+        public void Base64ToBinary()
+        {
+            var str = "Hello World";
+            var base64String = str.ToBase64String();
+
+            Assert.NotNull(base64String);
+            Assert.True(base64String.Length > 0);
+            Assert.NotNull(Convert.FromBase64String(base64String));
+
+            var binary = base64String.ToBinary();
+            Assert.NotNull(binary);
+            Assert.True(binary.Length > 0);
+            Assert.NotNull(Convert.ToBase64String(binary));
+
+            var base64StringBack = binary.ToBase64String();
+            Assert.NotNull(binary);
+            Assert.True(base64StringBack.Length > 0);
+            Assert.Equal(base64StringBack, base64String);
+
         }
     }
 }

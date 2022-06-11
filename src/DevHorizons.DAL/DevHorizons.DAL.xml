@@ -5313,6 +5313,19 @@
                <DateTime>10/06/2022 08:00 PM</DateTime>
             </Created>
         </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.ToBase64String(System.Byte[])">
+            <summary>
+               Convert the specified binary object ("<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>") to Base64 string.
+            </summary>
+            <param name="binary">The specified binary object ("<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>").</param>
+            <returns>
+               The object converted to Base64 string.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>10/06/2022 08:00 PM</DateTime>
+            </Created>
+        </member>
         <member name="M:DevHorizons.DAL.Shared.Shared.ToBase64String(System.Object)">
             <summary>
                Serialize the specified object to Base64 string.
@@ -5330,13 +5343,53 @@
             <summary>
                Deserialize the Base64 string into the specified "T" object.
             </summary>
-            <param name="source">The specified object serialized in Base64 String format.</param>
+            <param name="base64String">The specified object serialized in Base64 String format.</param>
+            <typeparam name="T">The type of the converted object.</typeparam>
             <returns>
                The object converted to Base64 string.
             </returns>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/06/2022 08:00 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.ToBase64String(System.String)">
+            <summary>
+               Encode a plain text/string to Base64 string.
+            </summary>
+            <param name="source">The plain text string.</param>
+            <returns>
+               A Base64 Encoded string.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>06/11/2022 08:16 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.FromBase64String(System.String)">
+            <summary>
+               Decode a Base64 string to plain text/string.
+            </summary>
+            <param name="base64String">The Base64 encoded string.</param>
+            <returns>
+               A plain text/string.
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>06/11/2022 08:16 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Shared.Shared.ToBinary(System.String)">
+            <summary>
+               Converts a Base64 string to Binary ("<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>").
+            </summary>
+            <param name="base64String">The Base64 encoded string.</param>
+            <returns>
+               A Binary ("<see cref="T:System.Array"/>" of "<see cref="T:System.Byte"/>").
+            </returns>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>06/11/2022 08:16 PM</DateTime>
             </Created>
         </member>
         <member name="M:DevHorizons.DAL.Shared.Shared.GetProviderFactoryDetails(DevHorizons.DAL.DataProviderFactory)">

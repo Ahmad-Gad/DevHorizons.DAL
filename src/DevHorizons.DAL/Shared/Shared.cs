@@ -575,6 +575,23 @@ namespace DevHorizons.DAL.Shared
         }
 
         /// <summary>
+        ///    Convert the specified binary object ("<see cref="Array"/>" of "<see cref="byte"/>") to Base64 string.
+        /// </summary>
+        /// <param name="binary">The specified binary object ("<see cref="Array"/>" of "<see cref="byte"/>").</param>
+        /// <returns>
+        ///    The object converted to Base64 string.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>10/06/2022 08:00 PM</DateTime>
+        /// </Created>
+        public static string ToBase64String(this byte[] binary)
+        {
+            var base64 = Convert.ToBase64String(binary);
+            return base64;
+        }
+
+        /// <summary>
         ///    Serialize the specified object to Base64 string.
         /// </summary>
         /// <param name="source">The specified object.</param>
@@ -595,7 +612,8 @@ namespace DevHorizons.DAL.Shared
         /// <summary>
         ///    Deserialize the Base64 string into the specified "T" object.
         /// </summary>
-        /// <param name="source">The specified object serialized in Base64 String format.</param>
+        /// <param name="base64String">The specified object serialized in Base64 String format.</param>
+        /// <typeparam name="T">The type of the converted object.</typeparam>
         /// <returns>
         ///    The object converted to Base64 string.
         /// </returns>
@@ -603,10 +621,61 @@ namespace DevHorizons.DAL.Shared
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/06/2022 08:00 PM</DateTime>
         /// </Created>
-        public static T FromBase64String<T>(this string source)
+        public static T FromBase64String<T>(this string base64String)
         {
-            var binary = Convert.FromBase64String(source);
+            var binary = Convert.FromBase64String(base64String);
             return binary.FromBinary<T>();
+        }
+
+        /// <summary>
+        ///    Encode a plain text/string to Base64 string.
+        /// </summary>
+        /// <param name="source">The plain text string.</param>
+        /// <returns>
+        ///    A Base64 Encoded string.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>06/11/2022 08:16 PM</DateTime>
+        /// </Created>
+        public static string ToBase64String(this string source)
+        {
+            var bytes = System.Text.Encoding.UTF8.GetBytes(source);
+            return Convert.ToBase64String(bytes);
+        }
+
+        /// <summary>
+        ///    Decode a Base64 string to plain text/string.
+        /// </summary>
+        /// <param name="base64String">The Base64 encoded string.</param>
+        /// <returns>
+        ///    A plain text/string.
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>06/11/2022 08:16 PM</DateTime>
+        /// </Created>
+        public static string FromBase64String(this string base64String)
+        {
+            var bytes = Convert.FromBase64String(base64String);
+            return System.Text.Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
+        ///    Converts a Base64 string to Binary ("<see cref="Array"/>" of "<see cref="byte"/>").
+        /// </summary>
+        /// <param name="base64String">The Base64 encoded string.</param>
+        /// <returns>
+        ///    A Binary ("<see cref="Array"/>" of "<see cref="byte"/>").
+        /// </returns>
+        /// <Created>
+        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///    <DateTime>06/11/2022 08:16 PM</DateTime>
+        /// </Created>
+        public static byte[] ToBinary(this string base64String)
+        {
+            var bytes = Convert.FromBase64String(base64String);
+            return bytes;
         }
         #endregion Public Methods
 
