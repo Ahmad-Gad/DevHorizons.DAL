@@ -147,5 +147,37 @@
             Assert.Equal(base64StringBack, base64String);
 
         }
+
+        [Fact]
+        public void TestResetModeFlags()
+        {
+            var resetParameters = ResetMode.ResetParameters;
+            var resetWarnings = ResetMode.ResetWarnings;
+            var resetErrors = ResetMode.ResetErrors;
+            var resetCommandName = ResetMode.ResetCommandName;
+            var resetTransactions = ResetMode.ResetTransaction;
+            var resetFull = ResetMode.Full;
+            var resetHard = ResetMode.Hard;
+            var resetHardRefresh = ResetMode.HardRefresh;
+            var resetFullFlags = ResetMode.ResetParameters | ResetMode.ResetWarnings | ResetMode.ResetErrors | ResetMode.ResetCommandName | ResetMode.ResetTransaction;
+            var enumIntValue = (int)resetParameters + (int)resetWarnings + (int)resetErrors + (int)resetCommandName + (int)resetTransactions;
+            Assert.Equal(31, enumIntValue);
+            Assert.Equal(31, (int)resetFullFlags);
+            Assert.Equal(resetFull, resetFullFlags);
+            Assert.Equal(enumIntValue, (int)resetFull);
+
+            Assert.True((resetFullFlags & ResetMode.ResetErrors) == ResetMode.ResetErrors);
+            Assert.True((resetCommandName & ResetMode.ResetErrors) != ResetMode.ResetErrors);
+            Assert.True((resetCommandName & ResetMode.ResetErrors) != ResetMode.ResetCommandName);
+            Assert.True((resetHard & ResetMode.Hard) == ResetMode.Hard);
+            Assert.True((resetHard & ResetMode.ResetErrors) == ResetMode.ResetErrors);
+            Assert.True((resetHardRefresh & ResetMode.Hard) == ResetMode.Hard);
+            Assert.True((resetHardRefresh & ResetMode.HardRefresh) == ResetMode.HardRefresh);
+            Assert.True((resetHard & ResetMode.Hard) != ResetMode.HardRefresh);
+            Assert.True(resetFullFlags  == ResetMode.Full);
+            Assert.True(resetFullFlags < ResetMode.Hard);
+            Assert.True(ResetMode.Hard < ResetMode.HardRefresh);
+            Assert.True(resetFullFlags < ResetMode.HardRefresh);
+        }
     }
 }

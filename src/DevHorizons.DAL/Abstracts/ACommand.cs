@@ -511,27 +511,27 @@ namespace DevHorizons.DAL.Abstracts
         /// <inheritdoc/>
         public void ClearParameters()
         {
-            this.Parameters.Clear();
-            this.Cmd.Parameters.Clear();
+            this.Parameters?.Clear();
+            this.Cmd?.Parameters?.Clear();
         }
 
         /// <inheritdoc/>
-        public bool Reset()
+        public void Reset()
         {
+            this.RollbackTransaction(true);
             this.Tran?.Dispose();
-            if (this.Cmd == null || this.Connection?.State != ConnectionState.Open)
-            {
-                return false;
-            }
-
-            this.ClearErrors();
             this.terminateFurtherExecutions = false;
             this.ClearParameters();
-            this.Cmd.CommandText = null;
-            this.Cmd.Transaction = null;
+            if (this.Cmd is not null)
+            {
+                this.Cmd.CommandText = null;
+                this.Cmd.Transaction = null;
+            }
+
+            this.ClearWarnings();
+            this.ClearErrors();
             this.commandSource = null;
             this.commandExecutionType = null;
-            return true;
         }
 
         /// <inheritdoc/>
@@ -542,6 +542,56 @@ namespace DevHorizons.DAL.Abstracts
             this.Cmd?.Dispose();
             this.Connection?.Dispose();
             return this.InitializeConnection(updateConnectionString);
+        }
+
+        /// <inheritdoc/>
+        public bool Reset(ResetMode resetMode)
+        {
+            this.commandSource = null;
+            this.commandExecutionType = null;
+
+            if ((resetMode & ResetMode.ResetParameters) == ResetMode.ResetParameters)
+            {
+                this.ClearParameters();
+            }
+
+            if (this.Cmd is not null)
+            {
+                if ((resetMode & ResetMode.ResetCommandName) == ResetMode.ResetCommandName)
+                {
+                    this.Cmd.CommandText = null;
+                }
+
+                if ((resetMode & ResetMode.ResetTransaction) == ResetMode.ResetTransaction)
+                {
+                    this.RollbackTransaction(true);
+                }
+            }
+
+            if ((resetMode & ResetMode.ResetWarnings) == ResetMode.ResetWarnings)
+            {
+                this.ClearWarnings();
+            }
+
+            if ((resetMode & ResetMode.ResetErrors) == ResetMode.ResetErrors)
+            {
+                this.ClearErrors();
+                this.terminateFurtherExecutions = false;
+            }
+
+            if ((resetMode & ResetMode.Hard) == ResetMode.Hard)
+            {
+                if ((resetMode & ResetMode.HardRefresh) == ResetMode.HardRefresh)
+                {
+                    return this.InitializeConnection(true);
+                }
+                else
+                {
+                    return this.InitializeConnection(false);
+                }
+            }
+
+            return true;
         }
 
         /// <inheritdoc/>
@@ -735,33 +785,39 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public bool RollbackTransaction()
+        public bool RollbackTransaction(bool silent = false)
         {
             this.terminateFurtherExecutions = true;
             ILogDetails error = null;
 
             if (!this.CanExecute())
             {
-                error = this.Settings.CreateErrorDetails(
-                    logLevel: LogLevel.Error,
-                    source: "DAL.Command.RollbackTransaction()",
-                    stackTrace: Environment.StackTrace,
-                    errorNumber: -501,
-                    message: $"Failed to rollback a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
-                    description: $"The 'DAL' service/connection may not yet initialized!");
+                if (!silent)
+                {
+                    error = this.Settings.CreateErrorDetails(
+                        logLevel: LogLevel.Error,
+                        source: $"{this.GetType().FullName}.{nameof(this.RollbackTransaction)}()",
+                        stackTrace: Environment.StackTrace,
+                        errorNumber: -501,
+                        message: $"Failed to rollback a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
+                        description: $"The 'DAL' service/connection may not yet initialized!");
+                }
 
                 return false;
             }
 
-            if (this.Cmd.Transaction == null)
+            if (this.Tran == null || this.Cmd.Transaction == null)
             {
-                error = this.Settings.CreateErrorDetails(
+                if (!silent)
+                {
+                    error = this.Settings.CreateErrorDetails(
                     logLevel: LogLevel.Error,
-                    source: "DAL.Command.RollbackTransaction()",
+                    source: $"{this.GetType().FullName}.{nameof(this.RollbackTransaction)}()",
                     stackTrace: Environment.StackTrace,
                     errorNumber: -502,
                     message: $"Failed to rollback a transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!",
                     description: $"The 'DAL' command doesn't have a started transaction yet. Please make sure you call the '{this.GetType().Name}.{nameof(this.BeginTransaction)}()' first!");
+                }
 
                 return false;
             }
@@ -773,21 +829,27 @@ namespace DevHorizons.DAL.Abstracts
             }
             catch (DbException ex)
             {
-                error = this.Settings.CreateErrorDetails(
+                if (!silent)
+                {
+                    error = this.Settings.CreateErrorDetails(
                          ex: ex,
-                         source: "DAL.Command.RollbackTransaction()",
+                         source: $"{this.GetType().FullName}.{nameof(this.RollbackTransaction)}()",
                          errorNumber: ex.ErrorCode,
                          description: $"DB Exception has been raised while attempting to rollback a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
+                }
 
                 return false;
             }
             catch (Exception ex)
             {
-                error = this.Settings.CreateErrorDetails(
+                if (!silent)
+                {
+                    error = this.Settings.CreateErrorDetails(
                          ex: ex,
-                         source: "DAL.Command.RollbackTransaction()",
+                         source: $"{this.GetType().FullName}.{nameof(this.RollbackTransaction)}()",
                          errorNumber: -504,
                          description: $"DB Exception has been raised while attempting to rollback a database transaction in the database server '{this.Connection?.DataSource}' from the host web server '{Environment.MachineName}' and the current state of the server is '{this.Connection.State}'!");
+                }
 
                 return false;
             }
@@ -801,6 +863,20 @@ namespace DevHorizons.DAL.Abstracts
 
                 this.HandleError(error);
             }
+        }
+
+        /// <inheritdoc/>
+        public bool ResetTransaction()
+        {
+            this.RollbackTransaction(true);
+            return this.BeginTransaction();
+        }
+
+        /// <inheritdoc/>
+        public bool ResetTransaction(DAL.IsolationLevel isolationLevel)
+        {
+            this.RollbackTransaction(true);
+            return this.BeginTransaction(isolationLevel);
         }
         #endregion Operation Methods
 

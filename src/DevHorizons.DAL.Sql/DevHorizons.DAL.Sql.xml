@@ -144,17 +144,6 @@
               <DateTime>10/02/2020 11:08 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Sql.SqlCommand.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>.
-            </summary>
-            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IDataField"/>.</returns>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:03 PM</DateTime>
-            </Created>
-        </member>
         <member name="M:DevHorizons.DAL.Sql.SqlCommand.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
             <summary>
                Extracts the list of the parameters from the specified command body as type of of <see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>.

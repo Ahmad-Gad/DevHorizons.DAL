@@ -268,30 +268,46 @@ namespace DevHorizons.DAL.Interfaces
         void ClearParameters();
 
         /// <summary>
-        ///    Reset the whole encapsulated command's data/settings/properties including the encapsulated data parameters, commands and transactions. Furthermore, clears all the raised errors.
+        ///    Reset the whole encapsulated engine command's data/settings/properties including the encapsulated data parameters, commands and the opened transactions. Furthermore, clears all the raised errors and warnings.
         /// </summary>
         /// <remarks>
-        ///    If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.
-        ///    <para>If a transaction is being initiated/opened, it will be reset as well, and you get to manually reinitiate it again.</para>
+        ///    If a transaction is being initiated/opened, it will be rolled back and reset as well, and you get to manually reinitiate it again.
         /// </remarks>
-        /// <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>12/02/2022 01:42 PM</DateTime>
         /// </Created>
-        bool Reset();
+        void Reset();
 
         /// <summary>
-        ///   Reset the whole encapsulated data command settings/properties including the encapsulated data parameters and commands. Furthermore, clears all the raised errors.
+        ///   Performs the full reset (calling the method "<see cref="Reset()"/>") plus resetting the whole connection and initiate it regardless the current connection state.
         /// </summary>
         /// <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="ConnectionSettings"/>" class.</param>
-        /// <remarks>If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.</remarks>
         /// <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>12/02/2022 01:42 PM</DateTime>
         /// </Created>
         bool ResetHard(bool updateConnectionString);
+
+        /// <summary>
+        ///   Reset the current command engine based on the specified reset mode.
+        /// </summary>
+        /// <param name="resetMode">
+        ///    Specify the reset modes/options.
+        ///    <para>Supports the enum flags with multiple options combinations.</para>
+        /// </param>
+        /// <remarks>
+        ///    This method's overload provides full control over the reset modes/options.
+        ///    <para>If you target the "<see cref="ResetMode.Full"/>", it is better to call the parameterless "<see cref="Reset()"/>" overload which will do the same with less computing cost which is required for extra validations.</para>
+        ///    <para>If you target the "<see cref="ResetMode.Hard"/>" or "<see cref="ResetMode.HardRefresh"/>", it is better to call the "<see cref="ResetHard(bool)"/>" method which will do the same with less computing cost which is required for extra validations.</para>
+        /// </remarks>
+        /// <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
+        /// <Created>
+        ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///   <DateTime>12/02/2022 01:42 PM</DateTime>
+        /// </Created>
+        bool Reset(ResetMode resetMode);
 
         /// <summary>
         ///    Starts a database transaction with the default isolation level set by the target database server.
@@ -318,7 +334,7 @@ namespace DevHorizons.DAL.Interfaces
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>12/02/2022 01:42 PM</DateTime>
         /// </Created>
-        bool BeginTransaction(DAL.IsolationLevel isolationLevel);
+        bool BeginTransaction(IsolationLevel isolationLevel);
 
         /// <summary>
         ///    Commit the current opened transaction and dispose it.
@@ -352,12 +368,12 @@ namespace DevHorizons.DAL.Interfaces
         bool CommitTransaction(bool autoRollback);
 
         /// <summary>
-        ///    Commit the current opened transaction and dispose it. If the commit operation failed, the auto rollback will be executed ("<see cref="RollbackTransaction()"/>").
+        ///    Commit the current opened transaction and dispose it. If the commit operation failed, the auto rollback will be executed ("<see cref="RollbackTransaction(bool)"/>").
         /// </summary>
         /// <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
         /// <remarks>
         ///     If the transaction fails to start, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.
-        ///     <para>If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="RollbackTransaction()"/>").</para>
+        ///     <para>If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="RollbackTransaction(bool)"/>").</para>
         ///     <para>If you need more control, consider looking at the other overloads of this method.</para>
         /// </remarks>
         /// <Created>
@@ -369,13 +385,39 @@ namespace DevHorizons.DAL.Interfaces
         /// <summary>
         ///    Rollback the current opened transaction and dispose it.
         /// </summary>
-        /// <returns><c>true</c> if the transaction has been rolled back successfully, otherwise, <c>false</c>.</returns>
+        /// <param name="silent">Default value is <c>false</c>. If set to true, it will validate for an existing opened transaction to rollback without raising any error if no valid opened transaction found.</param>
+        /// <returns><c>true</c> if the transaction was already/originally initiated/opened successfully and has been rolled back successfully, otherwise, <c>false</c>.</returns>
         /// <remarks>When executed (either the rollback operation is a success or failure), the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.</remarks>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>12/02/2022 01:42 PM</DateTime>
         /// </Created>
-        bool RollbackTransaction();
+        bool RollbackTransaction(bool silent = false);
+
+        /// <summary>
+        ///    Rollback, clear and dispose the existing transaction if found and begin a new/fresh one.
+        /// </summary>
+        /// <returns>
+        ///    <returns><c>true</c> if the whole reset operation is completed successfully, otherwise, <c>false</c>.</returns>
+        /// </returns>
+        /// <Created>
+        ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///   <DateTime>13/06/2022 10:03 PM</DateTime>
+        /// </Created>
+        bool ResetTransaction();
+
+        /// <summary>
+        ///    Rollback, clear and dispose the existing transaction if found and begin a new/fresh one.
+        /// </summary>
+        /// <param name="isolationLevel">The specified isolation level (locking behavior for the connection).</param>
+        /// <returns>
+        ///    <returns><c>true</c> if the whole reset operation is completed successfully, otherwise, <c>false</c>.</returns>
+        /// </returns>
+        /// <Created>
+        ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///   <DateTime>13/06/2022 10:03 PM</DateTime>
+        /// </Created>
+        bool ResetTransaction(IsolationLevel isolationLevel);
         #endregion Operation Methods
 
         #region DAO Methods

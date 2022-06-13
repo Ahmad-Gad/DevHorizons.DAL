@@ -289,6 +289,9 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ResetHard(System.Boolean)">
             <inheritdoc/>
         </member>
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.Reset(DevHorizons.DAL.ResetMode)">
+            <inheritdoc/>
+        </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.BeginTransaction">
             <inheritdoc/>
         </member>
@@ -304,7 +307,13 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.CommitTransaction">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.RollbackTransaction">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.RollbackTransaction(System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ResetTransaction">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ResetTransaction(DevHorizons.DAL.IsolationLevel)">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(DevHorizons.DAL.Interfaces.ICommandBody)">
@@ -2651,13 +2660,11 @@
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.Reset">
             <summary>
-               Reset the whole encapsulated command's data/settings/properties including the encapsulated data parameters, commands and transactions. Furthermore, clears all the raised errors.
+               Reset the whole encapsulated engine command's data/settings/properties including the encapsulated data parameters, commands and the opened transactions. Furthermore, clears all the raised errors and warnings.
             </summary>
             <remarks>
-               If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-               <para>If a transaction is being initiated/opened, it will be reset as well, and you get to manually reinitiate it again.</para>
+               If a transaction is being initiated/opened, it will be rolled back and reset as well, and you get to manually reinitiate it again.
             </remarks>
-            <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
               <DateTime>12/02/2022 01:42 PM</DateTime>
@@ -2665,10 +2672,28 @@
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.ResetHard(System.Boolean)">
             <summary>
-              Reset the whole encapsulated data command settings/properties including the encapsulated data parameters and commands. Furthermore, clears all the raised errors.
+              Performs the full reset (calling the method "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>") plus resetting the whole connection and initiate it regardless the current connection state.
             </summary>
             <param name="updateConnectionString">If <c>true</c>, updates the connection string with all the connection settings related to the connection string in the "<see cref="T:DevHorizons.DAL.ConnectionSettings"/>" class.</param>
-            <remarks>If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.</remarks>
+            <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>12/02/2022 01:42 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.Reset(DevHorizons.DAL.ResetMode)">
+            <summary>
+              Reset the current command engine based on the specified reset mode.
+            </summary>
+            <param name="resetMode">
+               Specify the reset modes/options.
+               <para>Supports the enum flags with multiple options combinations.</para>
+            </param>
+            <remarks>
+               This method's overload provides full control over the reset modes/options.
+               <para>If you target the "<see cref="F:DevHorizons.DAL.ResetMode.Full"/>", it is better to call the parameterless "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" overload which will do the same with less computing cost which is required for extra validations.</para>
+               <para>If you target the "<see cref="F:DevHorizons.DAL.ResetMode.Hard"/>" or "<see cref="F:DevHorizons.DAL.ResetMode.HardRefresh"/>", it is better to call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ResetHard(System.Boolean)"/>" method which will do the same with less computing cost which is required for extra validations.</para>
+            </remarks>
             <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -2707,10 +2732,10 @@
                Commit the current opened transaction and dispose it.
             </summary>
             <param name="forceCommit">
-               If <c>true</c> it will ignore any raised error from the advance executed queries/command. Otherwise else, If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>").
+               If <c>true</c> it will ignore any raised error from the advance executed queries/command. Otherwise else, If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>").
                <para>This should not be set to "<c>true</c>" because it may lead to data inconsetancy, unless you intend/plan to handle the raised errors manually with a proper way. Otherwise else, always set it to <c>false</c>.</para>
             </param>
-            <param name="autoRollback">If <c>true</c> and the commit failed, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>").</param>
+            <param name="autoRollback">If <c>true</c> and the commit failed, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>").</param>
             <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <remarks>If the transaction fails to start, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.</remarks>
             <Created>
@@ -2722,11 +2747,11 @@
             <summary>
                Commit the current opened transaction and dispose it.
             </summary>
-            <param name="autoRollback">If <c>true</c> and the commit failed, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>").</param>
+            <param name="autoRollback">If <c>true</c> and the commit failed, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>").</param>
             <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <remarks>
                 If the transaction fails to start, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-                <para>If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>").</para>
+                <para>If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>").</para>
             </remarks>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -2735,12 +2760,12 @@
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.CommitTransaction">
             <summary>
-               Commit the current opened transaction and dispose it. If the commit operation failed, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>").
+               Commit the current opened transaction and dispose it. If the commit operation failed, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction(System.Boolean)"/>").
             </summary>
             <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <remarks>
                 If the transaction fails to start, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-                <para>If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>").</para>
+                <para>If error or more being raised by any command/query execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction(System.Boolean)"/>").</para>
                 <para>If you need more control, consider looking at the other overloads of this method.</para>
             </remarks>
             <Created>
@@ -2748,15 +2773,41 @@
               <DateTime>12/02/2022 01:42 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction(System.Boolean)">
             <summary>
                Rollback the current opened transaction and dispose it.
             </summary>
-            <returns><c>true</c> if the transaction has been rolled back successfully, otherwise, <c>false</c>.</returns>
+            <param name="silent">Default value is <c>false</c>. If set to true, it will validate for an existing opened transaction to rollback without raising any error if no valid opened transaction found.</param>
+            <returns><c>true</c> if the transaction was already/originally initiated/opened successfully and has been rolled back successfully, otherwise, <c>false</c>.</returns>
             <remarks>When executed (either the rollback operation is a success or failure), the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.</remarks>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
               <DateTime>12/02/2022 01:42 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ResetTransaction">
+            <summary>
+               Rollback, clear and dispose the existing transaction if found and begin a new/fresh one.
+            </summary>
+            <returns>
+               <returns><c>true</c> if the whole reset operation is completed successfully, otherwise, <c>false</c>.</returns>
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/06/2022 10:03 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ResetTransaction(DevHorizons.DAL.IsolationLevel)">
+            <summary>
+               Rollback, clear and dispose the existing transaction if found and begin a new/fresh one.
+            </summary>
+            <param name="isolationLevel">The specified isolation level (locking behavior for the connection).</param>
+            <returns>
+               <returns><c>true</c> if the whole reset operation is completed successfully, otherwise, <c>false</c>.</returns>
+            </returns>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/06/2022 10:03 PM</DateTime>
             </Created>
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteQuery``1(DevHorizons.DAL.Interfaces.ICommandBody)">
@@ -3056,7 +3107,7 @@
             <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
             <remarks>
                 If the transaction fails to start/begin, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
+                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
             </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -3071,7 +3122,7 @@
             <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
             <remarks>
                 If the transaction fails to start/begin, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
+                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
             </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -3087,7 +3138,7 @@
             <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
             <remarks>
                 If the transaction fails to start/begin, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
+                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
             </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -3103,7 +3154,7 @@
             <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
             <remarks>
                 If the transaction fails to start/begin, or failed to be commited, the current transaction will be disposed, furthermore, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
-                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="M:DevHorizons.DAL.Interfaces.ICommand.RollbackTransaction"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
+                <para>If error or more being raised by any of the lised/specified commands execution after the transaction being started, the auto rollback will be executed ("<see cref="!:RollbackTransaction()"/>"), and whole operation will be immediatly rerminated before executing the rest of the commands as a safe measurement to avoid wasting unnessary further computing resources.</para>
             </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -4682,6 +4733,67 @@
         <member name="F:DevHorizons.DAL.ParametersSource.CommandBody">
             <summary>
                The parameters extracted from the "<see cref="T:DevHorizons.DAL.Interfaces.ICommandBody"/>" implemented instance.
+            </summary>
+        </member>
+        <member name="T:DevHorizons.DAL.ResetMode">
+            <summary>
+               The reset modes/options/actions for the command engine.
+            </summary>
+            <remarks>
+               Supports the enum flags with multiple options combinations.
+               <para>The Default value is "<see cref="F:DevHorizons.DAL.ResetMode.Full"/>".</para>
+            </remarks>
+            <Created>
+               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+               <DateTime>13/06/2022 07:27 PM</DateTime>
+            </Created>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.None">
+            <summary>
+               No action will be performed.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.ResetParameters">
+            <summary>
+               Clear all the added parameters.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.ResetCommandName">
+            <summary>
+               Clear the command text. E.g. Stored procudre name.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.ResetWarnings">
+            <summary>
+               Clear all the raised warnings.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.ResetErrors">
+            <summary>
+               Clear all the raised errors.
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.ResetTransaction">
+            <summary>
+               Clear the initiated/opened transaction(s).
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.Full">
+            <summary>
+               Will apply full soft reset (clear transactions, command name, parameters and raised errors) while keeping the current connection state intact.
+               <para>Will imply/apply <see cref="F:DevHorizons.DAL.ResetMode.ResetParameters"/>, <see cref="F:DevHorizons.DAL.ResetMode.ResetErrors"/>, <see cref="F:DevHorizons.DAL.ResetMode.ResetCommandName"/> and <see cref="F:DevHorizons.DAL.ResetMode.ResetTransaction"/>.</para>
+               <para>The default value (action/mode).</para>
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.Hard">
+            <summary>
+               Perform the HARD reset which will reset/clear everything, kill the current connection, dispose all the initiated objects and open new connection.
+               <para>Will imply/apply <see cref="F:DevHorizons.DAL.ResetMode.Full"/>.</para>
+            </summary>
+        </member>
+        <member name="F:DevHorizons.DAL.ResetMode.HardRefresh">
+            <summary>
+               Will imply/apply full the HARD reset ("<see cref="F:DevHorizons.DAL.ResetMode.Hard"/>") and then updates/refreshes the connection string with all the connection settings related to the connection string in the "<see cref="T:DevHorizons.DAL.ConnectionSettings"/>" class.
             </summary>
         </member>
         <member name="T:DevHorizons.DAL.Shared.CommandBody">
