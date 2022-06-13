@@ -107,7 +107,7 @@ namespace DevHorizons.DAL.Test.Parameters
         }
 
         [Fact]
-        public void VarBinaryParameter()
+        public void VarBinaryFromObjectParameter()
         {
             var dob = DateTime.Now;
             var employee = new Employee
@@ -132,6 +132,81 @@ namespace DevHorizons.DAL.Test.Parameters
                     sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
                     && sqlIntParmeter.Value.To<byte[]>().FromBinary<Employee>().ToJsonString() == expectedParameterValue.FromBinary<Employee>().ToJsonString()
                     && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.VarBinary
+                    && sqlIntParmeter.Size == -1
+                );
+        }
+
+        [Fact]
+        public void VarBinaryFromBase64StringParameter()
+        {
+            var base64String = "Hello World".ToBase64String();
+            Assert.NotNull(base64String);
+            var binary = base64String.ToBinary();
+            Assert.NotNull(binary);
+            var parName = "EmployeeImage";
+            var par = new SqlParameter(parName, binary);
+            par.SpecialType = SpecialType.Binary;
+
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.To<byte[]>().ToBase64String() == base64String
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.VarBinary
+                    && sqlIntParmeter.Size == -1
+                );
+        }
+
+        [Fact]
+        public void BinaryFromPlainTextParameter()
+        {
+            var plainText = "Hello World";
+
+            byte[] binary = null;
+            try
+            {
+                binary = plainText.ToBinary();
+            }
+            catch (Exception ex)
+            {
+                Assert.True(ex is FormatException);
+            }
+
+            Assert.Null(binary);
+            var parName = "EmployeeImage";
+            var par = new SqlParameter(parName, plainText);
+            par.SpecialType = SpecialType.Binary;
+            this.dalCmd.ClearErrors();
+            this.dalCmd.ClearParameters();
+            Assert.True(this.dalCmd.Errors.Count == 0);
+            Assert.True(this.dalCmd.Parameters.Count == 0);
+            this.dalCmd.AddParameter(par);
+            Assert.True(this.dalCmd.Errors.Count == 1);
+            var error = this.dalCmd.Errors[0];
+            Assert.NotNull(error);
+            Assert.True(error.Exception is FormatException);
+            Assert.True(this.dalCmd.Parameters.Count == 0);
+        }
+
+        [Fact]
+        public void Base64Parameter()
+        {
+            var base64String = "Hello World".ToBase64String();
+            Assert.NotNull(base64String);
+            var binary = base64String.ToBinary();
+            Assert.NotNull(binary);
+            var parName = "EmployeeImage";
+            var par = new SqlParameter(parName, binary);
+            par.SpecialType = SpecialType.Base64;
+
+            this.dalCmd.AddParameter(par);
+            var sqlIntParmeter = internalCmdObject.Parameters[0];
+            Assert.True
+                (
+                    sqlIntParmeter.Direction == System.Data.ParameterDirection.Input
+                    && sqlIntParmeter.Value.ToString() == base64String
+                    && sqlIntParmeter.SqlDbType == System.Data.SqlDbType.NVarChar
                     && sqlIntParmeter.Size == -1
                 );
         }

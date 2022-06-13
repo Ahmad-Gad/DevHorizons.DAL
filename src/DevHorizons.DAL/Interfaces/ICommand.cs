@@ -208,7 +208,7 @@ namespace DevHorizons.DAL.Interfaces
         void ClearWarnings();
 
         /// <summary>
-        ///    Adds the parameter as an instance of a class that implements "<see cref="IParameter"/>".
+        ///    Adds the parameter as an instance of a class that implements "<see cref="IParameter"/>" to the existing list of parameters.
         /// </summary>
         /// <param name="parameter">The parameter as an instance of a class that implements "<see cref="IParameter"/>".</param>
         /// <Created>
@@ -218,24 +218,45 @@ namespace DevHorizons.DAL.Interfaces
         void AddParameter(IParameter parameter);
 
         /// <summary>
-        ///    Adds the parameters.
+        ///    Adds the parameters from a collection of "<see cref="IParameter"/>".
         /// </summary>
         /// <param name="parameters">The parameters as <see cref="ICollection{T}"/> of <see cref="IParameter"/>.</param>
+        /// <param name="reset">Default value is <c>false</c>. If set to <c>true</c>, all the parameters will be cleared first before adding the new specified ones, otherwise, it will append the specified parameters to the existing list.</param>
+        /// <remarks>The "reset" argument will not reset the existing errors. If you want to reset all the errors, you need to call the "<see cref="ClearErrors"/>" void method as well.</remarks>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>13/11/2018 12:01 PM</DateTime>
         /// </Created>
-        void AddParameters(ICollection<IParameter> parameters);
+        void AddParameters(ICollection<IParameter> parameters, bool reset = false);
 
         /// <summary>
-        ///    Adds the parameters.
+        ///    Adds the parameters from a <c>params</c> array of <see cref="IParameter"/>.
         /// </summary>
         /// <param name="parameters">The parameters as <c>params</c> array of <see cref="IParameter"/>.</param>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///   <DateTime>13/11/2018 12:01 PM</DateTime>
         /// </Created>
         void AddParameters(params IParameter[] parameters);
+
+        /// <summary>
+        ///    Adds the parameters from a dictionary.
+        /// </summary>
+        /// <param name="parameters">The parameters as <c>params</c> array of <see cref="IParameter"/>.</param>
+        /// <param name="reset">Default value is <c>false</c>. If set to <c>true</c>, all the parameters will be cleared first before adding the new specified ones, otherwise, it will append the specified parameters to the existing list.</param>
+        /// <remarks>The "reset" argument will not reset the existing errors. If you want to reset all the errors, you need to call the "<see cref="ClearErrors"/>" void method as well.</remarks>
+        /// <Created>
+        ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+        ///   <DateTime>13/06/2022 08:00 PM</DateTime>
+        /// </Created>
+        void AddParameters(IEnumerable<KeyValuePair<string, object>> parameters, bool reset = false);
 
         /// <summary>
         ///    Clears the parameters.
@@ -247,9 +268,12 @@ namespace DevHorizons.DAL.Interfaces
         void ClearParameters();
 
         /// <summary>
-        ///    Reset the whole encapsulated data command settings/properties including the encapsulated data parameters and commands. Furthermore, clears all the raised errors.
+        ///    Reset the whole encapsulated command's data/settings/properties including the encapsulated data parameters, commands and transactions. Furthermore, clears all the raised errors.
         /// </summary>
-        /// <remarks>If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.</remarks>
+        /// <remarks>
+        ///    If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="Reset()"/>" method.
+        ///    <para>If a transaction is being initiated/opened, it will be reset as well, and you get to manually reinitiate it again.</para>
+        /// </remarks>
         /// <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
         /// <Created>
         ///   <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -388,6 +412,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="ICollection{T}"/> of <see cref="IParameter"/>.</param>
         /// <returns>The table result serialized into "<see cref="List{T}"/>". If "<c>Null</c>", that means the operation failed and error(s) will be raised.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:55 PM</DateTime>
@@ -401,6 +433,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <c>params</c> array of <see cref="IParameter"/>.</param>
         /// <returns>The table result serialized into "<see cref="List{T}"/>". If "<c>Null</c>", that means the operation failed and error(s) will be raised.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:55 PM</DateTime>
@@ -416,11 +456,19 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
         /// <returns>The table result serialized into "<see cref="List{T}"/>". If "<c>Null</c>", that means the operation failed and error(s) will be raised.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:55 PM</DateTime>
         /// </Created>
-        List<T> ExecuteQuery<T>(string proc, Dictionary<string, object> parameters);
+        List<T> ExecuteQuery<T>(string proc, IEnumerable<KeyValuePair<string, object>> parameters);
         #endregion Execute Query
 
         #region Execute Scalar
@@ -454,6 +502,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="ICollection{T}"/> of <see cref="IParameter"/>.</param>
         /// <returns>The scalar value. "<c>Null</c>", value may refer to raised error/exception.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:36 PM</DateTime>
@@ -466,6 +522,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <c>params</c> array of <see cref="IParameter"/>.</param>
         /// <returns>The scalar value. "<c>Null</c>", value may refer to raised error/exception.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:37 PM</DateTime>
@@ -480,11 +544,19 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
         /// <returns>The scalar value. "<c>Null</c>", value may refer to raised error/exception.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:37 PM</DateTime>
         /// </Created>
-        object ExecuteScalar(string proc, Dictionary<string, object> parameters);
+        object ExecuteScalar(string proc, IEnumerable<KeyValuePair<string, object>> parameters);
         #endregion Object
 
         #region Generic
@@ -520,6 +592,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="ICollection{T}"/> of <see cref="IParameter"/>.</param>
         /// <returns>The generic scalar value.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:53 PM</DateTime>
@@ -533,6 +613,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <c>params</c> array of <see cref="IParameter"/>.</param>
         /// <returns>The generic scalar value.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:53 PM</DateTime>
@@ -548,11 +636,19 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
         /// <returns>The generic scalar value.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:46 PM</DateTime>
         /// </Created>
-        T ExecuteScalar<T>(string proc, Dictionary<string, object> parameters);
+        T ExecuteScalar<T>(string proc, IEnumerable<KeyValuePair<string, object>> parameters);
         #endregion Generic
         #endregion Execute Scalar
 
@@ -664,6 +760,14 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="ICollection{T}"/> of <see cref="IParameter"/>.</param>
         /// <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:50 PM</DateTime>
@@ -690,11 +794,19 @@ namespace DevHorizons.DAL.Interfaces
         /// <param name="proc">The stored procedure name.</param>
         /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
         /// <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+        /// <remarks>
+        ///    The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+        ///    <para><see cref="AddParameter(IParameter)"/></para>
+        ///    <para><see cref="AddParameters(ICollection{IParameter}, bool)"/></para>
+        ///    <para><see cref="AddParameters(IParameter[])"/></para>
+        ///    <para><see cref="AddParameters(IEnumerable{KeyValuePair{string, object}}, bool)"/></para>
+        ///    You can call the "<see cref="ClearParameters"/>" method in advance to clear all the existing parameters if required.
+        /// </remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>10/02/2020 10:47 PM</DateTime>
         /// </Created>
-        bool ExecuteCommand(string proc, Dictionary<string, object> parameters);
+        bool ExecuteCommand(string proc, IEnumerable<KeyValuePair<string, object>> parameters);
         #endregion Execute Command
         #endregion DAO Methods
         #endregion Methods

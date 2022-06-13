@@ -200,31 +200,6 @@ namespace DevHorizons.DAL.Sql
             sqlParameter.SqlDbType = (System.Data.SqlDbType)dalSqlParameter.DataType;
         }
 
-        /// <summary>
-        ///    Gets the parameters from dictionary as <see cref="List{T}"/> of <see cref="IDataField"/>.
-        /// </summary>
-        /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="IDataField"/>.</returns>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:03 PM</DateTime>
-        /// </Created>
-        protected override List<IParameter> GetParmetersFromDictionary(Dictionary<string, object> parameters)
-        {
-            var list = new List<IParameter>();
-            if (parameters == null)
-            {
-                return list;
-            }
-
-            foreach (var pair in parameters)
-            {
-                var par = new SqlParameter(pair.Key, pair.Value);
-                list.Add(par);
-            }
-
-            return list;
-        }
 
         /// <summary>
         ///    Extracts the list of the parameters from the specified command body as type of of <see cref="ICommandBody"/>.

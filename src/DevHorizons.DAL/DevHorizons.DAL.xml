@@ -271,10 +271,13 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ClearParameters">
@@ -316,7 +319,7 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteQuery``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(DevHorizons.DAL.Interfaces.ICommandBody)">
@@ -331,7 +334,7 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(DevHorizons.DAL.Interfaces.ICommandBody)">
@@ -346,7 +349,7 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteScalar``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(DevHorizons.DAL.Interfaces.IDataTable,DevHorizons.DAL.CommandAction)">
@@ -376,7 +379,7 @@
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String,DevHorizons.DAL.Interfaces.IParameter[])">
             <inheritdoc/>
         </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Abstracts.ACommand.ExecuteCommand(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <inheritdoc/>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.Dispose">
@@ -431,18 +434,6 @@
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 11:08 PM</DateTime>
-            </Created>
-        </member>
-        <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetParmetersFromDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
-            <summary>
-               Gets the parameters from dictionary as <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
-            </summary>
-            <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
-            <returns>A <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</returns>
-            <remarks>Needs to be implemented by the implementor class for each data factory library.</remarks>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>10/02/2020 11:03 PM</DateTime>
             </Created>
         </member>
         <member name="M:DevHorizons.DAL.Abstracts.ACommand.GetParmetersFromCommandBody(DevHorizons.DAL.Interfaces.ICommandBody)">
@@ -2600,7 +2591,7 @@
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)">
             <summary>
-               Adds the parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".
+               Adds the parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>" to the existing list of parameters.
             </summary>
             <param name="parameter">The parameter as an instance of a class that implements "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".</param>
             <Created>
@@ -2608,11 +2599,13 @@
                <DateTime>13/11/2018 12:01 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter})">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)">
             <summary>
-               Adds the parameters.
+               Adds the parameters from a collection of "<see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>".
             </summary>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <param name="reset">Default value is <c>false</c>. If set to <c>true</c>, all the parameters will be cleared first before adding the new specified ones, otherwise, it will append the specified parameters to the existing list.</param>
+            <remarks>The "reset" argument will not reset the existing errors. If you want to reset all the errors, you need to call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearErrors"/>" void method as well.</remarks>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
               <DateTime>13/11/2018 12:01 PM</DateTime>
@@ -2620,12 +2613,31 @@
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])">
             <summary>
-               Adds the parameters.
+               Adds the parameters from a <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.
             </summary>
             <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
               <DateTime>13/11/2018 12:01 PM</DateTime>
+            </Created>
+        </member>
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)">
+            <summary>
+               Adds the parameters from a dictionary.
+            </summary>
+            <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
+            <param name="reset">Default value is <c>false</c>. If set to <c>true</c>, all the parameters will be cleared first before adding the new specified ones, otherwise, it will append the specified parameters to the existing list.</param>
+            <remarks>The "reset" argument will not reset the existing errors. If you want to reset all the errors, you need to call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearErrors"/>" void method as well.</remarks>
+            <Created>
+              <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+              <DateTime>13/06/2022 08:00 PM</DateTime>
             </Created>
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters">
@@ -2639,9 +2651,12 @@
         </member>
         <member name="M:DevHorizons.DAL.Interfaces.ICommand.Reset">
             <summary>
-               Reset the whole encapsulated data command settings/properties including the encapsulated data parameters and commands. Furthermore, clears all the raised errors.
+               Reset the whole encapsulated command's data/settings/properties including the encapsulated data parameters, commands and transactions. Furthermore, clears all the raised errors.
             </summary>
-            <remarks>If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.</remarks>
+            <remarks>
+               If the transaction fails to start, the whole "<c>DAL</c>" service will be susbended from executing any further commands/transactions until the reset operation is being executed by calling the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.Reset"/>" method.
+               <para>If a transaction is being initiated/opened, it will be reset as well, and you get to manually reinitiate it again.</para>
+            </remarks>
             <returns><c>true</c> if the transaction has been started successfully, otherwise, <c>false</c>.</returns>
             <Created>
               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
@@ -2776,6 +2791,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>". If "<c>Null</c>", that means the operation failed and error(s) will be raised.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:55 PM</DateTime>
@@ -2789,12 +2812,20 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>". If "<c>Null</c>", that means the operation failed and error(s) will be raised.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:55 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteQuery``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteQuery``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <summary>
                Executes the specified stored procedure to return the table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>".
                <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
@@ -2804,6 +2835,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
             <returns>The table result serialized into "<see cref="T:System.Collections.Generic.List`1"/>". If "<c>Null</c>", that means the operation failed and error(s) will be raised.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:55 PM</DateTime>
@@ -2838,6 +2877,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns>The scalar value. "<c>Null</c>", value may refer to raised error/exception.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:36 PM</DateTime>
@@ -2850,12 +2897,20 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns>The scalar value. "<c>Null</c>", value may refer to raised error/exception.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:37 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteScalar(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteScalar(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <summary>
                Executes the specified stored procedure to return a scalar value only.
                <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
@@ -2864,6 +2919,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
             <returns>The scalar value. "<c>Null</c>", value may refer to raised error/exception.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:37 PM</DateTime>
@@ -2901,6 +2964,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns>The generic scalar value.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:53 PM</DateTime>
@@ -2914,12 +2985,20 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <c>params</c> array of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns>The generic scalar value.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:53 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteScalar``1(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteScalar``1(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <summary>
                Executes the specified stored procedure to return a generic scalar value.
                <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
@@ -2929,6 +3008,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
             <returns>The generic scalar value.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:46 PM</DateTime>
@@ -3041,6 +3128,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.ICollection`1"/> of <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>.</param>
             <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:50 PM</DateTime>
@@ -3058,7 +3153,7 @@
                <DateTime>10/02/2020 10:50 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteCommand(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:DevHorizons.DAL.Interfaces.ICommand.ExecuteCommand(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <summary>
                Executes the specified stored procedure to return the successful state as boolean result.
                <para>The specified parameters will be automatically converted to "<see cref="T:System.Collections.Generic.List`1"/>" (where <c>T</c> is <see cref="T:DevHorizons.DAL.Interfaces.IParameter"/>).</para>
@@ -3067,6 +3162,14 @@
             <param name="proc">The stored procedure name.</param>
             <param name="parameters">The parameters as <see cref="T:System.Collections.Generic.Dictionary`2"/> where <c>"TKey"</c> is <see cref="T:System.String"/> and <c>"TValue"</c> is <see cref="T:System.Object"/>.</param>
             <returns><c>true</c> if the command has been executed successfully with errors free; otherwise else, <c>false</c>.</returns>
+            <remarks>
+               The specified parameters will be appended to the existing list of parameters which could be added explicitly beforehand through any of the following methods:
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameter(DevHorizons.DAL.Interfaces.IParameter)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.ICollection{DevHorizons.DAL.Interfaces.IParameter},System.Boolean)"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(DevHorizons.DAL.Interfaces.IParameter[])"/></para>
+               <para><see cref="M:DevHorizons.DAL.Interfaces.ICommand.AddParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Boolean)"/></para>
+               You can call the "<see cref="M:DevHorizons.DAL.Interfaces.ICommand.ClearParameters"/>" method in advance to clear all the existing parameters if required.
+            </remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>10/02/2020 10:47 PM</DateTime>

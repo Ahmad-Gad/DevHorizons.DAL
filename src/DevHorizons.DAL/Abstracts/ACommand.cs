@@ -27,9 +27,6 @@ namespace DevHorizons.DAL.Abstracts
     using Interfaces;
 
     using Microsoft.Extensions.Logging;
-
-    using Newtonsoft.Json;
-
     using Shared;
 
     /// <summary>
@@ -368,7 +365,7 @@ namespace DevHorizons.DAL.Abstracts
         /// <inheritdoc/>
         public bool CanExecute()
         {
-            return !this.terminateFurtherExecutions  && this.Connection is not null && this.Cmd is not null && this.Connection.State == ConnectionState.Open;
+            return !this.terminateFurtherExecutions && this.Connection is not null && this.Cmd is not null && this.Connection.State == ConnectionState.Open;
         }
 
         /// <inheritdoc/>
@@ -452,21 +449,63 @@ namespace DevHorizons.DAL.Abstracts
         /// <inheritdoc/>
         public void AddParameter(IParameter parameter)
         {
+            DbParameter dbParameter;
+            try
+            {
+                dbParameter = this.GetDbParameter(parameter);
+            }
+            catch (Exception ex)
+            {
+                this.terminateFurtherExecutions = true;
+                var error = this.Settings.CreateErrorDetails(
+                     ex: ex,
+                     source: $"{this.GetType().FullName}.{nameof(this.AddParameter)}(IParameter parameter)",
+                     errorNumber: -700,
+                     description: $"DB Exception has been raised while attempting to add the parameter '{parameter.ToJsonString()}' !");
+                this.HandleError(error);
+                return;
+            }
+
+            this.Cmd.Parameters.Add(dbParameter);
             this.Parameters.Add(parameter);
-            this.Cmd.Parameters.Add(this.GetDbParameter(parameter));
         }
 
         /// <inheritdoc/>
-        public void AddParameters(ICollection<IParameter> parameters)
+        public void AddParameters(ICollection<IParameter> parameters, bool reset = false)
         {
-            this.Parameters.AddRange(parameters);
-            this.Cmd.Parameters.AddRange(this.GetDbParameters(this.Parameters).ToArray());
+            if (reset)
+            {
+                this.ClearParameters();
+            }
+
+            foreach (var parameter in parameters)
+            {
+                this.AddParameter(parameter);
+            }
         }
 
         /// <inheritdoc/>
         public void AddParameters(params IParameter[] parameters)
         {
-            this.AddParameters(parameters.ToList());
+            foreach (var parameter in parameters)
+            {
+                this.AddParameter(parameter);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void AddParameters(IEnumerable<KeyValuePair<string, object>> parameters, bool reset = false)
+        {
+            if (reset)
+            {
+                this.ClearParameters();
+            }
+
+            foreach (var paramDic in parameters)
+            {
+                var parameter = new Parameter(name: paramDic.Key, value: paramDic.Value);
+                this.AddParameter(parameter);
+            }
         }
 
         /// <inheritdoc/>
@@ -870,11 +909,11 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public List<T> ExecuteQuery<T>(string proc, Dictionary<string, object> parameters)
+        public List<T> ExecuteQuery<T>(string proc, IEnumerable<KeyValuePair<string, object>> parameters)
         {
             this.parametersSource = ParametersSource.Dictionary;
-            var list = this.GetParmetersFromDictionary(parameters);
-            return this.ExecuteQuery<T>(proc, list);
+            this.AddParameters(parameters);
+            return this.ExecuteQuery<T>(proc);
         }
         #endregion Execute Query
 
@@ -1053,11 +1092,11 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public object ExecuteScalar(string proc, Dictionary<string, object> parameters)
+        public object ExecuteScalar(string proc, IEnumerable<KeyValuePair<string, object>> parameters)
         {
             this.parametersSource = ParametersSource.Dictionary;
-            var list = this.GetParmetersFromDictionary(parameters);
-            return this.ExecuteScalar(proc, list);
+            this.AddParameters(parameters);
+            return this.ExecuteScalar(proc);
         }
         #endregion Object
 
@@ -1095,7 +1134,7 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public T ExecuteScalar<T>(string proc, Dictionary<string, object> parameters)
+        public T ExecuteScalar<T>(string proc, IEnumerable<KeyValuePair<string, object>> parameters)
         {
             var result = this.ExecuteScalar(proc, parameters);
             return result == null ? default : result.To<T>();
@@ -1386,11 +1425,11 @@ namespace DevHorizons.DAL.Abstracts
         }
 
         /// <inheritdoc/>
-        public bool ExecuteCommand(string proc, Dictionary<string, object> parameters)
+        public bool ExecuteCommand(string proc, IEnumerable<KeyValuePair<string, object>> parameters)
         {
             this.parametersSource = ParametersSource.Dictionary;
-            var list = this.GetParmetersFromDictionary(parameters);
-            return this.ExecuteCommand(proc, list);
+            this.AddParameters(parameters);
+            return this.ExecuteCommand(proc);
         }
         #endregion Execute Command
         #endregion DAO Methods
@@ -1596,21 +1635,6 @@ namespace DevHorizons.DAL.Abstracts
         /// <summary>
         ///    Gets the parameters from dictionary as <see cref="List{T}"/> of <see cref="IParameter"/>.
         /// </summary>
-        /// <param name="parameters">The parameters as <see cref="Dictionary{TKey, TValue}"/> where <c>"TKey"</c> is <see cref="string"/> and <c>"TValue"</c> is <see cref="object"/>.</param>
-        /// <returns>A <see cref="List{T}"/> of <see cref="IParameter"/>.</returns>
-        /// <remarks>Needs to be implemented by the implementor class for each data factory library.</remarks>
-        /// <Created>
-        ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-        ///    <DateTime>10/02/2020 11:03 PM</DateTime>
-        /// </Created>
-        protected virtual List<IParameter> GetParmetersFromDictionary(Dictionary<string, object> parameters)
-        {
-            return new List<IParameter>();
-        }
-
-        /// <summary>
-        ///    Gets the parameters from dictionary as <see cref="List{T}"/> of <see cref="IParameter"/>.
-        /// </summary>
         /// <param name="commandBody">The request/command buddy which holds the stored procedure name and the designated parameters.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="IParameter"/>.</returns>
         /// <remarks>Needs to be implemented by the implementor class for each data factory library.</remarks>
@@ -1620,7 +1644,7 @@ namespace DevHorizons.DAL.Abstracts
         /// </Created>
         protected virtual List<IParameter> GetParmetersFromCommandBody(ICommandBody commandBody)
         {
-            return new List<IParameter>();
+            throw new NotImplementedException();
         }
 
         /// <summary>
