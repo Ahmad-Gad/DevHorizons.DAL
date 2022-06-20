@@ -1,4 +1,4 @@
-namespace DevHorizons.DAL.Sql.Test.Parameters
+namespace DevHorizons.DAL.Sql.Test.Parameters.InputParameters
 {
     using System;
     using DAL.Shared;
@@ -22,7 +22,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
 
             var parName = "Employee";
 
-            var expectedParValue = employee.ToStructuredDbType(this.dataAccessSettings, null, null);
+            var expectedParValue = employee.ToStructuredDbType(dataAccessSettings, null, null);
             Assert.NotNull(expectedParValue);
 
             Assert.True
@@ -35,7 +35,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
                 );
             var par = new SqlParameter(parName, employee);
             par.SpecialType = SpecialType.Structured;
-            this.dalCmd.AddParameter(par);
+            dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
@@ -65,7 +65,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
 
             var par = new SqlParameter(parName, employee);
             par.SpecialType = SpecialType.Json;
-            this.dalCmd.AddParameter(par);
+            dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
@@ -95,7 +95,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
 
             var par = new SqlParameter(parName, employee);
             par.SpecialType = SpecialType.Xml;
-            this.dalCmd.AddParameter(par);
+            dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
@@ -125,7 +125,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
 
             var par = new SqlParameter(parName, employee);
             par.SpecialType = SpecialType.Binary;
-            this.dalCmd.AddParameter(par);
+            dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
@@ -147,7 +147,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
             var par = new SqlParameter(parName, binary);
             par.SpecialType = SpecialType.Binary;
 
-            this.dalCmd.AddParameter(par);
+            dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (
@@ -164,29 +164,20 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
             var plainText = "Hello World";
 
             byte[] binary = null;
-            try
-            {
-                binary = plainText.ToBinary();
-            }
-            catch (Exception ex)
-            {
-                Assert.True(ex is FormatException);
-            }
-
             Assert.Null(binary);
             var parName = "EmployeeImage";
             var par = new SqlParameter(parName, plainText);
             par.SpecialType = SpecialType.Binary;
-            this.dalCmd.ClearErrors();
-            this.dalCmd.ClearParameters();
-            Assert.True(this.dalCmd.Errors.Count == 0);
-            Assert.True(this.dalCmd.Parameters.Count == 0);
-            this.dalCmd.AddParameter(par);
-            Assert.True(this.dalCmd.Errors.Count == 1);
-            var error = this.dalCmd.Errors[0];
+            dalCmd.ClearErrors();
+            dalCmd.ClearParameters();
+            Assert.True(dalCmd.Errors.Count == 0);
+            Assert.True(dalCmd.Parameters.Count == 0);
+            dalCmd.AddParameter(par);
+            Assert.True(dalCmd.Errors.Count == 1);
+            var error = dalCmd.Errors[0];
             Assert.NotNull(error);
             Assert.True(error.Exception is FormatException);
-            Assert.True(this.dalCmd.Parameters.Count == 0);
+            Assert.True(dalCmd.Parameters.Count == 0);
         }
 
         [Fact]
@@ -200,7 +191,7 @@ namespace DevHorizons.DAL.Sql.Test.Parameters
             var par = new SqlParameter(parName, binary);
             par.SpecialType = SpecialType.Base64;
 
-            this.dalCmd.AddParameter(par);
+            dalCmd.AddParameter(par);
             var sqlIntParmeter = internalCmdObject.Parameters[0];
             Assert.True
                 (

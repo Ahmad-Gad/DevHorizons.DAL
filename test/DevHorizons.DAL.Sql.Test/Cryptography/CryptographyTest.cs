@@ -36,7 +36,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
         }
 
         [Fact]
-        public void TestHash()
+        public void Hashing()
         {
             this.dataAccessSettings.CryptographySettings.Hashing.HashKey = "123456";
             this.dataAccessSettings.CryptographySettings.Hashing.KeyDerivationPrf = KeyDerivationPrf.SHA512;
@@ -70,7 +70,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
         }
 
         [Fact]
-        public void TestSymmetricDeterministicEncryption()
+        public void SymmetricDeterministicEncryption()
         {
             var randamized = false;
             var name = "Ahmad Gad";
@@ -131,7 +131,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
         }
 
         [Fact]
-        public void TestSymmetricRandomizedEncryption()
+        public void SymmetricRandomizedEncryption()
         {
             var randamized = true;
             var name = "Ahmad Gad";
