@@ -1,4 +1,4 @@
-﻿namespace DevHorizons.DAL.Test.Models
+﻿namespace DevHorizons.DAL.Sql.Test.Models
 {
     using System;
     public class Product

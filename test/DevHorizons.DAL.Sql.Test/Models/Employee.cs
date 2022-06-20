@@ -1,4 +1,4 @@
-﻿namespace DevHorizons.DAL.Test
+﻿namespace DevHorizons.DAL.Sql.Test
 {
     using System;
 

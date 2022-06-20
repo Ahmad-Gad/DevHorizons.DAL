@@ -1,4 +1,4 @@
-namespace DevHorizons.DAL.Test.Parameters
+namespace DevHorizons.DAL.Sql.Test.Parameters
 {
     using System;
     using DAL.Shared;

@@ -1,4 +1,4 @@
-﻿namespace DevHorizons.DAL.Test.Shared
+﻿namespace DevHorizons.DAL.Sql.Test.Shared
 {
     using System;
     using System.Collections.Generic;

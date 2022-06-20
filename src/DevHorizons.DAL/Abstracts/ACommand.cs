@@ -2262,12 +2262,12 @@ namespace DevHorizons.DAL.Abstracts
 
             foreach (DbParameter dbParameter in this.Cmd.Parameters)
             {
-                if (dbParameter.Direction == ParameterDirection.ReturnValue || dbParameter.Direction == ParameterDirection.Output || dbParameter.Direction == ParameterDirection.InputOutput)
+                if (dbParameter.Direction != ParameterDirection.Input)
                 {
                     var dalPar = this.Parameters.FirstOrDefault(p => p.Name == dbParameter.ParameterName);
                     var value = dbParameter.Value;
 
-                    if (dalPar.Encrypted || dalPar.MayBeEncrypted)
+                    if (dbParameter.Direction != ParameterDirection.ReturnValue && (dalPar.Encrypted || dalPar.MayBeEncrypted))
                     {
                         var nonDeterministic = dalPar.EncryptionType == EncryptionType.Randomized || this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
                         var cryptoResult = value.ToString().DecryptSymmetric(this.Settings, nonDeterministic, this.MemoryCache);

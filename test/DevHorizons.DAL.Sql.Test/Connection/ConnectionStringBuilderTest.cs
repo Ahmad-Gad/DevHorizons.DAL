@@ -1,4 +1,4 @@
-﻿namespace DevHorizons.DAL.Test.Connection
+﻿namespace DevHorizons.DAL.Sql.Test.Connection
 {
     using System.Collections.Generic;
     using DAL.Shared;
