@@ -1653,8 +1653,8 @@ namespace DevHorizons.DAL.Abstracts
                 {
                     if (parameter.Encrypted)
                     {
-                        var nonDeterministic = parameter.EncryptionType == EncryptionType.Randomized || this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
-                        var cryptoResult = parameter.Value.ToString().EncryptSymmetric(this.Settings, nonDeterministic, this.MemoryCache);
+                        var encryptionType = parameter.EncryptionType == EncryptionType.Default ? this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType : parameter.EncryptionType;
+                        var cryptoResult = parameter.Value.ToString().EncryptSymmetric(this.Settings, encryptionType, this.MemoryCache);
                         if (cryptoResult.OutputError != null)
                         {
                             this.HandleError(cryptoResult.OutputError);
@@ -1901,7 +1901,7 @@ namespace DevHorizons.DAL.Abstracts
                 var providerDetails = provider.GetProviderFactoryDetails();
                 var providerType = Type.GetType($"{providerDetails.FactoryClassName},{providerDetails.AssemblyName}");
 
-#if NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0_OR_GREATER
                 DbProviderFactories.RegisterFactory(providerDetails.Name, providerType);
 #endif
                 var factory = DbProviderFactories.GetFactory(providerDetails.Name);
@@ -2139,8 +2139,8 @@ namespace DevHorizons.DAL.Abstracts
                             {
                                 if (df.Encrypted || df.MayBeEncrypted)
                                 {
-                                    var nonDeterministic = df.EncryptionType == EncryptionType.Randomized || this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
-                                    var cryptoResult = rawValue.ToString().DecryptSymmetric(this.Settings, nonDeterministic, this.MemoryCache);
+                                    var encryptionType = df.EncryptionType == EncryptionType.Default ? this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType : df.EncryptionType;
+                                    var cryptoResult = rawValue.ToString().DecryptSymmetric(this.Settings, encryptionType, this.MemoryCache);
                                     var value = cryptoResult.Value;
                                     if (value == null)
                                     {
@@ -2269,8 +2269,8 @@ namespace DevHorizons.DAL.Abstracts
 
                     if (dbParameter.Direction != ParameterDirection.ReturnValue && (dalPar.Encrypted || dalPar.MayBeEncrypted))
                     {
-                        var nonDeterministic = dalPar.EncryptionType == EncryptionType.Randomized || this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
-                        var cryptoResult = value.ToString().DecryptSymmetric(this.Settings, nonDeterministic, this.MemoryCache);
+                        var encryptionType = dalPar.EncryptionType == EncryptionType.Default ? this.Settings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType : dalPar.EncryptionType;
+                        var cryptoResult = value.ToString().DecryptSymmetric(this.Settings, encryptionType, this.MemoryCache);
                         if (cryptoResult.Value == null)
                         {
                             if (!dalPar.MayBeEncrypted)

@@ -990,7 +990,13 @@ namespace DevHorizons.DAL.Shared
                         source = source.ConvertFromObjectToArray();
                     }
                 }
-
+#if NET6_0_OR_GREATER
+                else if (type == typeof(DateOnly))
+                {
+                    var dt = Convert.ToDateTime(source);
+                    return DateOnly.FromDateTime(dt);
+                }
+#endif
                 return Convert.ChangeType(source, conversionType);
             }
             catch
@@ -998,11 +1004,11 @@ namespace DevHorizons.DAL.Shared
                 return Convert.ChangeType(defaultValue, TypeCode.Object);
             }
         }
-        #endregion ChangeType Methods
-        #endregion Internal Methods
+#endregion ChangeType Methods
+#endregion Internal Methods
 
-        #region Private Methods
-        #region Collections Converting
+#region Private Methods
+#region Collections Converting
 
         /// <summary>
         ///     Converts from object to array.
@@ -1104,11 +1110,11 @@ namespace DevHorizons.DAL.Shared
                 return null;
             }
         }
-        #endregion Collections Converting
+#endregion Collections Converting
 
-        #region Cache Management
-        #region DataField
-        #region Get
+#region Cache Management
+#region DataField
+#region Get
 
         /// <summary>
         ///    Gets the data columns as <see cref="List{T}"/> where <c>T</c> is <see cref="DataField"/> from the memory cache.
@@ -1129,9 +1135,9 @@ namespace DevHorizons.DAL.Shared
 
             return null;
         }
-        #endregion Get
+#endregion Get
 
-        #region Set
+#region Set
 
         /// <summary>
         ///    Save the data columns as <see cref="List{T}"/> where <c>T</c> is <see cref="DataFieldAttribute"/> into the cache in a running task in the background.
@@ -1147,11 +1153,11 @@ namespace DevHorizons.DAL.Shared
         {
             Task.Run(() => dataColumnAttributeList.SaveDataFieldsToCache(cacheKey, memoryCache));
         }
-        #endregion Set
-        #endregion DataField
-        #endregion Cache Management
+#endregion Set
+#endregion DataField
+#endregion Cache Management
 
-        #region DataTable
+#region DataTable
 
         /// <summary>
         ///    Converts the properties of the specified source object into list of "<see cref="DataField"/>".
@@ -1364,8 +1370,8 @@ namespace DevHorizons.DAL.Shared
 
                 if (dataField.Encrypted)
                 {
-                    var nonDeterministic = dataField.EncryptionType == EncryptionType.Randomized || dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
-                    var cryptoResult = newValue.ToString().EncryptSymmetric(dataAccessSettings, nonDeterministic, memoryCache);
+                    var encryptionType = dataField.EncryptionType == EncryptionType.Default ? dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType : dataField.EncryptionType;
+                    var cryptoResult = newValue.ToString().EncryptSymmetric(dataAccessSettings, encryptionType, memoryCache);
                     if (cryptoResult.OutputError != null)
                     {
                         throw new Exception($"Failed to encrypt the property '{prop.Name}' inside the class '{obj.GetType().FullName}'.", cryptoResult.OutputError.Exception);
@@ -1398,8 +1404,8 @@ namespace DevHorizons.DAL.Shared
                 var newValue = value;
                 if (dataField.Encrypted || dataField.MayBeEncrypted)
                 {
-                    var nonDeterministic = dataField.EncryptionType == EncryptionType.Randomized || dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType == EncryptionType.Randomized;
-                    var cryptoResult = newValue.ToString().DecryptSymmetric(dataAccessSettings, nonDeterministic, memoryCache);
+                    var encryptionType = dataField.EncryptionType == EncryptionType.Default ? dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType : dataField.EncryptionType;
+                    var cryptoResult = newValue.ToString().DecryptSymmetric(dataAccessSettings, encryptionType, memoryCache);
                     if (cryptoResult.Value != null)
                     {
                         newValue = cryptoResult.Value;
@@ -1437,7 +1443,7 @@ namespace DevHorizons.DAL.Shared
                 prop.SetValue(obj, newValue);
             }
         }
-        #endregion DataTable
+#endregion DataTable
 
         /// <summary>
         ///    Get the threshold memory warning message in a "<c>JSON</c>" string format.
@@ -1453,6 +1459,6 @@ namespace DevHorizons.DAL.Shared
         {
             return $"{{'CacheKey': '{cacheKey}', 'CacheSize': '{size * 1.5}', 'SecondLevelCacheCurrentSize': '{memoryCache.SecondLevelCacheMemorySize}', 'SecondLevelMemoryCacheThreshold': '{dataAccessSettings.CacheSettings.MemoryCacheThreshold}'}}";
         }
-        #endregion Private Methods
+#endregion Private Methods
     }
 }

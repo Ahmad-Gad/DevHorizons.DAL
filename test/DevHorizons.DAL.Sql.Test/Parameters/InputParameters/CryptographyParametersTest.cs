@@ -53,6 +53,33 @@
         }
 
         [Fact]
+        public void DeterministicDateOnlyEncryptionParameter()
+        {
+            var dateOfBirth = new System.DateOnly(2012, 12, 12);
+            this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Deterministic.EncryptionKey = "P@$$word";
+            this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Deterministic.SymmetricAlgorithm = Aes.Create();
+            var parName = "DateOfBirth";
+            var parValue = dateOfBirth;
+            var par = new SqlParameter(name: parName, dataType: SqlDbType.NVarChar, value: parValue);
+            par.Encrypted = true;
+            par.EncryptionType = EncryptionType.Deterministic;
+            dalCmd.AddParameter(par);
+            Assert.NotNull(internalCmdObject.Parameters);
+            Assert.NotEmpty(internalCmdObject.Parameters);
+            var sqlParameter = internalCmdObject.Parameters[0];
+            Assert.NotNull(sqlParameter.Value);
+            Assert.True(sqlParameter.Value.ToString().Length != 0);
+            Assert.Equal(System.Data.ParameterDirection.Input, sqlParameter.Direction);
+            Assert.Equal(System.Data.SqlDbType.NVarChar, sqlParameter.SqlDbType);
+            Assert.Equal(sqlParameter.Value.ToString().Length, sqlParameter.Size);
+            Assert.Equal("8PgFVfkf5xceWSlL6S5IJw==", sqlParameter.Value.ToString());
+            var decryptedDateOfBirth = sqlParameter.Value.ToString().DecryptSymmetric(this.dataAccessSettings, EncryptionType.Deterministic);
+            Assert.NotNull(decryptedDateOfBirth.Value);
+            Assert.Null(decryptedDateOfBirth.OutputError);
+            Assert.Equal(decryptedDateOfBirth.Value.To<System.DateOnly>(), dateOfBirth);
+        }
+
+        [Fact]
         public void DeterministicExplicitEncryptionParameter()
         {
             var name = "Ahmad Gad";
@@ -96,7 +123,7 @@
             Assert.Equal(System.Data.ParameterDirection.Input, sqlParameter.Direction);
             Assert.Equal(System.Data.SqlDbType.NVarChar, sqlParameter.SqlDbType);
             Assert.Equal(sqlParameter.Value.ToString().Length, sqlParameter.Size);
-            var decryptedName = sqlParameter.Value.ToString().DecryptSymmetric(this.dataAccessSettings, true);
+            var decryptedName = sqlParameter.Value.ToString().DecryptSymmetric(this.dataAccessSettings, EncryptionType.Randomized);
             Assert.NotNull(decryptedName);
             Assert.Null(decryptedName.OutputError);
             Assert.NotNull(decryptedName.Value);

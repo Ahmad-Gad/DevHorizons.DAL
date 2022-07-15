@@ -714,19 +714,6 @@
                <DateTime>12/02/2022 04:58 PM</DateTime>
             </Created>
         </member>
-        <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessPath">
-            <summary>
-               Gets or sets the path of the executable that started the currently executing process.
-            </summary>
-            <value>
-               The path of the executable that started the currently executing process.
-               <para>Returns null when the path is not available.</para>
-            </value>
-            <Created>
-               <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
-               <DateTime>12/02/2022 04:58 PM</DateTime>
-            </Created>
-        </member>
         <member name="P:DevHorizons.DAL.AdvacedErrorDetails.ProcessId">
             <summary>
                Gets or sets the unique identifier for the current process.
@@ -1907,13 +1894,13 @@
                <DateTime>11/02/2020 12:41 PM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.EncryptSymmetric(System.String,DevHorizons.DAL.Interfaces.IDataAccessSettings,System.Boolean,DevHorizons.DAL.Cache.IMemoryCache)">
+        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.EncryptSymmetric(System.String,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cryptography.EncryptionType,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
               Encrypt the specified text/string using the Advanced Encryption Standard (AES) cipher with a symmetric key (two way symmetric encryption).
             </summary>
             <param name="data">The string/text to be encrypted.</param>
             <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-            <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+            <param name="encryptionType">The encryption type as either "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>" or "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Randomized"/>.</param>
             <param name="memoryCached">The internal cache container.</param>
             <returns>An instance of "<see cref="T:DevHorizons.DAL.Cryptography.CryptoResult"/>" which would hold the encrypted data in "<c>Base64</c>" string or the output error details if failed.</returns>
             <Created>
@@ -1921,13 +1908,13 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.DecryptSymmetric(System.String,DevHorizons.DAL.Interfaces.IDataAccessSettings,System.Boolean,DevHorizons.DAL.Cache.IMemoryCache)">
+        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.DecryptSymmetric(System.String,DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cryptography.EncryptionType,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
               Decrypt the specified a "<c>Base64</c>" text/string using the Advanced Encryption Standard (AES) cipher with a  symmetric key (two way symmetric encryption).
             </summary>
             <param name="encryptedData">The string/text in <c>Base64</c> string format to be decrypted.</param>
             <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-            <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+            <param name="encryptionType">The encryption type as either "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>" or "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Randomized"/>.</param>
             <param name="memoryCached">The internal cache container.</param>
             <returns>An instance of "<see cref="T:DevHorizons.DAL.Cryptography.CryptoResult"/>" which would hold the decrypted data in "<c>Base64</c>" string or the output error details if failed.</returns>
             <Created>
@@ -1950,13 +1937,13 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.AssignKeys(System.Security.Cryptography.SymmetricAlgorithm,DevHorizons.DAL.Cryptography.CryptographySettings,System.Boolean)">
+        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.AssignKeys(System.Security.Cryptography.SymmetricAlgorithm,DevHorizons.DAL.Cryptography.CryptographySettings,DevHorizons.DAL.Cryptography.EncryptionType)">
             <summary>
                Generate the hashed symmetric encryption key and the <c>IV</c> hashed key from the specified symmetric key string and assign them to the specified "<see cref="T:System.Security.Cryptography.Aes"/>" object.
             </summary>
             <param name="symmetricAlgorithm">The symmetric algorithm which could be for example type of "<see cref="T:System.Security.Cryptography.Aes"/>".</param>
             <param name="cryptographySettings">The cryptography settings.</param>
-            <param name="nonDeterministic">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+            <param name="encryptionType">The encryption type as either "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>" or "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Randomized"/>.</param>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 10:44 AM</DateTime>
@@ -1974,23 +1961,23 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.GetTheInitializedSymmetricAlgorithm(DevHorizons.DAL.Cryptography.CryptographySettings,System.Boolean)">
+        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.GetTheInitializedSymmetricAlgorithm(DevHorizons.DAL.Cryptography.CryptographySettings,DevHorizons.DAL.Cryptography.EncryptionType)">
             <summary>
                Gets the designated "<see cref="P:DevHorizons.DAL.Cryptography.SymmetricEncryptionSettings.SymmetricAlgorithm"/>" initialized. If not explicitly specified in the specified "<see cref="T:DevHorizons.DAL.Cryptography.CryptographySettings"/>", it will be "<see cref="T:System.Security.Cryptography.Aes"/>".
             </summary>
             <param name="cryptographySettings">The cryptography settings.</param>
-            <param name="nonDeterministic">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+            <param name="encryptionType">The encryption type as either "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>" or "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Randomized"/>.</param>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.GetEncryptor(DevHorizons.DAL.Interfaces.IDataAccessSettings,System.Boolean,DevHorizons.DAL.Cache.IMemoryCache)">
+        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.GetEncryptor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cryptography.EncryptionType,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
                Gets the initialized symmetric encryptor object with the current "<see cref="P:System.Security.Cryptography.SymmetricAlgorithm.Key"/>" and the "<see cref="P:System.Security.Cryptography.SymmetricAlgorithm.IV"/>" pre embedded/configured.
             </summary>
             <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-            <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+            <param name="encryptionType">The encryption type as either "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>" or "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Randomized"/>.</param>
             <param name="memoryCached">The internal cache container.</param>
             <returns>The decrypted data.</returns>
             <Created>
@@ -1998,12 +1985,12 @@
                <DateTime>11/02/2020 10:44 AM</DateTime>
             </Created>
         </member>
-        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.GetDecryptor(DevHorizons.DAL.Interfaces.IDataAccessSettings,System.Boolean,DevHorizons.DAL.Cache.IMemoryCache)">
+        <member name="M:DevHorizons.DAL.Cryptography.Cryptography.GetDecryptor(DevHorizons.DAL.Interfaces.IDataAccessSettings,DevHorizons.DAL.Cryptography.EncryptionType,DevHorizons.DAL.Cache.IMemoryCache)">
             <summary>
                Gets the initialized symmetric decryptor object with the current "<see cref="P:System.Security.Cryptography.SymmetricAlgorithm.Key"/>" and the "<see cref="P:System.Security.Cryptography.SymmetricAlgorithm.IV"/>" pre embedded/configured.
             </summary>
             <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-            <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+            <param name="encryptionType">The encryption type as either "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>" or "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Randomized"/>.</param>
             <param name="memoryCached">The internal cache container.</param>
             <returns>The decrypted data.</returns>
             <Created>
@@ -2204,6 +2191,12 @@
                <DateTime>20/02/2022 11:22 PM</DateTime>
             </Created>
         </member>
+        <member name="F:DevHorizons.DAL.Cryptography.SymmetricEncryption.defaultEncryptionType">
+            <summary>
+               Gets or sets the default symmetric encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
+               <para>Default Value: <see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>.</para>
+            </summary>
+        </member>
         <member name="P:DevHorizons.DAL.Cryptography.SymmetricEncryption.Deterministic">
             <summary>
                Gets or sets the required settings for the deterministic symmetric encryption.
@@ -2225,7 +2218,9 @@
         <member name="P:DevHorizons.DAL.Cryptography.SymmetricEncryption.DefaultEncryptionType">
             <summary>
                Gets or sets the default symmetric encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
+               <para>Default Value: <see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>.</para>
             </summary>
+            <remarks>If set to "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Default"/>", it will be automatically reset to "<see cref="F:DevHorizons.DAL.Cryptography.EncryptionType.Deterministic"/>".</remarks>
             <Created>
                <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
                <DateTime>26/12/2021 05:00 PM</DateTime>
@@ -6008,6 +6003,18 @@
             </Created>
         </member>
         <member name="F:DevHorizons.DAL.Shared.SpecialType.Base64">
+            <summary>
+               <c>BLOB</c> (Binary Large Ojbect) data type which is sent or populated by the stored procedure as string in <c>Base64</c> format/encoded.
+            </summary>
+            <remarks>If the original data is binary (array of bytes), it will be automatically encoded into a string as <c>BASE64</c> format/encoding.</remarks>
+            <Created>
+                  <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
+                  <DateTime>02/02/2022 06:00 PMM</DateTime>
+            </Created>
+        </member>
+    </members>
+</doc>
+ns.DAL.Shared.SpecialType.Base64">
             <summary>
                <c>BLOB</c> (Binary Large Ojbect) data type which is sent or populated by the stored procedure as string in <c>Base64</c> format/encoded.
             </summary>

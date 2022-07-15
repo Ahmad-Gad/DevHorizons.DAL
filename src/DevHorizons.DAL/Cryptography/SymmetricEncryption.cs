@@ -21,6 +21,17 @@ namespace DevHorizons.DAL.Cryptography
     /// </Created>
     public class SymmetricEncryption
     {
+        #region Private Fields
+
+        /// <summary>
+        ///    Gets or sets the default symmetric encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
+        ///    <para>Default Value: <see cref="EncryptionType.Deterministic"/>.</para>
+        /// </summary>
+        private EncryptionType defaultEncryptionType = EncryptionType.Deterministic;
+        #endregion Private Fields
+
+        #region Properties
+
         /// <summary>
         ///    Gets or sets the required settings for the deterministic symmetric encryption.
         /// </summary>
@@ -41,11 +52,25 @@ namespace DevHorizons.DAL.Cryptography
 
         /// <summary>
         ///    Gets or sets the default symmetric encryption type. Supports two types of encryption: randomized encryption and deterministic encryption.
+        ///    <para>Default Value: <see cref="EncryptionType.Deterministic"/>.</para>
         /// </summary>
+        /// <remarks>If set to "<see cref="EncryptionType.Default"/>", it will be automatically reset to "<see cref="EncryptionType.Deterministic"/>".</remarks>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>26/12/2021 05:00 PM</DateTime>
         /// </Created>
-        public EncryptionType DefaultEncryptionType { get; set; } = EncryptionType.Deterministic;
+        public EncryptionType DefaultEncryptionType
+        {
+            get
+            {
+                return this.defaultEncryptionType;
+            }
+
+            set
+            {
+                this.defaultEncryptionType = value == EncryptionType.Default ? EncryptionType.Deterministic : value;
+            }
+        }
+        #endregion Properties
     }
 }

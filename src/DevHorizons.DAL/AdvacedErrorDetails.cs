@@ -74,7 +74,7 @@ namespace DevHorizons.DAL
         /// </Created>
         public double CpuUsagePercent { get; set; }
 
-#if NET48 || NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NET48 || NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0_OR_GREATER
         /// <summary>
         ///    Gets or sets the total memory allocated to the current thread since the beginning of its lifetime as number of bytes.
         /// </summary>
@@ -89,7 +89,7 @@ namespace DevHorizons.DAL
         public long CurrentThreadAllocatedMemory { get; set; } = GC.GetAllocatedBytesForCurrentThread();
 #endif
 
-#if NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
         /// <summary>
         ///    Gets or sets the total memory allocated to the current process of the running/host service/application since the beginning of its lifetime as number of bytes.
         /// </summary>
@@ -128,7 +128,7 @@ namespace DevHorizons.DAL
         /// </Created>
         public string CommandLine { get; set; } = Environment.CommandLine;
 
-#if NET6_0
+#if NET6_0_OR_GREATER
         /// <summary>
         ///    Gets or sets the path of the executable that started the currently executing process.
         /// </summary>
@@ -143,7 +143,7 @@ namespace DevHorizons.DAL
         public string ProcessPath { get; set; } = Environment.ProcessPath;
 #endif
 
-#if NET5_0 || NET6_0
+#if NET5_0_OR_GREATER
         /// <summary>
         ///    Gets or sets the unique identifier for the current process.
         /// </summary>
@@ -282,7 +282,7 @@ namespace DevHorizons.DAL
         /// </Created>
         public int SystemPageSize { get; set; } = Environment.SystemPageSize;
 
-#if NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER
         /// <summary>
         ///    Gets or sets the exact date/time when the host machine being started or rebooted.
         /// </summary>

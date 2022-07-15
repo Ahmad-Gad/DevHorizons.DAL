@@ -68,7 +68,7 @@ namespace DevHorizons.DAL.Interfaces
         public bool MayBeEncrypted { get; set; }
 
         /// <inheritdoc/>
-        public EncryptionType EncryptionType { get; set; }
+        public EncryptionType EncryptionType { get; set; } = EncryptionType.Default;
 
         /// <inheritdoc/>
         public bool Hashed { get; set; }

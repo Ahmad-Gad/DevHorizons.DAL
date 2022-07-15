@@ -35,7 +35,7 @@ namespace DevHorizons.DAL.Sql
     {
         #region Constructors
         /*
-#if NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0 || NET6_0
+#if NETSTANDARD2_1 || NETCOREAPP3_1 || NET5_0_OR_GREATER
         /// <summary>
         ///    Initializes a new instance of the <see cref="SqlCommand"/> class.
         /// </summary>

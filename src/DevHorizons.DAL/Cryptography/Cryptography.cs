@@ -37,20 +37,20 @@ namespace DevHorizons.DAL.Cryptography
         /// </summary>
         /// <param name="data">The string/text to be encrypted.</param>
         /// <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-        /// <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+        /// <param name="encryptionType">The encryption type as either "<see cref="EncryptionType.Deterministic"/>" or "<see cref="EncryptionType.Randomized"/>.</param>
         /// <param name="memoryCached">The internal cache container.</param>
         /// <returns>An instance of "<see cref="CryptoResult"/>" which would hold the encrypted data in "<c>Base64</c>" string or the output error details if failed.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        public static CryptoResult EncryptSymmetric(this string data, IDataAccessSettings dataAccessSettings, bool randomized, IMemoryCache memoryCached = null)
+        public static CryptoResult EncryptSymmetric(this string data, IDataAccessSettings dataAccessSettings, EncryptionType encryptionType, IMemoryCache memoryCached = null)
         {
             var cryptoResult = new CryptoResult();
 
-            if (string.IsNullOrWhiteSpace(data) || string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Deterministic?.EncryptionKey) || (randomized && string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Randomized.EncryptionKey)))
+            if (string.IsNullOrWhiteSpace(data) || string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Deterministic?.EncryptionKey) || (encryptionType == EncryptionType.Randomized && string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Randomized.EncryptionKey)))
             {
-                var errMessage = "Failed to encrypt the specified data. The symmetric encryption key is not specified";
+                var errMessage = $"Failed to encrypt the specified data. The symmetric encryption key for the encryption type [{encryptionType}] is not specified";
                 var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -6010, errMessage, $"{nameof(EncryptSymmetric)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
@@ -58,14 +58,14 @@ namespace DevHorizons.DAL.Cryptography
 
             try
             {
-                var encryptor = dataAccessSettings.GetEncryptor(randomized, memoryCached);
+                var encryptor = dataAccessSettings.GetEncryptor(encryptionType, memoryCached);
 
                 var dataArray = Encoding.UTF8.GetBytes(data);
                 var encryptedDataBytes = encryptor.TransformFinalBlock(dataArray, 0, dataArray.Length);
                 if (encryptedDataBytes == null || encryptedDataBytes.Length == 0)
                 {
                     var errMessage = "Failed to encrypt the specified data.";
-                    var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -601, errMessage, $"{nameof(EncryptSymmetric)}");
+                    var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -6011, errMessage, $"{nameof(EncryptSymmetric)}");
                     cryptoResult.OutputError = outputError;
                     return cryptoResult;
                 }
@@ -76,13 +76,13 @@ namespace DevHorizons.DAL.Cryptography
             }
             catch (CryptographicException ex)
             {
-                var outputError = dataAccessSettings.CreateErrorDetails(ex, -601, "Failed to encrypt the specified data.", $"{nameof(ToHash)}");
+                var outputError = dataAccessSettings.CreateErrorDetails(ex, -601, $"Failed to encrypt the specified data with the encryption type [{encryptionType}].", $"{nameof(EncryptSymmetric)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
             }
             catch (Exception ex)
             {
-                var outputError = dataAccessSettings.CreateErrorDetails(ex, -601, "Failed to encrypt the specified data.", $"{nameof(ToHash)}");
+                var outputError = dataAccessSettings.CreateErrorDetails(ex, -6012, $"Failed to encrypt the specified data with the encryption type [{encryptionType}].", $"{nameof(EncryptSymmetric)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
             }
@@ -93,20 +93,20 @@ namespace DevHorizons.DAL.Cryptography
         /// </summary>
         /// <param name="encryptedData">The string/text in <c>Base64</c> string format to be decrypted.</param>
         /// <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-        /// <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+        /// <param name="encryptionType">The encryption type as either "<see cref="EncryptionType.Deterministic"/>" or "<see cref="EncryptionType.Randomized"/>.</param>
         /// <param name="memoryCached">The internal cache container.</param>
         /// <returns>An instance of "<see cref="CryptoResult"/>" which would hold the decrypted data in "<c>Base64</c>" string or the output error details if failed.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        public static CryptoResult DecryptSymmetric(this string encryptedData, IDataAccessSettings dataAccessSettings, bool randomized, IMemoryCache memoryCached = null)
+        public static CryptoResult DecryptSymmetric(this string encryptedData, IDataAccessSettings dataAccessSettings, EncryptionType encryptionType, IMemoryCache memoryCached = null)
         {
             var cryptoResult = new CryptoResult();
 
-            if (string.IsNullOrWhiteSpace(encryptedData) || string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Deterministic?.EncryptionKey) || (randomized && string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Randomized.EncryptionKey)))
+            if (string.IsNullOrWhiteSpace(encryptedData) || string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Deterministic?.EncryptionKey) || (encryptionType == EncryptionType.Randomized && string.IsNullOrWhiteSpace(dataAccessSettings?.CryptographySettings?.SymmetricEncryption?.Randomized.EncryptionKey)))
             {
-                var errMessage = "Failed to decrypt the specified data. The symmetric encryption key is not specified";
+                var errMessage = $"Failed to decrypt the specified data. The symmetric encryption key for the encryption type [{encryptionType}] is not specified";
                 var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -6020, errMessage, $"{nameof(DecryptSymmetric)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
@@ -114,14 +114,14 @@ namespace DevHorizons.DAL.Cryptography
 
             try
             {
-                var decryptor = dataAccessSettings.GetDecryptor(randomized, memoryCached);
+                var decryptor = dataAccessSettings.GetDecryptor(encryptionType, memoryCached);
                 var encryptedDataBytes = Convert.FromBase64String(encryptedData);
                 var decryptedDataBytes = decryptor.TransformFinalBlock(encryptedDataBytes, 0, encryptedDataBytes.Length);
 
                 if (decryptedDataBytes == null || decryptedDataBytes.Length == 0)
                 {
                     var errMessage = "Failed to decrypt the specified data.";
-                    var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -602, errMessage, $"{nameof(DecryptSymmetric)}");
+                    var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -6021, errMessage, $"{nameof(DecryptSymmetric)}");
                     cryptoResult.OutputError = outputError;
                     return cryptoResult;
                 }
@@ -132,13 +132,13 @@ namespace DevHorizons.DAL.Cryptography
             }
             catch (CryptographicException ex)
             {
-                var outputError = dataAccessSettings.CreateErrorDetails(ex, -602, "Failed to decrypt the specified data. Please make sure you use the correct symmetric encryption key and the encryption type which bave been used for the encryption.", $"{nameof(ToHash)}");
+                var outputError = dataAccessSettings.CreateErrorDetails(ex, -602, $"Failed to decrypt the specified data with the encryption type [{encryptionType}]. Please make sure you use the correct symmetric encryption key and the encryption type which bave been used for the encryption.", $"{nameof(DecryptSymmetric)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
             }
             catch (Exception ex)
             {
-                var outputError = dataAccessSettings.CreateErrorDetails(ex, -602, "Failed to decrypt the specified data. Please make sure you use the correct symmetric encryption key and the encryption type which bave been used for the encryption.", $"{nameof(ToHash)}");
+                var outputError = dataAccessSettings.CreateErrorDetails(ex, -6023, $"Failed to decrypt the specified data with the encryption type [{encryptionType}]. Please make sure you use the correct symmetric encryption key and the encryption type which bave been used for the encryption.", $"{nameof(DecryptSymmetric)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
             }
@@ -182,7 +182,7 @@ namespace DevHorizons.DAL.Cryptography
                 if (hashedDataBytes == null || hashedDataBytes.Length == 0)
                 {
                     var errMessage = "Failed to get the hashed data.";
-                    var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -603, errMessage, $"{nameof(ToHash)}");
+                    var outputError = dataAccessSettings.CreateErrorDetails(new Exception(errMessage), -6031, errMessage, $"{nameof(ToHash)}");
                     cryptoResult.OutputError = outputError;
                     return cryptoResult;
                 }
@@ -199,7 +199,7 @@ namespace DevHorizons.DAL.Cryptography
             }
             catch (Exception ex)
             {
-                var outputError = dataAccessSettings.CreateErrorDetails(ex, -603, "Failed to get the hashed data.", $"{nameof(ToHash)}");
+                var outputError = dataAccessSettings.CreateErrorDetails(ex, -6032, "Failed to get the hashed data.", $"{nameof(ToHash)}");
                 cryptoResult.OutputError = outputError;
                 return cryptoResult;
             }
@@ -213,19 +213,19 @@ namespace DevHorizons.DAL.Cryptography
         /// </summary>
         /// <param name="symmetricAlgorithm">The symmetric algorithm which could be for example type of "<see cref="Aes"/>".</param>
         /// <param name="cryptographySettings">The cryptography settings.</param>
-        /// <param name="nonDeterministic">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+        /// <param name="encryptionType">The encryption type as either "<see cref="EncryptionType.Deterministic"/>" or "<see cref="EncryptionType.Randomized"/>.</param>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static void AssignKeys(this SymmetricAlgorithm symmetricAlgorithm, CryptographySettings cryptographySettings, bool nonDeterministic)
+        private static void AssignKeys(this SymmetricAlgorithm symmetricAlgorithm, CryptographySettings cryptographySettings, EncryptionType encryptionType)
         {
             var enc = Encoding.UTF8;
             var crypto = cryptographySettings?.HashAlgorithm ?? SHA512.Create();
 
             var maxBitKeySize = symmetricAlgorithm.LegalKeySizes.Max(key => key.MaxSize);
             var maxBitBlockSize = symmetricAlgorithm.LegalBlockSizes.Max(key => key.MaxSize);
-            var symmetricEncKey = nonDeterministic ? cryptographySettings.SymmetricEncryption.Randomized.EncryptionKey : cryptographySettings.SymmetricEncryption.Deterministic.EncryptionKey;
+            var symmetricEncKey = encryptionType == EncryptionType.Randomized ? cryptographySettings.SymmetricEncryption.Randomized.EncryptionKey : cryptographySettings.SymmetricEncryption.Deterministic.EncryptionKey;
             var hashKey = symmetricEncKey.GetHashKey(crypto, maxBitKeySize / 8);
             var hashIV = symmetricEncKey.GetHashKey(crypto, maxBitBlockSize / 8);
             symmetricAlgorithm.Key = hashKey;
@@ -259,22 +259,22 @@ namespace DevHorizons.DAL.Cryptography
         ///    Gets the designated "<see cref="SymmetricEncryptionSettings.SymmetricAlgorithm"/>" initialized. If not explicitly specified in the specified "<see cref="CryptographySettings"/>", it will be "<see cref="Aes"/>".
         /// </summary>
         /// <param name="cryptographySettings">The cryptography settings.</param>
-        /// <param name="nonDeterministic">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+        /// <param name="encryptionType">The encryption type as either "<see cref="EncryptionType.Deterministic"/>" or "<see cref="EncryptionType.Randomized"/>.</param>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static SymmetricAlgorithm GetTheInitializedSymmetricAlgorithm(this CryptographySettings cryptographySettings, bool nonDeterministic)
+        private static SymmetricAlgorithm GetTheInitializedSymmetricAlgorithm(this CryptographySettings cryptographySettings, EncryptionType encryptionType)
         {
-            var symmetricAlgorithm = nonDeterministic ? cryptographySettings?.SymmetricEncryption?.Randomized?.SymmetricAlgorithm ?? Aes.Create() : cryptographySettings?.SymmetricEncryption?.Deterministic?.SymmetricAlgorithm ?? Aes.Create();
+            var symmetricAlgorithm = encryptionType == EncryptionType.Randomized ? cryptographySettings?.SymmetricEncryption?.Randomized?.SymmetricAlgorithm ?? Aes.Create() : cryptographySettings?.SymmetricEncryption?.Deterministic?.SymmetricAlgorithm ?? Aes.Create();
 
             symmetricAlgorithm.Mode = CipherMode.CBC;
-            if (nonDeterministic)
+            if (encryptionType == EncryptionType.Randomized)
             {
                 symmetricAlgorithm.Padding = PaddingMode.ISO10126;
             }
 
-            symmetricAlgorithm.AssignKeys(cryptographySettings, nonDeterministic);
+            symmetricAlgorithm.AssignKeys(cryptographySettings, encryptionType);
             return symmetricAlgorithm;
         }
 
@@ -282,16 +282,16 @@ namespace DevHorizons.DAL.Cryptography
         ///    Gets the initialized symmetric encryptor object with the current "<see cref="SymmetricAlgorithm.Key"/>" and the "<see cref="SymmetricAlgorithm.IV"/>" pre embedded/configured.
         /// </summary>
         /// <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-        /// <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+        /// <param name="encryptionType">The encryption type as either "<see cref="EncryptionType.Deterministic"/>" or "<see cref="EncryptionType.Randomized"/>.</param>
         /// <param name="memoryCached">The internal cache container.</param>
         /// <returns>The decrypted data.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static ICryptoTransform GetEncryptor(this IDataAccessSettings dataAccessSettings, bool randomized, IMemoryCache memoryCached = null)
+        private static ICryptoTransform GetEncryptor(this IDataAccessSettings dataAccessSettings, EncryptionType encryptionType, IMemoryCache memoryCached = null)
         {
-            if (randomized && memoryCached?.RandomizedEncryptor != null)
+            if (encryptionType == EncryptionType.Randomized && memoryCached?.RandomizedEncryptor != null)
             {
                 return memoryCached.RandomizedEncryptor;
             }
@@ -301,12 +301,12 @@ namespace DevHorizons.DAL.Cryptography
             }
 
             var before = GC.GetTotalMemory(false);
-            var symmetricAlgorithm = dataAccessSettings?.CryptographySettings?.GetTheInitializedSymmetricAlgorithm(randomized);
+            var symmetricAlgorithm = dataAccessSettings?.CryptographySettings?.GetTheInitializedSymmetricAlgorithm(encryptionType);
             var encryptor = symmetricAlgorithm.CreateEncryptor(symmetricAlgorithm.Key, symmetricAlgorithm.IV);
 
             if (memoryCached != null && !dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CryptographySettings.DisableCaching)
             {
-                if (randomized)
+                if (encryptionType == EncryptionType.Randomized)
                 {
                     memoryCached.RandomizedEncryptor = encryptor;
                 }
@@ -327,16 +327,16 @@ namespace DevHorizons.DAL.Cryptography
         ///    Gets the initialized symmetric decryptor object with the current "<see cref="SymmetricAlgorithm.Key"/>" and the "<see cref="SymmetricAlgorithm.IV"/>" pre embedded/configured.
         /// </summary>
         /// <param name="dataAccessSettings">The data settings of the "<c>DAL</c>" engine.</param>
-        /// <param name="randomized">If set to true, each time the same exact source/decrypted data will encryted to a unique value. Which means, you cannot run SQL query on it in the data source itself. The only way to validate it or process it, is to use the "<c>DAL</c>" engine to export and it will automatically decrypt it for you.</param>
+        /// <param name="encryptionType">The encryption type as either "<see cref="EncryptionType.Deterministic"/>" or "<see cref="EncryptionType.Randomized"/>.</param>
         /// <param name="memoryCached">The internal cache container.</param>
         /// <returns>The decrypted data.</returns>
         /// <Created>
         ///    <Author>Ahmad Gad (ahmad.gad@DevHorizons.com)</Author>
         ///    <DateTime>11/02/2020 10:44 AM</DateTime>
         /// </Created>
-        private static ICryptoTransform GetDecryptor(this IDataAccessSettings dataAccessSettings, bool randomized, IMemoryCache memoryCached = null)
+        private static ICryptoTransform GetDecryptor(this IDataAccessSettings dataAccessSettings, EncryptionType encryptionType, IMemoryCache memoryCached = null)
         {
-            if (randomized && memoryCached?.RandomizedDecryptor != null)
+            if (encryptionType == EncryptionType.Randomized && memoryCached?.RandomizedDecryptor != null)
             {
                 return memoryCached.RandomizedDecryptor;
             }
@@ -346,12 +346,12 @@ namespace DevHorizons.DAL.Cryptography
             }
 
             var before = GC.GetTotalMemory(false);
-            var symmetricAlgorithm = dataAccessSettings?.CryptographySettings?.GetTheInitializedSymmetricAlgorithm(randomized);
+            var symmetricAlgorithm = dataAccessSettings?.CryptographySettings?.GetTheInitializedSymmetricAlgorithm(encryptionType);
             var decryptor = symmetricAlgorithm.CreateDecryptor(symmetricAlgorithm.Key, symmetricAlgorithm.IV);
 
             if (memoryCached != null && !dataAccessSettings.CacheSettings.Disabled && !dataAccessSettings.CryptographySettings.DisableCaching)
             {
-                if (randomized)
+                if (encryptionType == EncryptionType.Randomized)
                 {
                     memoryCached.RandomizedDecryptor = decryptor;
                 }

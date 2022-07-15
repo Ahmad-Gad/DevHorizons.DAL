@@ -27,6 +27,8 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
             Assert.Equal(KeyDerivationPrf.SHA512, this.dataAccessSettings.CryptographySettings.Hashing.KeyDerivationPrf);
             Assert.Equal(EncryptionType.Deterministic, this.dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType);
 
+            this.dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType = EncryptionType.Default;
+            Assert.Equal(EncryptionType.Deterministic, this.dataAccessSettings.CryptographySettings.SymmetricEncryption.DefaultEncryptionType);
 
             Assert.True(this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Deterministic.SymmetricAlgorithm is SymmetricAlgorithm);
             Assert.True(this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Deterministic.SymmetricAlgorithm is Aes);
@@ -72,7 +74,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
         [Fact]
         public void SymmetricDeterministicEncryption()
         {
-            var randamized = false;
+            var encryptionType = EncryptionType.Deterministic;
             var name = "Ahmad Gad";
             this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Deterministic.EncryptionKey = "P@$$word";
             this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Deterministic.SymmetricAlgorithm = Aes.Create();
@@ -80,7 +82,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
             Assert.Null(this.memoryCache.DeterministicDecryptor);
             Assert.Null(this.memoryCache.RandomizedEncryptor);
             Assert.Null(this.memoryCache.RandomizedDecryptor);
-            var encryptedName1 = name.EncryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var encryptedName1 = name.EncryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(encryptedName1);
             Assert.Null(encryptedName1.OutputError);
             Assert.NotNull(encryptedName1.Value);
@@ -102,13 +104,13 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
                 Assert.Null(this.memoryCache.RandomizedDecryptor);
             }
 
-            var encryptedName2 = name.EncryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var encryptedName2 = name.EncryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(encryptedName2);
             Assert.Null(encryptedName2.OutputError);
             Assert.NotNull(encryptedName2.Value);
             Assert.Equal(encryptedName2.Value, encryptedName1.Value);
 
-            var decryptedName = encryptedName1.Value.DecryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var decryptedName = encryptedName1.Value.DecryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(decryptedName);
             Assert.Null(decryptedName.OutputError);
             Assert.NotNull(decryptedName.Value);
@@ -133,7 +135,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
         [Fact]
         public void SymmetricRandomizedEncryption()
         {
-            var randamized = true;
+            var encryptionType = EncryptionType.Randomized;
             var name = "Ahmad Gad";
             this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Randomized.EncryptionKey = "P@$$word";
             this.dataAccessSettings.CryptographySettings.SymmetricEncryption.Randomized.SymmetricAlgorithm = Aes.Create();
@@ -141,7 +143,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
             Assert.Null(this.memoryCache.DeterministicDecryptor);
             Assert.Null(this.memoryCache.RandomizedEncryptor);
             Assert.Null(this.memoryCache.RandomizedDecryptor);
-            var encryptedName1 = name.EncryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var encryptedName1 = name.EncryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(encryptedName1);
             Assert.Null(encryptedName1.OutputError);
             Assert.NotNull(encryptedName1.Value);
@@ -162,13 +164,13 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
                 Assert.Null(this.memoryCache.RandomizedDecryptor);
             }
 
-            var encryptedName2 = name.EncryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var encryptedName2 = name.EncryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(encryptedName2);
             Assert.Null(encryptedName2.OutputError);
             Assert.NotNull(encryptedName2.Value);
             Assert.NotEqual(encryptedName2.Value, encryptedName1.Value);
 
-            var decryptedName1 = encryptedName1.Value.DecryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var decryptedName1 = encryptedName1.Value.DecryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(decryptedName1);
             Assert.Null(decryptedName1.OutputError);
             Assert.NotNull(decryptedName1.Value);
@@ -189,7 +191,7 @@ namespace DevHorizons.DAL.Sql.Test.Cryptography
                 Assert.Null(this.memoryCache.RandomizedDecryptor);
             }
 
-            var decryptedName2 = encryptedName2.Value.DecryptSymmetric(this.dataAccessSettings, randamized, this.memoryCache);
+            var decryptedName2 = encryptedName2.Value.DecryptSymmetric(this.dataAccessSettings, encryptionType, this.memoryCache);
             Assert.NotNull(decryptedName2);
             Assert.Null(decryptedName2.OutputError);
             Assert.NotNull(decryptedName2.Value);
