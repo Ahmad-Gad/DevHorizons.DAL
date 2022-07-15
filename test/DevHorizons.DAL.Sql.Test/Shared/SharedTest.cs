@@ -29,6 +29,46 @@
         }
 
         [Fact]
+        public void CompareTwoIdenticalShuffledDictionaries()
+        {
+            var sourceDictionary = new Dictionary<string, string>()
+            {
+                { "Integrated Security", "SSPI" },
+                { "Data Source", "." },
+                { "Initial Catalog", "System" }
+            };
+
+            var comparerDictionary = new Dictionary<string, string>()
+            {
+                { "Integrated Security", "SSPI" },
+                { "Initial Catalog", "System" },
+                { "Data Source", "." }
+
+            };
+
+            Assert.True(sourceDictionary.Compare(comparerDictionary));
+        }
+
+        [Fact]
+        public void CompareNonIdenticalDictionaries()
+        {
+            var sourceDictionary = new Dictionary<string, string>()
+            {
+                { "Integrated Security", "SSPI" },
+                { "Data Source", "." },
+            };
+
+            var comparerDictionary = new Dictionary<string, string>()
+            {
+                { "Integrated Security", "SSPI" },
+                { "Data Source", "." },
+                { "Initial Catalog", "System" }
+            };
+
+            Assert.False(sourceDictionary.Compare(comparerDictionary));
+        }
+
+        [Fact]
         public void CompareTwoNonIdenticalDictionariesValues()
         {
             var sourceDictionary = new Dictionary<string, string>()
@@ -174,7 +214,7 @@
             Assert.True((resetHardRefresh & ResetMode.Hard) == ResetMode.Hard);
             Assert.True((resetHardRefresh & ResetMode.HardRefresh) == ResetMode.HardRefresh);
             Assert.True((resetHard & ResetMode.Hard) != ResetMode.HardRefresh);
-            Assert.True(resetFullFlags  == ResetMode.Full);
+            Assert.True(resetFullFlags == ResetMode.Full);
             Assert.True(resetFullFlags < ResetMode.Hard);
             Assert.True(ResetMode.Hard < ResetMode.HardRefresh);
             Assert.True(resetFullFlags < ResetMode.HardRefresh);
