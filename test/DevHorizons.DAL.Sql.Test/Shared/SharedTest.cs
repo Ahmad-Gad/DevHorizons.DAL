@@ -69,6 +69,25 @@
         }
 
         [Fact]
+        public void CompareNonIdenticalDictionariesII()
+        {
+            var sourceDictionary = new Dictionary<string, string>()
+            {
+                { "Integrated Security", "SSPI" },
+                { "Data Source", "." },
+                { "Initial Catalog", "System" }
+            };
+
+            var comparerDictionary = new Dictionary<string, string>()
+            {
+                { "Integrated Security", "SSPI" },
+                { "Data Source", "." },
+            };
+
+            Assert.False(sourceDictionary.Compare(comparerDictionary));
+        }
+
+        [Fact]
         public void CompareTwoNonIdenticalDictionariesValues()
         {
             var sourceDictionary = new Dictionary<string, string>()
